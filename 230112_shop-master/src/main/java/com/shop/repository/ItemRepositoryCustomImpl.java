@@ -28,9 +28,12 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+
     private BooleanExpression searchSellStatusEq(ItemSellStatus searchSellStatus){
         return searchSellStatus == null ? null : QItem.item.itemSellStatus.eq(searchSellStatus);
     }
+
+
 
     private BooleanExpression regDtsAfter(String searchDateType){
 
@@ -129,27 +132,26 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom{
 
 
 
-//    @Override
-//    public Page<Item> getMainSearchItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
-//
-//        List<Item> content = queryFactory
-//                .selectFrom(QItem.item)
-//                .where(regDtsAfter(itemSearchDto.getSearchDateType()),
-//                        searchSellStatusEq(itemSearchDto.getSearchSellStatus()),
-//                        searchByLike(itemSearchDto.getSearchBy(),
-//                                itemSearchDto.getSearchQuery()))
-//                .orderBy(QItem.item.id.desc())
-//                .offset(pageable.getOffset())
-//                .limit(pageable.getPageSize())
-//                .fetch();
-//
-//        long total = queryFactory.select(Wildcard.count).from(QItem.item)
-//                .where(regDtsAfter(itemSearchDto.getSearchDateType()),
-//                        searchSellStatusEq(itemSearchDto.getSearchSellStatus()),
-//                        searchByLike(itemSearchDto.getSearchBy(), itemSearchDto.getSearchQuery()))
-//                .fetchOne()
-//                ;
-//
-//        return new PageImpl<>(content, pageable, total);
-//    }
+    @Override
+    public Page<Item> getMainSearchItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
+
+        List<Item> content = queryFactory
+                .selectFrom(QItem.item)
+                .where(regDtsAfter(itemSearchDto.getSearchDateType()),
+                        searchSellStatusEq(itemSearchDto.getSearchSellStatus()),
+                        searchByLike(itemSearchDto.getSearchBy(),
+                                itemSearchDto.getSearchQuery()))
+                .orderBy(QItem.item.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        long total = queryFactory.select(Wildcard.count).from(QItem.item)
+                .where(regDtsAfter(itemSearchDto.getSearchDateType()),
+                        searchSellStatusEq(itemSearchDto.getSearchSellStatus()),
+                        searchByLike(itemSearchDto.getSearchBy(), itemSearchDto.getSearchQuery()))
+                .fetchOne();
+
+        return new PageImpl<>(content, pageable, total);
+    }
 }
