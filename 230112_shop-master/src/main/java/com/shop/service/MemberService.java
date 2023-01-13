@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.security.Principal;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -58,5 +60,9 @@ public class MemberService implements UserDetailsService {
             return null;
         }
     }
+
+//    public Member findMemberRole(String name){
+//        return memberRepository.findByRole(name);
+//    }
 
 }
