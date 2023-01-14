@@ -33,7 +33,7 @@ public class NoticeImgService {
 
         if(!StringUtils.isEmpty(oriImgName)){
             imgName = fileService.uploadFile(noticeImgLocation, oriImgName, noticeImgFile.getBytes());
-            imgUrl="/images/notice/"+imgName;
+            imgUrl="/images/item/"+imgName;
 
             noticeImg.updateNoticeImg(oriImgName, imgName, imgUrl);
             noticeImgRepository.save(noticeImg);
