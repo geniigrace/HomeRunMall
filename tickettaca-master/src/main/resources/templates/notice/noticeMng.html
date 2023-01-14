@@ -38,6 +38,7 @@
 
 <div layout:fragment="content">
     <form th:action="@{'/notice/'+${notices.number}}" role="form" method="get" th:object="${notices}">
+        <p class="h2" style="text-align : center; margin-bottom : 15px;">공지사항</p>
         <table class="table">
 
             <thead>
