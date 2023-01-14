@@ -31,7 +31,7 @@ public class NoticeController {
     private final MemberService memberService;
 
     //공지사항 리스트
-    @GetMapping(value = {"/notice", "/notice/{page}"})
+    @GetMapping(value = {"/notice"})
     public String noticeManage(NoticeSearchDto noticeSearchDto, @PathVariable("page") Optional<Integer> page, Model model){
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
         Page<Notice> notices = noticeService.getNoticePage(noticeSearchDto,pageable);
@@ -114,6 +114,15 @@ public class NoticeController {
         }
 
         return "redirect:/notice";
+    }
+
+    @GetMapping(value = "/notice/{noticeId}")
+    public String noticeDtl(@PathVariable("noticeId")Long noticeId, Model model){
+
+        NoticeFormDto noticeFormDto = noticeService.preNotice(noticeId);
+
+        model.addAttribute("notice", noticeFormDto);
+        return "notice/noticeDtl";
     }
 
 }
