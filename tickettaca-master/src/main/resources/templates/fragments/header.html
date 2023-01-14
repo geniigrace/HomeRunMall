@@ -5,8 +5,20 @@
 <!--    <link href="https://hangeul.pstatic.net/hangeul_static/css/NanumHaNaSonGeurSsi.css" rel="stylesheet">-->
 <!--</head>-->
 
+<th:block layout:fragment="css">
+    <style>
+    .navbar{
+     padding-top:40px;
+     padding-bottom:40px;
+     padding-left:200px
+
+     background-color:black;
+     }
+    </style>
+</th:block>
+
 <div th:fragment="header">
-    <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:black; padding: 40px 200px">
+    <nav class="navbar navbar-expand-sm navbar-dark" style="background-color:black; padding-top:40px; padding-bottom:40px; padding-left:200px">
         <button class="navbar-toggler" type="button" data-toggle="collapse"
                 data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03"
                 aria-expanded="false" aria-label="Toggle navigation">
