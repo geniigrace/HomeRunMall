@@ -1,0 +1,62 @@
+html {
+    position: relative;
+    min-height: 100%;
+    margin: 0;
+}
+body {
+    min-height: 100%;
+}
+.footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+}
+.content{
+    padding-bottom: 60px;
+    margin-bottom:100px;
+    margin-top: 50px;
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+#tickettacaHome{
+    font-size:23pt;
+    //font-weight: bold;
+    font-family: 'East Sea Dokdo', fantasy;
+    //font-family: fantasy;
+    //font-style: italic;
+}
+
+// 버튼 색상 변경 (itemAll)
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+.page-link {
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #dc3545;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}
+a {
+    color: #dc3545;
+    text-decoration: none;
+    background-color: transparent;
+}
+

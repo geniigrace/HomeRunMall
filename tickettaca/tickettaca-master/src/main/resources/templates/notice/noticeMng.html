@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+    $(document).ready(function(){
+        $("searchBtn").on("click", function(e) {
+            e.preventDefault(); //검색버튼 클릭시 form 태그 전송을 막아줌
+            page(0);
+        });
+    });
+
+    function page(page){
+        var searchDateType = $("#searchDateType").val();
+        var searchNoticeStatus = $("#searchNoticeStatus").val();
+        var searchBy = $("#searchBy").val();
+        var searchQuery = $("#searchQuery").val();
+
+        location.href="/notice/" + page +
+        "?searchDateType=" + searchDateType +
+        "&searchNoticeStatus=" + searchNoticeStatus +
+        "&searchBy=" + searchBy +
+        "&searchQuery=" + searchQuery;
+        }
+
+
+  </script>
+</th:block>
+
+<th:block layout:fragment="css">
+    <style>
+    select{ margin-right : 10px; }
+  </style>
+</th:block>
+
+<div layout:fragment="content">
+    <form th:action="@{'/notice/'+${notices.number}}" role="form" method="get" th:object="${notices}">
+        <p class="h2" style="text-align : center; margin-bottom : 15px;">공지사항</p>
+        <table class="table">
+
+            <thead>
+            <tr>
+                <td>No.</td>
+                <td>카테고리</td>
+                <td>제목</td>
+                <td>등록자</td>
+                <td>등록일</td>
+                <td sec:authorize="hasRole('ADMIN')">수정</td>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="notice, status : ${notices.getContent()}">
+                <td th:text="${notice.id}"></td>
+                <td th:text="${notice.noticeStatus == T(com.shop.constant.NoticeStatus).NOTICE} ? '공지사항' : '이벤트' "></td>
+                <td><a th:href="'/notice/'+${notice.id}" th:text="${notice.noticeTitle}" style="color : black; font-weight-bold"></a></td>
+                <td th:text="${notice.createdBy}"></td>
+                <td th:text="${notice.createTime}"></td>
+                <td sec:authorize="hasRole('ADMIN')">
+                    <a th:href="'/notice/admin/'+${notice.id}" th:text="Edit" style="color : black; font-weight-bold"></a></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div sec:authorize="hasRole('ADMIN')">
+            <th:block>
+                <button type="button" class="btn btn-outline-secondary" onclick="location.href='/notice/new'"> 글쓰기 </button>
+            </th:block>
+        </div>
+
+
+
+        <div th:with="start=${(notices.number/maxPage)*maxPage +1}, end=(${(notices.totalPages == 0) ? 1:(start+(maxPage-1) < notices.totalPages ? start + (maxPage -1) : notices.totalPages)})">
+
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${notices.first}?'disabled'"> <!--첫번째 아이템이면 pre 안띄움 -->
+                    <a th:onclick="'javascript:page('+${notices.number - 1} + ')'" aria-label='Previous' class="page-link">
+                        <span aria-hidden="true">Pre</span>
+                    </a>
+                </li>
+
+                <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}" th:classappend="${notices.number eq page-1}?'active':''">
+
+                    <a th:onclick="'javascript:page('+${page -1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+                </li>
+
+
+                <li class="page-item" th:classappend="${notices.last}?'disabled'">
+                    <a th:onclick="'javascript:page(' + ${notices.number + 1} + ')'" aria-label="Next" class="page-link">
+                        <span aria-hidden="true">Next</span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+
+<!--        <div class="form-inline justify-content-center" th:object="${noticeSearchDto}">-->
+<!--            <select th:field="*{searchDateType}" class="form-control" style="width:auto;">-->
+<!--                <option value="all">전체기간</option>-->
+<!--                <option value="1d">1일</option>-->
+<!--                <option value="1W">1주</option>-->
+<!--                <option value="1m">1개월</option>-->
+<!--                <option value="6m">6개월</option>-->
+<!--            </select>-->
+
+<!--            <select th:field="*{searchNoticeStatus}" class="form-control" style="width:auto;">-->
+<!--                <option value="">카테고리</option>-->
+<!--                <option value="NOTICE">공지사항</option>-->
+<!--                <option value="EVENT">이벤트</option>-->
+<!--            </select>-->
+
+<!--            <select th:field="*{searchBy}" class="form-control" style="width:auto;">-->
+<!--                <option value="noticeTitle">제목</option>-->
+<!--                <option value="createdBy">등록자</option>-->
+<!--            </select>-->
+<!--            <input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력하세요.">-->
+<!--            <button id="searchBtn" type="submit" class="btn btn-dark">검색</button>-->
+
+<!--        </div>-->
+    </form>
+</div>
+</html>

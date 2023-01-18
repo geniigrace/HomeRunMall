@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+    </script>
+</th:block>
+
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+    <style>
+        tr{ text-align : center; }
+    </style>
+</th:block>
+
+
+<div layout:fragment="content">
+
+    <p class="h2" style="text-align : center; margin-bottom : 15px;">공지사항</p>
+    <table class="table">
+
+        <tr class="title-tr">
+            <td th:text="${notice.id}" style="width : 10px">No.</td>
+            <td th:text="${notice.noticeStatus}" style="width : 30px">카테고리</td>
+            <th th:text="${notice.noticeTitle}">이름</th>
+            </tr>
+        <tr class="content-tr">
+            <td colspan="3" th:utext="${#strings.replace(notice.noticeContent, newLineChar, '&lt;br&gt;')}" style="border-bottom : none">내용</td>
+        </tr>
+    </table>
+
+    <div>
+    <div th:each="noticeImg : ${notice.noticeImgDtoList}" style="text-align:center; padding-bottom: 20px;">
+        <img th:if="${not #strings.isEmpty(noticeImg.imgUrl)}" th:src="${noticeImg.imgUrl}" class="rounded mgb-15" width="60%">
+    </div>
+    </div>
+    <div style="text-align: center; padding: 20px 0 20px;">
+    <button type="button" class="btn btn-outline-secondary" onclick="location.href='/notice'"> 뒤로 </button>
+    </div>
+</div>
+
+</html>
