@@ -4,7 +4,6 @@ package com.baseballshop.dto;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -39,7 +38,6 @@ public class MemberFormDto {
     private String memberBirth;
 
     @NotBlank(message = "휴대폰번호는 필수 입력 항목입니다.")
-    @NumberFormat(pattern = "010-####-####")
     private String memberPhone;
 
     @NotEmpty(message = "주소는 필수 입력 항목입니다.")

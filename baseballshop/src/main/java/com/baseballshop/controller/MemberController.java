@@ -17,8 +17,8 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class MemberController {
 
-    PasswordEncoder passwordEncoder;
-    MemberService memberService;
+    private final MemberService memberService;
+    private final PasswordEncoder passwordEncoder;
 
     //회원가입 페이지를 위한 맵핑
     @GetMapping(value = "/new")
@@ -43,7 +43,7 @@ public class MemberController {
             return "member/memberForm";
         }
 
-        return "redirect:/login";
+        return "redirect:/members/login";
 
     }
 

@@ -39,6 +39,7 @@ public class Member {
 
     private String memberAddr;
 
+    @Enumerated(EnumType.STRING)
     private Role memberRole;
 
     public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder){
@@ -46,13 +47,15 @@ public class Member {
 
         member.setMemberTeam(memberFormDto.getMemberTeam());
         member.setMemberId(memberFormDto.getMemberId());
-        member.setMemberPw(passwordEncoder.encode(memberFormDto.getMemberPw()));
         member.setMemberEmail(memberFormDto.getMemberEmail());
         member.setMemberName(memberFormDto.getMemberName());
         member.setMemberBirth(memberFormDto.getMemberBirth());
         member.setMemberPhone(memberFormDto.getMemberPhone());
         member.setMemberAddr(memberFormDto.getMemberAddr());
         member.setMemberRole(Role.ADMIN);
+
+        String pw = passwordEncoder.encode(memberFormDto.getMemberPw());
+        member.setMemberPw(pw);
 
         return member;
     }
