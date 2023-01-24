@@ -47,6 +47,7 @@ public class MemberController {
 
     }
 
+    //로그인 페이지를 위한 맵핑
     @GetMapping(value="/login")
     public String loginMember(){
         return "/member/memberLoginForm";

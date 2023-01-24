@@ -27,7 +27,7 @@ public class MemberService implements UserDetailsService {
 
     //입력받은 ID로 ID 중복 확인
     public void validateDuplicateMember(Member member){
-        Member findMember = memberRepository.findByMemberId(member.getMemberId());
+        Member findMember = memberRepository.findByUserId(member.getUserId());
 
         if(findMember != null){
             throw new IllegalStateException("이미 가입된 회원입니다.");
@@ -36,18 +36,19 @@ public class MemberService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String memberID) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 
-        Member member = memberRepository.findByMemberId(memberID);
+        Member member = memberRepository.findByUserId(userId);
 
         if(member==null){
-            throw new UsernameNotFoundException(memberID);
+            throw new UsernameNotFoundException(userId);
         }
 
         //빌드패턴
-        return User.builder().username(memberID)
-                .password(member.getMemberPw())
-                .roles(member.getMemberRole().toString())
+        return User.builder()
+                .username(member.getUserId())
+                .password(member.getPassword())
+                .roles(member.getRole().toString())
                 .build();
     }
 

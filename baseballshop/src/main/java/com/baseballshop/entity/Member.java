@@ -15,47 +15,43 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-public class Member {
+public class Member extends BaseEntity{
 
     @Id
-    @Column(name = "member_key")
+    @Column(name = "userNum")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberKey;
+    private Long id;
 
-    private String memberTeam;
+    private String userTeam;
 
     @Column(unique = true)
-    private String memberId;
+    private String userId;
 
-    private String memberPw;
+    private String password;
 
-    private String memberEmail;
+    private String email;
 
-    private String memberName;
+    private String name;
 
-    private String memberBirth;
+    private String phone;
 
-    private String memberPhone;
-
-    private String memberAddr;
+    private String address;
 
     @Enumerated(EnumType.STRING)
-    private Role memberRole;
+    private Role role;
 
     public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder){
         Member member = new Member();
 
-        member.setMemberTeam(memberFormDto.getMemberTeam());
-        member.setMemberId(memberFormDto.getMemberId());
-        member.setMemberEmail(memberFormDto.getMemberEmail());
-        member.setMemberName(memberFormDto.getMemberName());
-        member.setMemberBirth(memberFormDto.getMemberBirth());
-        member.setMemberPhone(memberFormDto.getMemberPhone());
-        member.setMemberAddr(memberFormDto.getMemberAddr());
-        member.setMemberRole(Role.ADMIN);
-
-        String pw = passwordEncoder.encode(memberFormDto.getMemberPw());
-        member.setMemberPw(pw);
+        member.setUserTeam(memberFormDto.getUserTeam());
+        member.setUserId(memberFormDto.getUserId());
+        String pw = passwordEncoder.encode(memberFormDto.getPassword());
+        member.setPassword(pw);
+        member.setEmail(memberFormDto.getEmail());
+        member.setName(memberFormDto.getName());
+        member.setPhone(memberFormDto.getPhone());
+        member.setAddress(memberFormDto.getAddress());
+        member.setRole(Role.ADMIN);
 
         return member;
     }

@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .loginPage("/members/login")
                 .defaultSuccessUrl("/")
-                .usernameParameter("memberId")
+                .usernameParameter("userId")
                 .failureUrl("/members/login/error")
                 .and()
                 .logout()
@@ -34,10 +34,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/");
 
 
-        http.authorizeRequests()//인증요청이 왔는데
+        http.authorizeRequests()
 
                 .mvcMatchers("/","/members/**","/item/**","/images/**").permitAll() //해당경로는 모든 경우
                 .mvcMatchers("/admin/**").hasRole("ADMIN") //admin 경로는 권한이 admin인 경우
+                .mvcMatchers("/css/**", "/js/**", "/img/**").permitAll()
                 .anyRequest().authenticated();
 
         http.exceptionHandling()
@@ -58,10 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception{
-
-        web.ignoring().antMatchers("/css/**","/js/**","/img/**"); //이 경로에 있는 것들은 시큐리티에서 제외
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception{
+//
+//        web.ignoring().antMatchers("/css/**","/js/**","/img/**"); //이 경로에 있는 것들은 시큐리티에서 제외
+//    }
 
 }
