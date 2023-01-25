@@ -1,5 +1,6 @@
 package com.baseballshop.entity;
 
+import com.baseballshop.constant.Grade;
 import com.baseballshop.constant.Role;
 import com.baseballshop.dto.MemberFormDto;
 import lombok.Getter;
@@ -40,6 +41,9 @@ public class Member extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Enumerated(EnumType.STRING)
+    private Grade grade;
+
     public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder){
         Member member = new Member();
 
@@ -52,6 +56,7 @@ public class Member extends BaseEntity{
         member.setPhone(memberFormDto.getPhone());
         member.setAddress(memberFormDto.getAddress());
         member.setRole(Role.ADMIN);
+        member.setGrade(Grade.MASTER);
 
         return member;
     }
