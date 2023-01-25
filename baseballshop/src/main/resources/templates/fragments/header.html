@@ -3,43 +3,73 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <div th:fragment="header">
-  <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarTogglerDemo03"
-            aria-controls="navbarTogglerDemo03"
-            aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="/">Shop</a>
+    <div class="p-3 m-0 border-0 ">
+        <div class="container text-center">
+            <div class="row" id="hrm-nav-bar">
+                <div class="col">
+                    <a class="navbar-brand" href="/">
+                        HomeRunMall
+                    </a>
+                </div>
+                <div class="col">
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-sm btn-outline-secondary" type="button">search</button>
+                    </form>
+                </div>
+                <div class="col-md-auto">
+                    <ul class="nav justify-content-end">
+                        <li class="nav-item" sec:authorize="isAnonymous()">
+                            <a class="nav-link" href="/members/login">로그인</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAnonymous()">
+                            <a class="nav-link" href="/members/new">회원가입</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_USER')">
+                            <span id="userInfo" class="nav-link">ㅇㅇㅇ님 [구단, 등급] </span>
+                        </li>
+                        <li class="nav-item"  sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                            <span id="adminInfo" class="nav-link">관리자 </span>
+                        </li>
+                        <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('ROLE_USER')">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">마이페이지</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">장바구니</a></li>
+                                <li><a class="dropdown-item" href="#">찜목록</a></li>
+                                <li><a class="dropdown-item" href="#">주문내역</a></li>
+                                <li><a class="dropdown-item" href="#">회원정보</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown"  sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">관리페이지</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">상품등록</a></li>
+                                <li><a class="dropdown-item" href="#">상품관리</a></li>
+                                <li><a class="dropdown-item" href="#">주문내역</a></li>
+                                <li><a class="dropdown-item" href="#">공지등록</a></li>
+                                <li><a class="dropdown-item" href="#">회원관리</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <a class="nav-link" href="/members/logout">로그아웃</a>
+                        </li>
 
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-        <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')"> <!--login 후 admin 일때 나옴 -->
-          <a class="nav-link" href="/admin/item/new">상품등록</a>
-        </li>
-        <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-          <a class="nav-link" href="/admin/items">상품관리</a>
-        </li>
-        <li class="nav-item" sec:authorize="isAuthenticated()"> <!--login 됐을때 나옴 -->
-          <a class="nav-link" href="/cart">장바구니</a>
-        </li>
-        <li class="nav-item" sec:authorize="isAuthenticated()">
-          <a class="nav-link" href="/orders">구매내역</a>
-        </li>
-        <li class="nav-item" sec:authorize="isAnonymous()"> <!--아무때나-->
-          <a class="nav-link" href="/members/login">로그인</a>
-        </li>
-        <li class="nav-item" sec:authorize="isAuthenticated()">
-          <a class="nav-link" href="/members/logout">로그아웃</a>
-        </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0" th:action="@{/}" method="get">
-        <input name="searchQuery" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" id="hrm-menu-bar">
+                <div class="col">유니폼</div>
+                <div class="col">모자</div>
+                <div class="col">의류</div>
+                <div class="col">잡화</div>
+                <div class="col">야구용품</div>
+                <div class="col">응원용품</div>
+                <div class="col">기획전</div>
+                <div class="col">플레이어</div>
+                <div class="col"></div>
+                <div class="col"><a href="/community">커뮤니티</a></div>
+                <div class="col"><a href="/notice">공지사항</a></div>
+            </div>
     </div>
-  </nav>
-
 </div>
 </html>
