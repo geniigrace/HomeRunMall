@@ -52,4 +52,10 @@ public class MemberService implements UserDetailsService {
                 .build();
     }
 
+    //아이디 중복확인 버튼을 위한 중복확인 함수
+    public Member validateCheck(String checkId){
+
+        return  memberRepository.findByUserId(checkId);
+    }
+
 }
