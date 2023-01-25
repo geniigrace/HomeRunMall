@@ -57,5 +57,4 @@ public class MemberService implements UserDetailsService {
 
         return  memberRepository.findByUserId(checkId);
     }
-
 }
