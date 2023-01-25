@@ -26,10 +26,10 @@
                             <a class="nav-link" href="/members/new">회원가입</a>
                         </li>
                         <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_USER')">
-                            <span id="idInfo" class="nav-link" sec:authentication="name"></span>
+                            <span class="nav-link"><span id="hrm-info" style="font-weight-bold" sec:authentication="name"></span>&nbsp;님</span>
                         </li>
                         <li class="nav-item"  sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-                            <span id="idinInfo" class="nav-link" sec:authentication="name"></span>
+                            <span class="nav-link"><span id="hrm-info" style="font-weight-bold" sec:authentication="name"></span>&nbsp;님</span>
                         </li>
                         <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('ROLE_USER')">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">마이페이지</a>

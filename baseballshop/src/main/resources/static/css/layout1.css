@@ -27,3 +27,8 @@ ul.nav li.dropdown:hover > ul.dropdown-menu { display : block; margin: 0;}
 #hrm-nav-bar { margin : 20px; }
 
 #hrm-menu-bar { margin : 10px; }
+
+#hrm-info {
+    margin : 0;
+    float : left;
+}
