@@ -23,7 +23,6 @@
 </th:block>
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
-  <!--.ready : 화면이 시작되면 가장먼저 로딩 -->
   <script th:inline="javascript">
     $(document).ready(function(){
       var errorMessage = [[${errorMessage}]];

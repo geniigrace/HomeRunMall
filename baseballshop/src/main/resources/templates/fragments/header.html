@@ -3,6 +3,16 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <div th:fragment="header">
+    <th:block layout:fragment="script">
+        <script>
+
+        function gotoLogin(){
+            alert('로그인이 필요합니다.');
+            location.href='/members/login';
+        }
+
+    </script>
+    </th:block>
     <div class="p-3 m-0 border-0 ">
         <div class="container text-center">
             <div class="row" id="hrm-nav-bar">
@@ -32,7 +42,17 @@
                             <span class="nav-link"><span id="hrm-info" style="font-weight-bold" sec:authentication="name" href="/admin/adminpage"></span>&nbsp;님</span>
                         </li>
 
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown" sec:authorize="isAnonymous()">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" onclick="gotoLogin()">마이페이지</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" onclick="gotoLogin()">장바구니</a></li>
+                                <li><a class="dropdown-item" onclick="gotoLogin()">찜목록</a></li>
+                                <li><a class="dropdown-item" onclick="gotoLogin()">주문내역</a></li>
+                                <li><a class="dropdown-item" onclick="gotoLogin()">회원정보</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('ROLE_USER')">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/user/mypage">마이페이지</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/user/cart">장바구니</a></li>
