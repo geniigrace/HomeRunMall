@@ -19,37 +19,44 @@
                 </div>
                 <div class="col-md-auto">
                     <ul class="nav justify-content-end">
-                        <li class="nav-item" sec:authorize="isAnonymous()">
-                            <a class="nav-link" href="/members/login">로그인</a>
-                        </li>
+
                         <li class="nav-item" sec:authorize="isAnonymous()">
                             <a class="nav-link" href="/members/new">회원가입</a>
                         </li>
+
                         <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_USER')">
-                            <span class="nav-link"><span id="hrm-info" style="font-weight-bold" sec:authentication="name"></span>&nbsp;님</span>
+                            <span class="nav-link"><span id="hrm-info" style="font-weight-bold" sec:authentication="name" href="/user/mypage"></span>&nbsp;님</span>
                         </li>
+
                         <li class="nav-item"  sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-                            <span class="nav-link"><span id="hrm-info" style="font-weight-bold" sec:authentication="name"></span>&nbsp;님</span>
+                            <span class="nav-link"><span id="hrm-info" style="font-weight-bold" sec:authentication="name" href="/admin/adminpage"></span>&nbsp;님</span>
                         </li>
-                        <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('ROLE_USER')">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">마이페이지</a>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/user/mypage">마이페이지</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">장바구니</a></li>
-                                <li><a class="dropdown-item" href="#">찜목록</a></li>
-                                <li><a class="dropdown-item" href="#">주문내역</a></li>
-                                <li><a class="dropdown-item" href="#">회원정보</a></li>
+                                <li><a class="dropdown-item" href="/user/cart">장바구니</a></li>
+                                <li><a class="dropdown-item" href="/user/like">찜목록</a></li>
+                                <li><a class="dropdown-item" href="/user/order">주문내역</a></li>
+                                <li><a class="dropdown-item" href="/user/myinfo">회원정보</a></li>
                             </ul>
                         </li>
+
                         <li class="nav-item dropdown"  sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">관리페이지</a>
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/admin/adminpage">관리페이지</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">상품등록</a></li>
-                                <li><a class="dropdown-item" href="#">상품관리</a></li>
-                                <li><a class="dropdown-item" href="#">주문내역</a></li>
-                                <li><a class="dropdown-item" href="#">공지등록</a></li>
-                                <li><a class="dropdown-item" href="#">회원관리</a></li>
+                                <li><a class="dropdown-item" href="/admin/item/new">상품등록</a></li>
+                                <li><a class="dropdown-item" href="/admin/items">상품관리</a></li>
+                                <li><a class="dropdown-item" href="/admin/orders">주문내역</a></li>
+                                <li><a class="dropdown-item" href="/admin/notice/new">공지등록</a></li>
+                                <li><a class="dropdown-item" href="/admin/members">회원관리</a></li>
                             </ul>
                         </li>
+
+                        <li class="nav-item" sec:authorize="isAnonymous()">
+                            <a class="nav-link" href="/members/login">로그인</a>
+                        </li>
+
                         <li class="nav-item" sec:authorize="isAuthenticated()">
                             <a class="nav-link" href="/members/logout">로그아웃</a>
                         </li>
