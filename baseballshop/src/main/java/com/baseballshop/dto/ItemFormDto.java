@@ -1,8 +1,6 @@
 package com.baseballshop.dto;
 
-import com.baseballshop.constant.Category;
 import com.baseballshop.constant.SellStatus;
-import com.baseballshop.constant.Team;
 import com.baseballshop.entity.Item;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +8,8 @@ import org.modelmapper.ModelMapper;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,14 +17,13 @@ public class ItemFormDto {
 
     private Long id;
 
-    @NotEmpty(message = "판매상태를 선택하세요.")
     private SellStatus sellStatus;
 
     @NotEmpty(message = "구단을 선택하세요.")
-    private Team team;
+    private String team;
 
     @NotEmpty(message = "상품 종류를 선택하세요.")
-    private Category category;
+    private String category;
 
     @NotEmpty(message = "상품명을 입력하세요.")
     private String itemName;
@@ -37,6 +36,10 @@ public class ItemFormDto {
 
     @NotEmpty(message = "상품 상세내용을 입력하세요.")
     private String itemDetail;
+
+    private List<ItemImgDto> itemImgDtoList = new ArrayList<>(); //상품 이미지 정보
+
+    private List<Long> itemImgIds = new ArrayList<>(); //상품 이미지 아이디
 
     private static ModelMapper modelMapper = new ModelMapper();
 

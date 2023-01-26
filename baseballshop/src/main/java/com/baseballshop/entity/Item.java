@@ -1,8 +1,6 @@
 package com.baseballshop.entity;
 
-import com.baseballshop.constant.Category;
 import com.baseballshop.constant.SellStatus;
-import com.baseballshop.constant.Team;
 import com.baseballshop.dto.ItemFormDto;
 import com.baseballshop.exception.OutOfStockException;
 import lombok.Getter;
@@ -27,11 +25,10 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private SellStatus sellStatus;
 
-    @Enumerated(EnumType.STRING)
-    private Team team;
 
-    @Enumerated(EnumType.STRING)
-    private Category category;
+    private String team;
+
+    private String category;
 
     @Column(nullable = false, length = 50)
     private String itemName;
