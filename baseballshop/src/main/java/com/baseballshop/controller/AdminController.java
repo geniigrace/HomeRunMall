@@ -1,19 +1,28 @@
 package com.baseballshop.controller;
 
 import com.baseballshop.dto.ItemFormDto;
+import com.baseballshop.dto.ItemSearchDto;
+import com.baseballshop.entity.Item;
+import com.baseballshop.repository.ItemRepository;
 import com.baseballshop.service.ItemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import static com.baseballshop.entity.QItem.item;
 
 @RequestMapping("/admin")
 @Controller
@@ -21,6 +30,7 @@ import java.util.List;
 public class AdminController {
 
     private final ItemService itemService;
+    private final ItemRepository itemRepository;
 
     //관리페이지
     @GetMapping(value = "/adminpage")
@@ -63,10 +73,22 @@ public class AdminController {
     }
 
     //상품관리
-    @GetMapping(value = "/items")
-    public String itemList(){
+    @GetMapping(value = {"/items", "/items/{page}"}) //상품관리리스트, 상품 수정페이지
+    public String itemManage(ItemSearchDto itemSearchDto, @PathVariable("page") Optional<Integer> page, Model model, ItemFormDto itemFormDto){
+
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+
+        Page<Item> items = itemService.getAdminItemPage(itemSearchDto, pageable);
+
+        model.addAttribute("items", items);
+        model.addAttribute("itemSearchDto", itemSearchDto);
+        model.addAttribute("itemFormDto", itemFormDto);
+        model.addAttribute("maxPage", 3);
+
         return "admin/items";
     }
+
+    //상품삭제
 
     //전체주문내역
     @GetMapping(value = "/orders")

@@ -2,11 +2,14 @@ package com.baseballshop.service;
 
 import com.baseballshop.dto.ItemFormDto;
 import com.baseballshop.dto.ItemImgDto;
+import com.baseballshop.dto.ItemSearchDto;
 import com.baseballshop.entity.Item;
 import com.baseballshop.entity.ItemImg;
 import com.baseballshop.repository.ItemImgRepository;
 import com.baseballshop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -88,4 +91,9 @@ public class ItemService {
         return item.getId();
     }
 
+    //상품관리
+    @Transactional(readOnly = true)
+    public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        return itemRepository.getAdminItemPage(itemSearchDto, pageable);
+    }
 }
