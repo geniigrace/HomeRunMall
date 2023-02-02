@@ -33,7 +33,7 @@ public abstract class BaseTimeEntity {
 
     @PrePersist
     public void onPrePersist(){
-        this.createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_hh:mm:ss"));
+        this.createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm"));
         this.updateTime = this.createTime;
     }
 
