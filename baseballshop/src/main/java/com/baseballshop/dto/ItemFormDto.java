@@ -1,10 +1,13 @@
 package com.baseballshop.dto;
 
 import com.baseballshop.constant.SellStatus;
+import com.baseballshop.constant.ShowStatus;
 import com.baseballshop.entity.Item;
 import lombok.Getter;
 import lombok.Setter;
+
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -18,6 +21,9 @@ public class ItemFormDto {
     private Long id;
 
     private SellStatus sellStatus;
+
+    @NotNull(message = "상품 등록중 에러가 발생하였습니다.")
+    private ShowStatus showStatus;
 
     @NotEmpty(message = "구단을 선택하세요.")
     private String team;

@@ -1,5 +1,6 @@
 package com.baseballshop.dto;
 
+import com.baseballshop.constant.ShowStatus;
 import com.baseballshop.entity.ItemImg;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,8 @@ import org.modelmapper.ModelMapper;
 public class ItemImgDto {
 
     private Long id;
+
+    private ShowStatus showStatus;
 
     private String imgName;
 

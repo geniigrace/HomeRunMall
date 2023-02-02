@@ -1,6 +1,7 @@
 package com.baseballshop.entity;
 
 import com.baseballshop.constant.NoticeStatus;
+import com.baseballshop.constant.ShowStatus;
 import com.baseballshop.dto.NoticeFormDto;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,9 @@ public class Notice extends BaseEntity{
     @Column(name="notice_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id; //번호
+
+    @Column(name = "notice_showStatus")
+    private ShowStatus showStatus;
 
     @Column(name="notice_title", nullable = false)
     private String noticeTitle;

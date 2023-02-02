@@ -1,6 +1,6 @@
 package com.baseballshop.dto;
 
-import com.baseballshop.constant.ListUp;
+import com.baseballshop.constant.ShowStatus;
 import com.baseballshop.constant.SellStatus;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import lombok.Setter;
 public class ItemSearchDto {
 
     //노출여부
-    private ListUp listUp;
+    private ShowStatus showStatus;
 
     //판매상태
     private SellStatus searchSellStatus;

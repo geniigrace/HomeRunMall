@@ -1,12 +1,14 @@
 package com.baseballshop.dto;
 
 import com.baseballshop.constant.NoticeStatus;
+import com.baseballshop.constant.ShowStatus;
 import com.baseballshop.entity.Notice;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,15 +18,18 @@ public class NoticeFormDto {
 
     private Long id;
 
-    @NotBlank(message = "제목은 필수 입력 값입니다.")
+    private ShowStatus showStatus;
+
+    @NotBlank(message = "제목을 입력하세요.")
     private String noticeTitle;
 
-    @NotBlank(message = "내용은 필수 입력 값입니다.")
+    @NotBlank(message = "내용을 입력하세요.")
     private String noticeContent;
 
     //공지사항 카테고리 (공지사항_NOTICE, 이벤트_EVENT)
     private NoticeStatus noticeStatus;
 
+    @NotNull(message = "구단을 선택하세요.")
     private String noticeTeam;
 
     private String noticeDate;

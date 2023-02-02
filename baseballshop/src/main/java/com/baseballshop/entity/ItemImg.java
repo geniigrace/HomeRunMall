@@ -1,5 +1,6 @@
 package com.baseballshop.entity;
 
+import com.baseballshop.constant.ShowStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,7 @@ public class ItemImg extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private ShowStatus showStatus;
     private String imgName;
 
     private String oriImgName;

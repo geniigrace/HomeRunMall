@@ -48,6 +48,8 @@
 
     .fieldError { color : #bd2130; }
 
+    #hideShowStatus { display : none; }
+
   </style>
 </th:block>
 
@@ -57,6 +59,11 @@
         <p class="h2"> 상품등록 / 수정 </p>
 
         <input type="hidden" th:field="*{id}">
+        <div class="form-group" id="hideShowStatus">
+            <select th:field="*{showStatus}" class="custom-select">
+                <option value="SHOW"></option>
+            </select>
+        </div>
 
         <div class="form-group">
             <select th:field="*{sellStatus}" class="custom-select">
