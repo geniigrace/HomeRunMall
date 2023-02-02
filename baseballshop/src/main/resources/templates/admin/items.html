@@ -2,7 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
-
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+</head>
 <th:block layout:fragment="css">
     <style>
 
@@ -12,10 +15,10 @@
 <th:block layout:fragment="script">
     <script th:inline="javascript">
 
-    //검색기능
+
     $(document).ready(function(){
         $("searchBtn").on("click", function(e) {
-            e.preventDefault(); //검색버튼 클릭시 form 태그 전송을 막아줌
+            e.preventDefault();
             page(0);
         });
     });
@@ -38,7 +41,6 @@
         };
 
 
-    //전체 선택
     function checkAll(){
             if($("#checkall").prop("checked")){
                 $("input[name=itemListCheck]").prop("checked",true);
@@ -48,35 +50,6 @@
             }
     };
 
-/*
-    //삭제하기
-    $("#deleteListItem").click(function(){
-
-        var cnt = $("#itemCheckBox:checked").length;
-        it(cnt == 0){
-            alert('삭제할 상품을 선택하세요.');
-            return;
-        }
-
-        $("itemCheckBox:checked").each(function(i, elt){
-
-            var num=$(this).attr("itemId");
-
-            $.ajax({
-                type : "DELETE",
-                dataType : "html",
-                url : "/admin/items/deleteItem",
-                data : { itemId : itemId}
-                success : function(){
-                            alert('상품이 삭제되었습니다.');
-                            location.reload();
-                }
-            });
-        });
-
-   })
-
-*/
 
   </script>
 </th:block>
@@ -95,13 +68,13 @@
 
     <div class="form-inline justify-content-center" th:object="${itemSearchDto}">
 
-        <select th:field="*{searchSellStatus}" id="searchBar" class="form-control" style="width:auto;">
+        <select th:field="*{searchSellStatus}" class="form-control" style="width:auto;">
             <option value="">판매상태(전체)</option>
             <option value="SELL">판매</option>
             <option value="SOLD_OUT">품절</option>
         </select>
 
-        <select th:field="*{searchTeam}" id="searchBar" class="form-control" style="width:auto;">
+        <select th:field="*{searchTeam}"  class="form-control" style="width:auto;">
             <option value="">구단</option>
             <option value="KOREA">KOREA</option>
             <option value="NC">NC 다이노스</option>
@@ -116,7 +89,7 @@
             <option value="KW">키움 히어로즈</option>
         </select>
 
-        <select th:field="*{searchCategory}" id="searchBar" class="form-control" style="width:auto;">
+        <select th:field="*{searchCategory}" class="form-control" style="width:auto;">
             <option value="">상품</option>
             <option value="UNIFORM">유니폼</option>
             <option value="BALLCAP">모자</option>
@@ -129,7 +102,7 @@
         </select>
 
 
-        <select th:field="*{searchDateType}" id="searchBar" class="form-control" style="width:auto;">
+        <select th:field="*{searchDateType}" class="form-control" style="width:auto;">
             <option value="all">전체기간</option>
             <option value="1d">1일</option>
             <option value="1W">1주</option>
@@ -150,7 +123,7 @@
                 <td>판매상태</td>
                 <td>구단</td>
                 <td>카테고리</td>
-                <td>썸네일</td>
+<!--                <td>썸네일</td>-->
                 <td>상품명</td>
                 <td>가격</td>
                 <td>재고</td>
@@ -160,19 +133,19 @@
             <tbody>
             <!--each : 반복문 돌면서 결과물 화면에 표현-->
             <tr th:each="item, status : ${items.getContent()}">
-                <td><input type="checkbox" name="itemListCheck" id="itemCheckBox" th:value="${itemFormDto.id}" ></td>
+                <td><input type="checkbox" name="itemListCheck" th:value="${item.id}" ></td>
                 <td th:text="${item.id}"></td>
                 <td th:text="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL} ? '판매중' : '품절' "></td>
                 <td th:text="${item.team}"></td>
                 <td th:text="${item.category}"></td>
-                <td> 썸네일 </td>
+<!--                <td> 썸네일 </td>-->
                 <td><a th:href="'/admin/item/'+${item.id}" th:text="${item.itemName}"></a></td>
                 <td th:text="${item.price}"></td>
                 <td th:text="${item.stockNumber}"></td>
             </tr>
             </tbody>
         </table>
-        <button id="deleteBtn" type="button" class="btn btn-primary" onclick="deleteListItem()">삭제</button>
+<!--        <button type="button" class="btn btn-primary" th:onclick="itemDelete()">삭제</button>-->
 
         <!--페이지수, 게시글 수를 계산하기 위함-->
         <div th:with="start=${(items.number/maxPage)*maxPage +1}, end=(${(items.totalPages == 0) ? 1:(start+(maxPage-1) < items.totalPages ? start + (maxPage -1) : items.totalPages)})">

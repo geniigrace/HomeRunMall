@@ -56,7 +56,6 @@ public class ItemService {
 
         //이미지 정보 받아오기
         List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderByIdAsc(itemId);
-        /* select * from item_img where itemi=2 orderby itemid asc */
 
         List<ItemImgDto> itemImgDtoList = new ArrayList<>();
 
@@ -96,4 +95,15 @@ public class ItemService {
     public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
         return itemRepository.getAdminItemPage(itemSearchDto, pageable);
     }
+
+//    //상품삭제
+//    public Long deleteItem(List<ItemDeleteDto> itemDeleteDtoList){
+//
+//        for(ItemDeleteDto itemDeleteDto : itemDeleteDtoList){
+//            Item itemId = itemRepository.findById(itemDeleteDto.getItemId()).orElseThrow(EntityExistsException::new);
+//            itemRepository.delete(itemId);
+//        }
+//
+//        return null;
+//    }
 }
