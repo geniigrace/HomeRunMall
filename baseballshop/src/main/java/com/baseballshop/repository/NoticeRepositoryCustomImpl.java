@@ -1,6 +1,7 @@
 package com.baseballshop.repository;
 
 import com.baseballshop.constant.NoticeStatus;
+import com.baseballshop.constant.ShowStatus;
 import com.baseballshop.dto.NoticeSearchDto;
 import com.baseballshop.entity.Notice;
 import com.baseballshop.entity.QNotice;
@@ -27,6 +28,10 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
 
     private BooleanExpression searchNoticeStatusEq(NoticeStatus searchNoticeStatus){
         return searchNoticeStatus == null ? null : QNotice.notice.noticeStatus.eq(searchNoticeStatus);
+    }
+
+    private BooleanExpression searchShowStatusEq(ShowStatus showStatus){
+        return showStatus == null ? null : QNotice.notice.showStatus.eq(showStatus);
     }
 
     //등록시기
@@ -72,7 +77,8 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
         QueryResults<Notice> results = queryFactory.selectFrom(QNotice.notice)
                 .where(regDtsAfter(noticeSearchDto.getSearchDateType()),
                         searchNoticeStatusEq(noticeSearchDto.getSearchNoticeStatus()),
-                        searchByLike(noticeSearchDto.getSearchBy(), noticeSearchDto.getSearchQuery()))
+                        searchByLike(noticeSearchDto.getSearchBy(), noticeSearchDto.getSearchQuery()),
+                        searchShowStatusEq(ShowStatus.SHOW))
                 .orderBy(QNotice.notice.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize()).fetchResults();

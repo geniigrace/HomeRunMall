@@ -18,10 +18,10 @@ public class Notice extends BaseEntity{
 
     @Id
     @Column(name="notice_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; //번호
 
-    @Column(name = "notice_showStatus")
+    @Enumerated(EnumType.STRING)
     private ShowStatus showStatus;
 
     @Column(name="notice_title", nullable = false)

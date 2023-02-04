@@ -47,6 +47,8 @@
 
     .fieldError { color : #bd2130; }
 
+    #hiddenShowStatus { display : none; }
+
   </style>
 </th:block>
 
@@ -56,6 +58,15 @@
         <p class="h2" style="text-align : center; margin-bottom : 15px;">공지사항</p>
 
         <input type="hidden" th:field="*{id}">
+
+        <div class="input-group" id="hiddenShowStatus">
+            <div class="input-group-prepend">
+                <span class="input-group-text">삭제여부</span>
+            </div>
+            <select th:field="*{showStatus}" class="custom-select">
+                <option value="SHOW"></option>
+            </select>
+        </div>
 
         <div class="input-group">
             <div class="input-group-prepend">

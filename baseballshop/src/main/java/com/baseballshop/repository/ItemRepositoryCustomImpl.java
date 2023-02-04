@@ -2,8 +2,10 @@ package com.baseballshop.repository;
 
 import com.baseballshop.constant.SellStatus;
 
+import com.baseballshop.constant.ShowStatus;
 import com.baseballshop.entity.QItem;
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.QTuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.baseballshop.dto.ItemSearchDto;
@@ -18,6 +20,8 @@ import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.baseballshop.constant.ShowStatus.SHOW;
+
 
 public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
 
@@ -30,6 +34,10 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
 
     private BooleanExpression searchSellStatusEq(SellStatus searchSellStatus){
         return searchSellStatus == null ? null : QItem.item.sellStatus.eq(searchSellStatus);
+    }
+
+    private BooleanExpression searchShowStatus(ShowStatus showStatus){
+         return showStatus == null ? null : QItem.item.showStatus.eq(showStatus);
     }
 
     private BooleanExpression searchTeam(String searchTeam){
@@ -94,7 +102,8 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
                         searchSellStatusEq(itemSearchDto.getSearchSellStatus()),
                         searchTeam(itemSearchDto.getSearchTeam()),
                         searchCategory(itemSearchDto.getSearchCategory()),
-                        searchByLike(itemSearchDto.getSearchBy(), itemSearchDto.getSearchQuery()) )
+                        searchByLike(itemSearchDto.getSearchBy(), itemSearchDto.getSearchQuery()),
+                        searchShowStatus(ShowStatus.SHOW))
                 .orderBy(QItem.item.id.desc())
                 .offset(pageable.getOffset()).
                 limit(pageable.getPageSize()).fetchResults();
