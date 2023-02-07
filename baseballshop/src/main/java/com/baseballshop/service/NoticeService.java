@@ -1,10 +1,8 @@
 package com.baseballshop.service;
 
 
-import com.baseballshop.dto.NoticeDto;
-import com.baseballshop.dto.NoticeFormDto;
-import com.baseballshop.dto.NoticeImgDto;
-import com.baseballshop.dto.NoticeSearchDto;
+import com.baseballshop.constant.ShowStatus;
+import com.baseballshop.dto.*;
 import com.baseballshop.entity.Notice;
 import com.baseballshop.entity.NoticeImg;
 import com.baseballshop.repository.NoticeImgRepository;
@@ -20,6 +18,7 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +28,6 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
     private final NoticeImgRepository noticeImgRepository;
     private final NoticeImgService noticeImgService;
-
 
     //공지사항 리스트 페이지
     @Transactional(readOnly = true)
@@ -90,6 +88,27 @@ public class NoticeService {
     }
 
     //공지사항 삭제
+//
+
+    public Long modify(NoticeDeleteDto noticeDeleteDto){
+
+        List<NoticeDeleteDto> noticeDeleteDtoList = noticeDeleteDto.getNoticeDeleteDtoList();
+
+        Long nid=noticeDeleteDtoList.get(0).getNoticeId();
+
+        for(NoticeDeleteDto noticeDelete : noticeDeleteDtoList) {
+
+            Long noticeId = noticeDelete.getNoticeId();
+
+            Notice notice = noticeRepository.findById(noticeId).orElseThrow(EntityExistsException::new);
+
+            notice.setShowStatus(ShowStatus.HIDE);
+
+        }
+
+        return nid;
+
+    }
 
 
 }

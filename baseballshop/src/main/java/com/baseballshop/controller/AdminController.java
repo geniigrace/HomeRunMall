@@ -228,8 +228,25 @@ public class AdminController {
         return "redirect:/notice";
     }
 
-     //공지사항 삭제
+    //공지사항 삭제
     //삭제기능 구현은 했지만 img와 외래키로 연결되어있어 작성하는 글 삭제 하지않고 구분자만 지정하여 구분자를 Delete로 두고 hide 시킬것
+    @PutMapping(value = "/notice/hidden")
+    public @ResponseBody ResponseEntity modifyNotice(@RequestBody NoticeDeleteDto noticeDeleteDto){
+
+        List<NoticeDeleteDto> noticeDeleteDtoList = noticeDeleteDto.getNoticeDeleteDtoList();
+
+        if(noticeDeleteDtoList == null || noticeDeleteDtoList.size()==0){
+            if(noticeDeleteDtoList == null){
+            }
+            return new ResponseEntity<String>("삭제할 게시글을 선택하세요.", HttpStatus.FORBIDDEN);
+        }
+
+        Long noticeId = noticeService.modify(noticeDeleteDto);
+
+
+        return new ResponseEntity<Long>(noticeId, HttpStatus.OK);
+
+    }
 
 
     //회원관리

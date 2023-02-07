@@ -1,5 +1,6 @@
 package com.baseballshop.controller;
 
+import com.baseballshop.dto.NoticeDeleteDto;
 import com.baseballshop.dto.NoticeDto;
 import com.baseballshop.dto.NoticeFormDto;
 import com.baseballshop.dto.NoticeSearchDto;
@@ -9,10 +10,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -54,6 +58,5 @@ public class CommunityController {
         model.addAttribute("newLineChar", '\n');
         return "community/noticeDtl";
     }
-
 
 }
