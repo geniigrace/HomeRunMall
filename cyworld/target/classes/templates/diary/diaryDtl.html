@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout2}">
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+    </script>
+</th:block>
+
+<th:block layout:fragment="css">
+    <style>
+
+        #diary-all{ text-align : center; }
+
+        #d-title {
+            margin-top : 10px;
+            margin-bottom : 20px;
+        }
+
+        #d-wrapped{
+            font-size : 9pt;
+        }
+
+        #d-date{
+            color : #55b2d4;
+        }
+
+        #d-status{
+            color : #999999;
+            margin-bottom : 20px;
+        }
+
+        #d-cont{
+            color : #999999;
+            height : 200px;
+        }
+
+        #d-write-wrapped{
+            border : solid 1px #999999;
+            margin : 0 30px;
+        }
+
+        #d-comment {
+            margin : 20px;
+            border : solid 1px #999999;
+            height : auto;
+        }
+
+        #d-c-title { display : flex; }
+
+        #modifyBtn {
+            display : flex;
+            margin-left : 30px;
+            margin-top : 2px;
+        }
+
+        #d-c-input {
+            width : 350px;
+            margin-top : 5px;
+            margin-bottom : 5px;
+        }
+
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+    <div id="diary-all">
+        <p classs="h2" id="d-title">다이어리</p>
+        <div id="d-wrapped">
+            <div id="d-date">2023/02/09</div>
+            <div id="d-write-wrapped">
+                <div id="d-status">오늘의 기분 : 기쁨😃</div>
+                <div id="d-cont">오늘은 팀프로젝트를 진행했다<br>css가 너무 어렵다 </div>
+                <div id="d-comment">
+                    <div id="d-c-title">댓글</div>
+                    <input type="text" id="d-c-input">
+                    <button type="button">저장</button>
+                </div>
+            </div>
+            <button type="button" id="modifyBtn">수정</button>
+        </div>
+        <div id="button-area">
+            <button type="button" id="preBtn">◀︎</button>
+            <button type="button" id="nextBtn">▶︎︎</button>
+        </div>
+    </div>
+</div>
+
+</html>
