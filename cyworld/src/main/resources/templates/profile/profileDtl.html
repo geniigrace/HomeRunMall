@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<th:block layout:fragment="script">
+  <script th:inline="javascript">
+  </script>
+</th:block>
+
+<th:block layout:fragment="css">
+  <style>
+    .content___title{
+        display : flex;
+        margin-bottom : 9px;
+    }
+
+    .subtitle {
+        padding-top : 3px;
+    }
+
+  </style>
+</th:block>
+
+<div layout:fragment="content">
+  <div class="wrapper">
+    <div class="wrapper_header">
+      <div class="content___title">
+        <div class="title">Profile</div>
+        <div class="subtitle">MY PROFILE</div>
+      </div>
+        <div class="divideLine"></div>
+    </div>
+
+  </div>
+
+</div>
+</div>
+</html>
