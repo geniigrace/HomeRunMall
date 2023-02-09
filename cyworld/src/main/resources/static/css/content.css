@@ -1,11 +1,13 @@
+/* content 영역 */
+/* leftSide 사용할 때 */
 .content {
     width: 510px;
     height: 445px;
     border: 1px solid gray;
     border-radius: 15px;
     background-color: white;
+
     position: absolute;
-        left: 268px;
-    	top: 90px;
-    }
+    left: 268px;
+    top:90px;
 }

@@ -1,7 +1,7 @@
 * {
     margin: 0px;
     box-sizing: border-box;
-    display: flex;
+    /* display: flex; */
 }
 
 .background{
@@ -18,7 +18,7 @@
 }
 
 .wrapper {
-    display: flex;
-    flex-direction: row;
-    padding: 32px 0px 0px 32px;
+     display: flex;
+     flex-direction: row;
+     padding: 32px 0px 0px 32px;
 }

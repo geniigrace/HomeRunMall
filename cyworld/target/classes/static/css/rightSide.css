@@ -1,5 +1,7 @@
 /* 오른쪽 영역 */
 
+/*헤더로 구성된 부분들은 제거하였음*/
+
 
 
 
@@ -10,6 +12,7 @@
 	flex-direction: column;
 	justify-content: space-between;
 
+/*구성을 위한 위치 조정*/
 	position: absolute;
 	left: 777px;
 	top: 110px;
@@ -26,4 +29,5 @@
 	border-radius: 0px 10px 10px 0px;
 	font-size: 10px;
 	cursor: pointer;
+	text-decoration : none;
 }

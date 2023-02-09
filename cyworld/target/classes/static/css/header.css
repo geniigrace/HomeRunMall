@@ -1,0 +1,39 @@
+/* 헤더영역 */
+.wrapper__top__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 750px;
+    height: 30px;
+
+    position: absolute;
+    top:60px;
+}
+
+/* today,total */
+.today{
+    padding-top: 10px;
+    font-size: 9px;
+    position: absolute;
+    left:50px;
+}
+
+.zero {
+    color: red;
+    font-size: 11px;
+}
+
+.count {
+    font-size: 11px;
+}
+
+/* title */
+.top_title{
+    padding-top: 10px;
+    font-size: 16px;
+    color: #55B2E4;
+    position: absolute;
+    left:230px;
+}
+
