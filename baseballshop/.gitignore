@@ -35,4 +35,4 @@ build/
 ###testimg###
 /bbsImg/
 
-/application.properties
+application.properties

@@ -3,6 +3,8 @@
 *.jpg
 *.gif
 *.jpeg
-/shop_uploadImg/
+
+application.properties
+
 ### VS Code ###
 .vscode/
