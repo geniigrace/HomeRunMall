@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<div layout:fragment="content">
+    <h2>회원가입</h2>
+    <input type="text" placeholder="email을 입력해주세요." ><br><br>
+    <input type="text" placeholder="이름을 입력해주세요."><br><br>
+    <input class="pw" type="password" placeholder="비밀번호를 입력해주세요."><br><br>
+    <input class="pw" type="password" placeholder="비밀번호를 다시 입력해주세요."><br><br>
+    <select>
+        <option disabled="true" selected="true">지역을 선택하세요</option>
+        <option>서울</option>
+        <option>경기</option>
+        <option>인천</option>
+    </select>
+    <br><br>
+    <input type="radio" name="gender">여성
+    <input type="radio" name="gender">남성
+    <br><br>
+    <input type="checkbox">이용약관 개인정보 수집 및 이용,마케팅 활용 선택에 모두 동의 합니다.
+    <hr>
+    <button>가입하기</button>
+</div>
+
+</html>
