@@ -4,4 +4,8 @@
     border: 1px solid gray;
     border-radius: 15px;
     background-color: white;
+    position: absolute;
+        left: 268px;
+    	top: 90px;
+    }
 }
