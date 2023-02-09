@@ -2,36 +2,53 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+</head>
 
 <th:block layout:fragment="css">
   <style>
-    .carousel-inner > .item { height : 350px; }
-
-    .margin { margin-bottom : 30px; }
-
-    .banner {
-        height : 300px;
-        position absolute; top:0; left:0;
-        width : 100%;
-        height: 100%;
-    }
-
-    .card-text {
-        text-overflow : ellipsis;
-        white-space : nowrap;
-        overflow : hidden;
-    }
-
-    a:hover { text-decoration : none; }
-
-    .center { text-align : center; }
   </style>
+
+  <th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+$(document).ready(function(){
+  $('.bxslider').bxSlider({
+
+     auto: true,                  // 자동넘어가기 여부
+     autoStart: true,            // 자동시작 여부(false일경우 start클릭시 슬라이드시작)
+     autoControls: false,       // 시작/멈춤 버튼 노출 여부
+     autoHover : true,           // 마우스 오버시 정지 여부
+     pause: 3000,               // 자동 전환사이의 시간
+     pager: true,              // 현재 페이지 버튼 노출 여부
+     infiniteLoop: true,        // 마지막이미지에서 다음버튼 클릭시 처음이미지
+     controls: true,           // 이전/다음 버튼 노출 여부
+     mode:'fade',             //horizontal, fade, vertical
+     slideWidth: 2000,       //슬라이더 크기
+     shrinkItems : false,
+
+ });
+});
+
+  </script>
+  </th:block>
+
 </th:block>
 
 <div layout:fragment="content">
 
-  메인페이지
+  <div class="contentContainer">
 
+    <ul class="bxslider">
+      <li><img src="/img/mainSlide1.jpeg" /></li>
+      <li><img src="/img/mainSlide2.jpeg" /></li>
+      <li><img src="/img/mainSlide3.jpeg" /></li>
+    </ul>
+
+  </div>
 </div>
 
 </html>
