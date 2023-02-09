@@ -4,87 +4,73 @@
       layout:decorate="~{layouts/layout2}">
 
 <th:block layout:fragment="script">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script th:inline="javascript">
+        $( function() {
+              $( "#datepicker" ).datepicker();
+                dateFormat: 'yyyy/mm/dd'
+        } );
     </script>
 </th:block>
 
 <th:block layout:fragment="css">
+    <link rel="stylesheet" href="/css/diary/diaryDtl.css">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
     <style>
-
-        #diary-all{ text-align : center; }
-
-        #d-title {
-            margin-top : 10px;
-            margin-bottom : 20px;
-        }
-
-        #d-wrapped{
-            font-size : 9pt;
-        }
-
-        #d-date{
-            color : #55b2d4;
-        }
-
-        #d-status{
-            color : #999999;
-            margin-bottom : 20px;
-        }
-
-        #d-cont{
-            color : #999999;
-            height : 200px;
-        }
-
-        #d-write-wrapped{
-            border : solid 1px #999999;
-            margin : 0 30px;
-        }
-
-        #d-comment {
-            margin : 20px;
-            border : solid 1px #999999;
-            height : auto;
-        }
-
-        #d-c-title { display : flex; }
-
-        #modifyBtn {
-            display : flex;
-            margin-left : 30px;
-            margin-top : 2px;
-        }
-
-        #d-c-input {
-            width : 350px;
-            margin-top : 5px;
-            margin-bottom : 5px;
-        }
-
+        .ui-datepicker{ font-size: 12px; width: 160px; }
+        .ui-datepicker select.ui-datepicker-month{ width:30%; font-size: 11px; }
+        .ui-datepicker select.ui-datepicker-year{ width:40%; font-size: 11px; }
     </style>
 </th:block>
 
 <div layout:fragment="content">
+<!-- 컨텐츠 영역 시작 -->
+<!--    wrapper : 전체를 묶어주는 영역, 여백 등이 공용부 css 에 세팅되어있는 것으로 보임 -->
+    <div class="wrapper">
     <div id="diary-all">
-        <p classs="h2" id="d-title">다이어리</p>
-        <div id="d-wrapped">
-            <div id="d-date">2023/02/09</div>
-            <div id="d-write-wrapped">
-                <div id="d-status">오늘의 기분 : 기쁨😃</div>
-                <div id="d-cont">오늘은 팀프로젝트를 진행했다<br>css가 너무 어렵다 </div>
-                <div id="d-comment">
-                    <div id="d-c-title">댓글</div>
-                    <input type="text" id="d-c-input">
-                    <button type="button">저장</button>
+<!--        wrapper_header : 컨텐츠 영역의 전체적인 타이틀영역 (메뉴이름) -->
+        <div class="wrapper_header">
+            <div class="content___title">
+                <div class="title">Diary</div>
+                <div class="subtitle">WHAT HAPPENED TODAY?</div>
+            </div>
+            <div class="divideLine"></div>
+        </div>
+<!--        content___all : 타이틀 밑으로 보이는 컨텐츠 영역-->
+        <div id="content___all">
+<!--            diary_menu : 좌측 사이드메뉴 부분을 위한 구분, diary_detail 과 display:flex 되어있음 -->
+            <div id="diary_menu">
+                <div id="datepicker_wrapped">
+                    <div id="datepicker" width="200"></div>
                 </div>
             </div>
-            <button type="button" id="modifyBtn">수정</button>
-        </div>
-        <div id="button-area">
-            <button type="button" id="preBtn">◀︎</button>
-            <button type="button" id="nextBtn">▶︎︎</button>
+<!--            diary_detail : 우측 실제 컨텐츠 출력되는 자리 -->
+            <div id="diary_detail">
+                <div id="d-wrapped">
+                    <div id="d-date">2023/02/09</div>
+                    <div id="d-write-wrapped">
+                        <div id="d-status">오늘의 기분 : 기쁨😃</div>
+                        <div id="d-cont">오늘은 신촌에서 팀프로젝트를 진행했다<br>css가 너무 어렵다 </div>
+                        <div id="d-comment">
+                            <div id="d-c-title">댓글</div>
+                            <input type="text" id="d-c-input">
+                            <button type="button" id="saveBtn">저장</button>
+                        </div>
+                    </div>
+                    <button type="button" id="modifyBtn">수정</button>
+                </div>
+                <div id="button-area">
+                    <button type="button" id="preBtn">◀︎</button>
+                    <button type="button" id="nextBtn">▶︎︎</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+</div>
+
 
 </html>
