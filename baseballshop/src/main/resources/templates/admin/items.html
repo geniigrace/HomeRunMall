@@ -43,12 +43,67 @@
 
     function checkAll(){
             if($("#checkall").prop("checked")){
-                $("input[name=itemListCheck]").prop("checked",true);
+                $("input[name=itemCheckBox]").prop("checked",true);
             }
             else{
-                $("input[name=itemListCheck]").prop("checked",false);
+                $("input[name=itemCheckBox]").prop("checked",false);
             }
     };
+
+    function modifyDelItem(){
+
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        var url = "/admin/item/hidden";
+        console.log(url);
+
+        var dataList = new Array();
+        var paramData = new Object();
+
+        $("input[name=itemCheckBox]:checked").each(function(){
+
+        var itemId = $(this).val();
+        console.log('item Id.val() : '+itemId);
+
+        var data = new Object();
+
+        data["itemId"] = itemId;
+        console.log('item Id : '+itemId);
+
+        dataList.push(data);
+
+        });
+
+        paramData['itemDeleteDtoList']=dataList;
+
+        var param = JSON.stringify(paramData);
+
+        $.ajax({
+
+            url : url,
+            type : "PUT",
+            contentType : "application/json",
+            data : param,
+            beforeSend : function(xhr){
+                  xhr.setRequestHeader(header, token);
+            },
+            dataType : "json",
+            cache : false,
+            success : function(result, status){
+                if(result!=null){
+                alert('상품이 삭제 되었습니다.');
+                location.href="/admin/items";
+                }
+            },
+            error : function(jqXHR, status, error){
+                        alert(jqXHR.responseText);
+
+            }
+        });
+
+
+    }
 
 
   </script>
@@ -133,11 +188,11 @@
             <tbody>
             <!--each : 반복문 돌면서 결과물 화면에 표현-->
             <tr th:each="item, status : ${items.getContent()}">
-                <td><input type="checkbox" name="itemListCheck" th:value="${item.id}" ></td>
+                <td><input type="checkbox" name="itemCheckBox" th:value="${item.id}" ></td>
                 <td th:text="${item.id}"></td>
                 <td th:text="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL} ? '판매중' : '품절' "></td>
-                <td th:text="${item.team}"></td>
-                <td th:text="${item.category}"></td>
+                <td th:text="${item.team.title}"></td>
+                <td th:text="${item.category.title}"></td>
 <!--                <td> 썸네일 </td>-->
                 <td><a th:href="'/admin/item/'+${item.id}" th:text="${item.itemName}"></a></td>
                 <td th:text="${item.price}"></td>
@@ -147,7 +202,7 @@
         </table>
         <th:block>
             <button type="button" class="btn btn-outline-secondary" onclick="location.href='/admin/item/new'"> 상품등록 </button>
-            <button type="button" class="btn btn-danger" id="deleteBtn">(삭제)</button>
+            <button type="button" class="btn btn-danger" id="deleteBtn" onclick="modifyDelItem()">삭제</button>
         </th:block>
 
 

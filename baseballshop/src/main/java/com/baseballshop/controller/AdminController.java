@@ -148,6 +148,24 @@ public class AdminController {
         return "redirect:/admin/items";
     }
 
+    //상품 삭제
+    //삭제기능 구현은 했지만 img와 외래키로 연결되어있어 작성하는 글 삭제 하지않고 구분자만 지정하여 구분자를 Delete로 두고 hide 시킬것
+    @PutMapping(value = "/item/hidden")
+    public @ResponseBody ResponseEntity modifyDelItem(@RequestBody ItemDeleteDto itemDeleteDto){
+
+        List<ItemDeleteDto> itemDeleteDtoList = itemDeleteDto.getItemDeleteDtoList();
+
+        if(itemDeleteDtoList == null || itemDeleteDtoList.size()==0){
+            return new ResponseEntity<String>("삭제할 상품을 선택하세요.", HttpStatus.FORBIDDEN);
+        }
+
+        Long itemId = itemService.modify(itemDeleteDto);
+
+
+        return new ResponseEntity<Long>(itemId, HttpStatus.OK);
+
+    }
+
 
     //전체주문내역
     @GetMapping(value = "/orders")

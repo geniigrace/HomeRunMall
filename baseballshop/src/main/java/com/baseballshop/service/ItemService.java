@@ -1,10 +1,10 @@
 package com.baseballshop.service;
 
-import com.baseballshop.dto.ItemFormDto;
-import com.baseballshop.dto.ItemImgDto;
-import com.baseballshop.dto.ItemSearchDto;
+import com.baseballshop.constant.ShowStatus;
+import com.baseballshop.dto.*;
 import com.baseballshop.entity.Item;
 import com.baseballshop.entity.ItemImg;
+import com.baseballshop.entity.Notice;
 import com.baseballshop.repository.ItemImgRepository;
 import com.baseballshop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,14 +97,30 @@ public class ItemService {
         return itemRepository.getAdminItemPage(itemSearchDto, pageable);
     }
 
-//    //상품삭제
-//    public Long deleteItem(List<ItemDeleteDto> itemDeleteDtoList){
-//
-//        for(ItemDeleteDto itemDeleteDto : itemDeleteDtoList){
-//            Item itemId = itemRepository.findById(itemDeleteDto.getItemId()).orElseThrow(EntityExistsException::new);
-//            itemRepository.delete(itemId);
-//        }
-//
-//        return null;
-//    }
+    //상품 삭제
+    public Long modify(ItemDeleteDto itemDeleteDto){
+
+        List<ItemDeleteDto> itemDeleteDtoList = itemDeleteDto.getItemDeleteDtoList();
+
+        Long iid=itemDeleteDtoList.get(0).getItemId();
+
+        for(ItemDeleteDto itemDelete : itemDeleteDtoList) {
+
+            Long itemId = itemDelete.getItemId();
+
+            Item item = itemRepository.findById(itemId).orElseThrow(EntityExistsException::new);
+
+            item.setShowStatus(ShowStatus.HIDE);
+
+        }
+
+        return iid;
+
+    }
+
+    //메인페이지
+    @Transactional(readOnly = true)
+    public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        return itemRepository.getMainItemPage(itemSearchDto, pageable);
+    }
 }
