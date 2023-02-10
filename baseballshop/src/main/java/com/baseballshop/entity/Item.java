@@ -1,7 +1,9 @@
 package com.baseballshop.entity;
 
+import com.baseballshop.constant.ItemCategory;
 import com.baseballshop.constant.SellStatus;
 import com.baseballshop.constant.ShowStatus;
+import com.baseballshop.constant.Team;
 import com.baseballshop.dto.ItemFormDto;
 import com.baseballshop.exception.OutOfStockException;
 import lombok.Getter;
@@ -29,9 +31,9 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ShowStatus showStatus;
 
-    private String team;
+    private Team team;
 
-    private String category;
+    private ItemCategory category;
 
     @Column(nullable = false, length = 50)
     private String itemName;
@@ -72,8 +74,8 @@ public class Item extends BaseEntity {
     //상품 수정시
     public void updateItem(ItemFormDto itemFormDto){
         this.sellStatus = itemFormDto.getSellStatus();
-        this.team = itemFormDto.getTeam();
-        this.category = itemFormDto.getCategory();
+        this.team = itemFormDto.createItem().getTeam();
+        this.category = itemFormDto.createItem().getCategory();
         this.showStatus = itemFormDto.getShowStatus();
 
         this.itemName = itemFormDto.getItemName();

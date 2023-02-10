@@ -130,7 +130,7 @@
           <input type="checkbox" id="noticeCheckList" name="noticeCheckBox" th:value="${notice.id}"></td>
         <td th:text="${notice.id}"></td>
         <td th:text="${notice.noticeStatus == T(com.baseballshop.constant.NoticeStatus).NOTICE} ? '공지사항' : '이벤트' "></td>
-        <td th:text="${notice.noticeTeam}"></td>
+        <td th:text="${notice.team.title}"></td>
         <td><a th:href="@{/notice/{id}(id=${notice.id})}" th:text="${notice.noticeTitle}" style="color : black;"></a></td>
         <td th:text="${notice.createTime}"></td>
 

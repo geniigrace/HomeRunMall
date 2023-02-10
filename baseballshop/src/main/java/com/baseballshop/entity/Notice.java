@@ -2,6 +2,7 @@ package com.baseballshop.entity;
 
 import com.baseballshop.constant.NoticeStatus;
 import com.baseballshop.constant.ShowStatus;
+import com.baseballshop.constant.Team;
 import com.baseballshop.dto.NoticeFormDto;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,8 +35,8 @@ public class Notice extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private NoticeStatus noticeStatus;
 
-    @Column(name="notice_team", nullable = false)
-    private String noticeTeam;
+    @Enumerated(EnumType.STRING)
+    private Team team;
 
 
 
