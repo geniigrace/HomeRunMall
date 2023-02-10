@@ -17,7 +17,7 @@ import javax.transaction.Transactional;
 public class ItemImgService {
 
     @Value("${imgLocation}")
-    private String itemImgLocation;
+    private String imgLocation;
 
     private final ItemImgRepository itemImgRepository;
 
@@ -35,7 +35,7 @@ public class ItemImgService {
         //파일 업로드
         if(!StringUtils.isEmpty(oriImgName)){
             //imgName : 실제 로컬에 저장된 상품 이미지 파일 이름
-            imgName = fileService.uploadFile(itemImgLocation, oriImgName, itemImgFile.getBytes());
+            imgName = fileService.uploadFile(imgLocation, oriImgName, itemImgFile.getBytes());
             System.out.println(imgName);
             //imgUrl : 로컬에 저장된 상품 이미지 파일 불러오는 경로
             imgUrl = "/images/item/" + imgName;
@@ -55,11 +55,11 @@ public class ItemImgService {
 
             // 기존에 등록된 상품 이미지 파일이 있는 경우 파일 삭제하기
             if(!StringUtils.isEmpty(savedItemImg.getImgName())){
-                fileService.deleteFile(itemImgLocation + "/" + savedItemImg.getImgName());
+                fileService.deleteFile(imgLocation + "/" + savedItemImg.getImgName());
             }
 
             String oriImgName = itemImgFile.getOriginalFilename();
-            String imgName = fileService.uploadFile(itemImgLocation, oriImgName, itemImgFile.getBytes());
+            String imgName = fileService.uploadFile(imgLocation, oriImgName, itemImgFile.getBytes());
             String imgUrl = "/images/item/" + imgName;
             //변경된 상품 이미지 정보를 세팅
             //상품등록을 하지 않는 경우에는 ItemImgRepository.save()로 호출하지만 호출하지 않음
