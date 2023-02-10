@@ -21,7 +21,7 @@ public class FileService {
         //랜덤이름+확장자
         String savedFileName = uuid.toString() + extension;
 
-        //
+
         String fileUploadFullUrl = uploadPath + "/" + savedFileName;
         System.out.println(fileUploadFullUrl);
 

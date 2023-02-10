@@ -2,6 +2,7 @@ package com.baseballshop.dto;
 
 import com.baseballshop.constant.NoticeStatus;
 import com.baseballshop.constant.ShowStatus;
+import com.baseballshop.constant.Team;
 import com.baseballshop.entity.Notice;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +31,7 @@ public class NoticeFormDto {
     private NoticeStatus noticeStatus;
 
     @NotNull(message = "구단을 선택하세요.")
-    private String noticeTeam;
+    private Team team;
 
     private String noticeDate;
 

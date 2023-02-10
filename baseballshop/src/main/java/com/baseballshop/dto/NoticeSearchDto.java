@@ -1,7 +1,9 @@
 package com.baseballshop.dto;
 
+import com.baseballshop.constant.ItemCategory;
 import com.baseballshop.constant.NoticeStatus;
 import com.baseballshop.constant.ShowStatus;
+import com.baseballshop.constant.Team;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +12,10 @@ import lombok.Setter;
 public class NoticeSearchDto {
 
     private ShowStatus showStatus;
+
+    private Team team;
+
+    private ItemCategory category;
 
     private NoticeStatus searchNoticeStatus;
 

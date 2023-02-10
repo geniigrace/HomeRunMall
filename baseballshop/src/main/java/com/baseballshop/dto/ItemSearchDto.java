@@ -1,7 +1,9 @@
 package com.baseballshop.dto;
 
+import com.baseballshop.constant.ItemCategory;
 import com.baseballshop.constant.ShowStatus;
 import com.baseballshop.constant.SellStatus;
+import com.baseballshop.constant.Team;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,10 +18,10 @@ public class ItemSearchDto {
     private SellStatus searchSellStatus;
 
     //구단
-    private String searchTeam;
+    private Team searchTeam;
 
     //상품종류
-    private String searchCategory;
+    private ItemCategory searchCategory;
 
     //등록일
     private String searchDateType;

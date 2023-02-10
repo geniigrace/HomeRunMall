@@ -2,6 +2,7 @@ package com.baseballshop.entity;
 
 import com.baseballshop.constant.Grade;
 import com.baseballshop.constant.Role;
+import com.baseballshop.constant.Team;
 import com.baseballshop.dto.MemberFormDto;
 import lombok.Getter;
 import lombok.Setter;

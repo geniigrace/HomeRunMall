@@ -1,6 +1,7 @@
 package com.baseballshop.dto;
 
 
+import com.baseballshop.constant.Team;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;

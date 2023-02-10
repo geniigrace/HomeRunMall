@@ -88,8 +88,6 @@ public class NoticeService {
     }
 
     //공지사항 삭제
-//
-
     public Long modify(NoticeDeleteDto noticeDeleteDto){
 
         List<NoticeDeleteDto> noticeDeleteDtoList = noticeDeleteDto.getNoticeDeleteDtoList();

@@ -1,7 +1,9 @@
 package com.baseballshop.dto;
 
+import com.baseballshop.constant.ItemCategory;
 import com.baseballshop.constant.SellStatus;
 import com.baseballshop.constant.ShowStatus;
+import com.baseballshop.constant.Team;
 import com.baseballshop.entity.Item;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,9 +1,14 @@
 package com.baseballshop.repository;
 
+import com.baseballshop.constant.ItemCategory;
 import com.baseballshop.constant.SellStatus;
 
 import com.baseballshop.constant.ShowStatus;
+import com.baseballshop.constant.Team;
+import com.baseballshop.dto.MainItemDto;
+import com.baseballshop.dto.QMainItemDto;
 import com.baseballshop.entity.QItem;
+import com.baseballshop.entity.QItemImg;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.QTuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -40,7 +45,7 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
          return showStatus == null ? null : QItem.item.showStatus.eq(showStatus);
     }
 
-    private BooleanExpression searchTeam(String searchTeam){
+    private BooleanExpression searchTeam(Team searchTeam){
 
          if(StringUtils.equals("", searchTeam) || searchTeam ==null ){
 
@@ -52,7 +57,7 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
 
     }
 
-    private BooleanExpression searchCategory(String searchCategory){
+    private BooleanExpression searchCategory(ItemCategory searchCategory){
        if(StringUtils.equals("", searchCategory) || searchCategory == null) {
            return null;
        }
@@ -85,8 +90,8 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
 
     }
 
-    private BooleanExpression searchByLike(String searchBy, String searchQuery){
-        if(StringUtils.equals("itemName", searchBy)){
+    private BooleanExpression searchByLike(String searchQuery){
+        if(searchQuery != null){
             return QItem.item.itemName.like("%"+searchQuery+"%");
         }
         else {
@@ -102,7 +107,7 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
                         searchSellStatusEq(itemSearchDto.getSearchSellStatus()),
                         searchTeam(itemSearchDto.getSearchTeam()),
                         searchCategory(itemSearchDto.getSearchCategory()),
-                        searchByLike(itemSearchDto.getSearchBy(), itemSearchDto.getSearchQuery()),
+                        searchByLike(itemSearchDto.getSearchQuery()),
                         searchShowStatus(ShowStatus.SHOW))
                 .orderBy(QItem.item.id.desc())
                 .offset(pageable.getOffset()).
@@ -111,6 +116,33 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
         List<Item> content = results.getResults();
         long total = results.getTotal();
         return new PageImpl<>(content, pageable, total);
+    }
+
+    //메인페이지 아이템 노출
+    @Override
+    public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+
+        //QMainItemDto @QueryProjection 을 하면 DTO로 바로 조회 가능
+        QueryResults<MainItemDto> results
+                = queryFactory.select(new QMainItemDto(item.id, item.itemName, item.itemDetail, itemImg.imgUrl, item.price))
+                .from(itemImg).join(itemImg.item, item).where(itemImg.repImgYn.eq("Y"))
+                .where(itemNameLike(itemSearchDto.getSearchQuery()),
+                        searchShowStatus(ShowStatus.SHOW))
+                .orderBy(item.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize()).fetchResults();
+
+        List<MainItemDto> content = results.getResults();
+        long total = results.getTotal();
+
+        return new PageImpl<>(content, pageable, total);
+    }
+
+    //메인화면 관련
+    private BooleanExpression itemNameLike(String searchQuery){
+        return StringUtils.isEmpty(searchQuery) ? null : QItem.item.itemName.like("%" + searchQuery + "%");
     }
 
 }

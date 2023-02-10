@@ -2,6 +2,7 @@ package com.baseballshop.dto;
 
 import com.baseballshop.constant.NoticeStatus;
 import com.baseballshop.constant.ShowStatus;
+import com.baseballshop.constant.Team;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +25,8 @@ public class NoticeDto {
 
 
     private NoticeStatus noticeStatus;
+
+    private Team team;
 
     private String noticeDate;
 
