@@ -1,0 +1,9 @@
+    .input-group{ margin-bottom : 15px; }
+
+    .input-group-text{ width : 90px; }
+
+    .img-div { margin-bottom : 10px; }
+
+    .fieldError { color : #bd2130; }
+
+    #hiddenShowStatus { display : none; }
