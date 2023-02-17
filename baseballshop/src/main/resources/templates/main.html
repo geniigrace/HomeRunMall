@@ -4,57 +4,8 @@
       layout:decorate="~{layout/layout}">
 
 <th:block layout:fragment="css">
-  <style>
-     #itemListCard {
-        float : left;
-        width : 200px;
-     }
-     #mainItemImg { width : 200px; }
-     #conprevBtn {
-        display : none;
-        }
-      #connextBtn {
-        display : none;
-        }
-      #mainSlide {
-         width : 100vw;
-      }
-
-      .content__all {
-        position: absolute;
-        left: 0px;
-        top : 140px;
-      }
-
-      #contentBox {
-        position: absolute;
-          left: 200px;
-          top : 460px;
-     }
-
-     #itemListCard {
-        margin : 10px;
-     }
-
-     #mainItemImg {
-        border : solid 1px #EAEAEA;
-     }
-
-     #itemInfo {
-        color : #8C8C8C;
-        font-size : 12px;
-        margin-top : 10px;
-        padding-left : 30px;
-     }
-
-     #itemInfoitemName { margin : 0; }
-
-     a:hover   {
-        text-decoration : none;
-        font-weight: bold;
-     }
-
-  </style>
+  <link rel="stylesheet" href="/css/main.css">
+  <style></style>
 </th:block>
 
   <th:block layout:fragment="script">
@@ -87,37 +38,59 @@
             <img src="/img/mainSlide3.jpeg" class="d-block w-100" alt="...">
           </div>
         </div>
-        <button class="carousel-control-prev" id="conprevBtn" type="button" data-target="#carouselExampleIndicators" data-slide="prev">
+        <button class="carousel-control-prev" id="conPrevBtn" type="button" data-target="#carouselExampleIndicators" data-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="sr-only">Previous</span>
         </button>
-        <button class="carousel-control-next" id="connextBtn" type="button" data-target="#carouselExampleIndicators" data-slide="next">
+        <button class="carousel-control-next" id="conNextBtn" type="button" data-target="#carouselExampleIndicators" data-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="sr-only">Next</span>
         </button>
       </div>
 
       <!-- 판매중인 상품 -->
-        <div id="contentBox">
+        <div id="itemListContent">
 
           <input type="hidden" name="searchQuery" th:value="${itemSearchDto.searchQuery}">
 
           <div th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
             <p class="h3 font-weight-bold" th:text="${itemSearchDto.searchQuery}+'검색결과'"></p>
           </div>
-
           <th:block th:each = "item, status : ${items.getContent()}">
-
-              <div id="itemListCard">
-                <a th:href="'/item/'+${item.id}">
-                  <img th:src="${item.imgUrl}" th:alt="${item.itemName}" id="mainItemImg">
-                  <div id="itemInfo">
-                    <p id="itemInfoitemName">[[${item.itemName}]]</p>
-                    <p id="itemInfoitemPrice">[[${item.price}]]원</p>
-                  </div>
-                </a>
-              </div>
+                <div id="itemListCard">
+                  <a th:href="'/item/'+${item.id}">
+                    <div id="itemListImgWrap">
+                      <img th:src="${item.imgUrl}" th:alt="${item.itemName}" id="itemListImg">
+                    </div>
+                    <div id="itemListInfoWrap">
+                      <p id="itemInfoItemName">[[${item.itemName}]]</p>
+                      <p id="itemInfoItemPrice">[[${item.price}]]원</p>
+                    </div>
+                  </a>
+                </div>
           </th:block>
+      </div>
+
+      <div th:with="start=${(items.number/maxPage)*maxPage +1}, end=(${(items.totalPages ==0) ? 1:(start+(maxPage-1) < items.totalPages ? start +(maxPage-1) : items.totalPages)})">
+
+        <ul class="pagination justify-content-center">
+
+          <li class="page-item" th:classappend="${items.number eq 0} ? 'disabled' ">
+            <a th:href="@{'/' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number-1}}" aria-label='Previous' class="page-link">
+              <span aria-hidden="true">Pre</span>
+            </a>
+          </li>
+
+          <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}" th:classappend="${items.number eq page-1}?'active':''">
+            <a th:href="@{ '/' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${page -1}}" th:inline="text" class="page-link">[[${page}]]</a>
+          </li>
+
+          <li class="page-item" th:classappend="${items.number+1 ge items.totalPages} ?'disabled'">
+            <a th:href="@{ '/'+ '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number + 1}}" aria-label="Next" class="page-link">
+              <span aria-hidden="true">Next</span>
+            </a>
+          </li>
+        </ul>
       </div>
   </div>
 </div>

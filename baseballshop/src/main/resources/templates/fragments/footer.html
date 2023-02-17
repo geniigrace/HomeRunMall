@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<div class="footer" th:fragment="footer">
+<th:block layout:fragment="css">
+  <style>
+  </style>
+</th:block>
+<div class="footer" th:fragment="footer" style="background-color:#eaeaea; color:#8c8c8c;">
   <footer class="page-footer font-small cyan darken-3">
-    <div class="footer-copyright text-center py-3">
-      야구의 모든 것, Home Run Mall
+    <div class="footer-copyright text-center py-3" id="footerBox">
+      야구의 모든 것, 홈런몰 ⓒHomeRunMall All Rights Reserved <br>
+      본사 : 서울특별시 송파구 올림픽로 25, 전화번호 : 02) 2202-0000<br>
     </div>
   </footer>
 </div>
-
 </html>
