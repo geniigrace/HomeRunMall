@@ -22,7 +22,7 @@ public class MainController {
     @GetMapping(value = "/")
     public String main(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model) {
 
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
         if (itemSearchDto.getSearchQuery() == null) {
             itemSearchDto.setSearchQuery("");
@@ -32,7 +32,7 @@ public class MainController {
 
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto", itemSearchDto);
-        model.addAttribute("maxPage", 5);
+        model.addAttribute("maxPage", 10);
         return "main";
     }
 }
