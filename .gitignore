@@ -3,6 +3,11 @@
 *.jpg
 *.gif
 *.jpeg
-/shop_uploadImg/
-### VS Code ###
+
+projectImages/
+cyworld/
+tickettaca/
+
 .vscode/
+
+*.properties
