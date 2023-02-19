@@ -56,19 +56,21 @@
           <div th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
             <p class="h3 font-weight-bold" th:text="${itemSearchDto.searchQuery}+'검색결과'"></p>
           </div>
-          <th:block th:each = "item, status : ${items.getContent()}">
-                <div id="itemListCard">
-                  <a th:href="'/item/'+${item.id}">
-                    <div id="itemListImgWrap">
-                      <img th:src="${item.imgUrl}" th:alt="${item.itemName}" id="itemListImg">
-                    </div>
-                    <div id="itemListInfoWrap">
-                      <p id="itemInfoItemName">[[${item.itemName}]]</p>
-                      <p id="itemInfoItemPrice">[[${item.price}]]원</p>
-                    </div>
-                  </a>
-                </div>
-          </th:block>
+          <div id="itemListCardWrapped">
+            <th:block th:each = "item, status : ${items.getContent()}">
+                  <div id="itemListCard">
+                    <a th:href="'/item/'+${item.id}">
+                      <div id="itemListImgWrap">
+                        <img th:src="${item.imgUrl}" th:alt="${item.itemName}" id="itemListImg">
+                      </div>
+                      <div id="itemListInfoWrap">
+                        <p id="itemInfoItemName">[[${item.itemName}]]</p>
+                        <p id="itemInfoItemPrice">[[${item.price}]]원</p>
+                      </div>
+                    </a>
+                  </div>
+            </th:block>
+          </div>
       </div>
 
       <div th:with="start=${(items.number/maxPage)*maxPage +1}, end=(${(items.totalPages ==0) ? 1:(start+(maxPage-1) < items.totalPages ? start +(maxPage-1) : items.totalPages)})">
