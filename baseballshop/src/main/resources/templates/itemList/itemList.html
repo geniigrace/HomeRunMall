@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<head>
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+
+<th:block layout:fragment="script">
+  <script th:inline="javascript">
+  </script>
+</th:block>
+
+<th:block layout:fragment="css">
+  <link rel="stylesheet" href="/css/item/itemList.css">
+  <style></style>
+</th:block>
+
+<div layout:fragment="content">
+  <div class="content__all">
+    <div id="page__title">
+      <p>제목</p>
+    </div>
+    <div id="leftSideMenu">
+      구단리스트
+    </div>
+    <div id="rightSideList">
+      아이템리스트
+    </div>
+  </div>
+</div>
