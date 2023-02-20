@@ -123,4 +123,10 @@ public class ItemService {
     public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
         return itemRepository.getMainItemPage(itemSearchDto, pageable);
     }
+
+    //상품리스트 조회 페이지
+    @Transactional(readOnly = true)
+    public Page<ItemListDto> getItemListPage(String itemCategory, Pageable pageable){
+        return itemRepository.getItemListPage(itemCategory, pageable);
+    }
 }

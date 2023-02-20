@@ -5,15 +5,13 @@ import com.baseballshop.constant.SellStatus;
 
 import com.baseballshop.constant.ShowStatus;
 import com.baseballshop.constant.Team;
-import com.baseballshop.dto.MainItemDto;
-import com.baseballshop.dto.QMainItemDto;
+import com.baseballshop.dto.*;
 import com.baseballshop.entity.QItem;
 import com.baseballshop.entity.QItemImg;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.QTuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.baseballshop.dto.ItemSearchDto;
 import com.baseballshop.entity.Item;
 
 import org.springframework.data.domain.Page;
@@ -99,6 +97,11 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
         }
     }
 
+    private BooleanExpression searchItemCategory(String itemCategory){
+         ItemCategory itemCategoryEnum = ItemCategory.valueOf(itemCategory);
+        return itemCategory == null ? null : QItem.item.category.eq(itemCategoryEnum);
+    }
+
     @Override
     public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
         QueryResults<Item> results = queryFactory.select(QItem.item)
@@ -143,6 +146,25 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
     //메인화면 관련
     private BooleanExpression itemNameLike(String searchQuery){
         return StringUtils.isEmpty(searchQuery) ? null : QItem.item.itemName.like("%" + searchQuery + "%");
+    }
+
+    //상품리스트 페이지
+    @Override
+    public Page<ItemListDto> getItemListPage(String itemCategory, Pageable pageable){
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+
+        QueryResults<ItemListDto> results
+                = queryFactory.select(new QItemListDto(item.id, item.itemName,itemImg.imgUrl, item.price, item.category))
+                .from(itemImg).join(itemImg.item, item).where(itemImg.repImgYn.eq("Y"))
+                .where(searchItemCategory(itemCategory))
+                .orderBy(item.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize()).fetchResults();
+
+        List<ItemListDto> content = results.getResults();
+        long total = results.getTotal();
+        return new PageImpl<>(content, pageable, total);
     }
 
 }

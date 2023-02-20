@@ -1,5 +1,6 @@
 package com.baseballshop.repository;
 
+import com.baseballshop.dto.ItemListDto;
 import com.baseballshop.dto.ItemSearchDto;
 import com.baseballshop.dto.MainItemDto;
 import com.baseballshop.entity.Item;
@@ -15,4 +16,5 @@ public interface ItemRepositoryCustom {
 
     Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable);
 
+    Page<ItemListDto> getItemListPage(String itemCategory, Pageable pageable);
 }
