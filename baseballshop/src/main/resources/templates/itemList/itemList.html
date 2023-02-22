@@ -25,14 +25,27 @@
       <p>제목</p>
     </div>
     <div id="leftSideMenu">
-      구단리스트
-      <a href="/">
+      <div id="teamListWrap">
+        <div id="teamList">
+          <p>구단리스트</p>
+          <p><a href="#">- 전체보기</a></p>
+          <a href="#">- KBO</a><br>
+          <a href="#">- SSG랜더스</a><br>
+          <a href="#">- 두산베어스</a><br>
+          <a href="#">- 한화이글스</a><br>
+          <a href="#">- 기아타이거즈</a><br>
+          <a href="#">- 키움히어로즈</a><br>
+          <a href="#">- 엔씨다이노스</a><br>
+          <a href="#">- 삼성라이온즈</a><br>
+          <a href="#">- KT위즈</a><br>
+          <a href="#">- LG트윈스</a><br>
+          <a href="#">- 롯데자이언츠</a><br>
+        </div>
+      </div>
     </div>
     <div id="rightSideList">
       <div id="itemListContent">
-
         <input type="hidden" name="searchQuery" th:value="${itemSearchDto.searchQuery}">
-
         <div th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
           <p class="h3 font-weight-bold" th:text="${itemSearchDto.searchQuery}+'검색결과'"></p>
         </div>

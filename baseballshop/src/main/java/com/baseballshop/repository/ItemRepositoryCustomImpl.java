@@ -9,7 +9,6 @@ import com.baseballshop.dto.*;
 import com.baseballshop.entity.QItem;
 import com.baseballshop.entity.QItemImg;
 import com.querydsl.core.QueryResults;
-import com.querydsl.core.types.QTuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.baseballshop.entity.Item;
@@ -22,8 +21,6 @@ import org.thymeleaf.util.StringUtils;
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static com.baseballshop.constant.ShowStatus.SHOW;
 
 
 public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
