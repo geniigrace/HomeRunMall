@@ -105,7 +105,11 @@
 			<artifactId>modelmapper</artifactId>
 			<version>2.3.9</version>
 		</dependency>
-
+		<!-- 네이버/카카오/구글 로그인을 위한 추가 : 시큐리티도 되어있어야함-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
 
 	</dependencies>
 

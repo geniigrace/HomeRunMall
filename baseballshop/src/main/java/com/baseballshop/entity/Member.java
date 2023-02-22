@@ -5,11 +5,15 @@ import com.baseballshop.constant.Role;
 import com.baseballshop.constant.Team;
 import com.baseballshop.dto.MemberFormDto;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 @Entity
@@ -17,7 +21,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-public class Member extends BaseEntity{
+@NoArgsConstructor
+public class Member{
 
     @Id
     @Column(name = "userNum")
@@ -35,15 +40,18 @@ public class Member extends BaseEntity{
 
     private String name;
 
+    private String picture;
+
     private String phone;
 
     private String address;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.ADMIN;
 
-    @Enumerated(EnumType.STRING)
-    private Grade grade;
+    @CreatedDate
+    @Column(updatable = false)
+    private String createTime;
 
     public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder){
         Member member = new Member();
@@ -57,9 +65,26 @@ public class Member extends BaseEntity{
         member.setPhone(memberFormDto.getPhone());
         member.setAddress(memberFormDto.getAddress());
         member.setRole(Role.ADMIN);
-        member.setGrade(Grade.MASTER);
 
         return member;
+    }
+
+    @PrePersist
+    public void onPrePersist(){
+        this.createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm"));
+    }
+
+    public Member (String name, String email, String picture){
+        this.name = name;
+        this.email = email;
+        this.picture = picture;
+    }
+
+    public Member update(String name, String picture){
+        this.name = name;
+        this.picture = picture;
+
+        return this;
     }
 
 }
