@@ -22,24 +22,25 @@
 <div layout:fragment="content">
   <div class="content__all">
     <div id="page__title">
-      <p>제목</p>
+      <p id="itemListTitle" th:text="${itemCategoryTitle}"></p>
     </div>
     <div id="leftSideMenu">
       <div id="teamListWrap">
         <div id="teamList">
-          <p>구단리스트</p>
-          <p><a href="#">- 전체보기</a></p>
-          <a href="#">- KBO</a><br>
-          <a href="#">- SSG랜더스</a><br>
-          <a href="#">- 두산베어스</a><br>
-          <a href="#">- 한화이글스</a><br>
-          <a href="#">- 기아타이거즈</a><br>
-          <a href="#">- 키움히어로즈</a><br>
-          <a href="#">- 엔씨다이노스</a><br>
-          <a href="#">- 삼성라이온즈</a><br>
-          <a href="#">- KT위즈</a><br>
-          <a href="#">- LG트윈스</a><br>
-          <a href="#">- 롯데자이언츠</a><br>
+          <ui class="no_dot">
+            <li><p><a href="#">-  전체보기</a></p></li>
+            <li><a href="#">-  KBO</a><br></li>
+            <li><a href="#">-  SSG랜더스</a></li>
+            <li><a href="#">-  두산베어스</a></li>
+            <li><a href="#">-  한화이글스</a></li>
+            <li><a href="#">-  기아타이거즈</a></li>
+            <li><a href="#">-  키움히어로즈</a></li>
+            <li><a href="#">-  엔씨다이노스</a></li>
+            <li><a href="#">-  삼성라이온즈</a></li>
+            <li><a href="#">-  KT위즈</a></li>
+            <li><a href="#">-  LG트윈스</a></li>
+            <li><a href="#">-  롯데자이언츠</a></li>
+          </ui>
         </div>
       </div>
     </div>
@@ -64,28 +65,28 @@
             </div>
           </th:block>
         </div>
-      </div>
+        <div id="paging">
+          <div th:with="start=${(items.number/maxPage)*maxPage +1}, end=(${(items.totalPages ==0) ? 1:(start+(maxPage-1) < items.totalPages ? start +(maxPage-1) : items.totalPages)})">
+            <ul class="pagination justify-content-center">
 
-      <div th:with="start=${(items.number/maxPage)*maxPage +1}, end=(${(items.totalPages ==0) ? 1:(start+(maxPage-1) < items.totalPages ? start +(maxPage-1) : items.totalPages)})">
+              <li class="page-item" th:classappend="${items.number eq 0} ? 'disabled' ">
+                <a th:href="@{'/' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number-1}}" aria-label='Previous' class="page-link">
+                  <span aria-hidden="true">Pre</span>
+                </a>
+              </li>
 
-        <ul class="pagination justify-content-center">
+              <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}" th:classappend="${items.number eq page-1}?'active':''">
+                <a th:href="@{ '/' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${page -1}}" th:inline="text" class="page-link">[[${page}]]</a>
+              </li>
 
-          <li class="page-item" th:classappend="${items.number eq 0} ? 'disabled' ">
-            <a th:href="@{'/' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number-1}}" aria-label='Previous' class="page-link">
-              <span aria-hidden="true">Pre</span>
-            </a>
-          </li>
-
-          <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}" th:classappend="${items.number eq page-1}?'active':''">
-            <a th:href="@{ '/' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${page -1}}" th:inline="text" class="page-link">[[${page}]]</a>
-          </li>
-
-          <li class="page-item" th:classappend="${items.number+1 ge items.totalPages} ?'disabled'">
-            <a th:href="@{ '/'+ '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number + 1}}" aria-label="Next" class="page-link">
-              <span aria-hidden="true">Next</span>
-            </a>
-          </li>
-        </ul>
+              <li class="page-item" th:classappend="${items.number+1 ge items.totalPages} ?'disabled'">
+                <a th:href="@{ '/'+ '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number + 1}}" aria-label="Next" class="page-link">
+                  <span aria-hidden="true">Next</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -1,5 +1,6 @@
 package com.baseballshop.controller;
 
+import com.baseballshop.constant.ItemCategory;
 import com.baseballshop.dto.ItemListDto;
 import com.baseballshop.dto.ItemSearchDto;
 import com.baseballshop.dto.MainItemDto;
@@ -30,7 +31,9 @@ public class ItemController {
 
 
         Page<ItemListDto> items = itemService.getItemListPage(itemCategory, pageable);
+        String itemCategoryTitle = ItemCategory.valueOf(itemCategory).getTitle();
 
+        model.addAttribute("itemCategoryTitle",itemCategoryTitle);
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto", itemSearchDto);
         model.addAttribute("maxPage", 10);
