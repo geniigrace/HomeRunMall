@@ -1,16 +1,19 @@
+/*
 *,
 *::before,
 *::after {
   box-sizing: content-box;
 }
+*/
 
 .content__all {
-      width : 100vw;
-      text-align : center;
-      position: absolute;
-          left: 0px;
-          top : 140px;
-      /* border : 1px solid red; */
+    width : 100vw;
+    height : 100%;
+    text-align : center;
+    position: absolute;
+        left: 0px;
+    top : 160px;
+    /* border : 1px solid red; */
 }
 #mainSlide {
          width : 100vw;
@@ -36,6 +39,7 @@ a:hover   {
       /* border : 1px solid black; */
 }
 
+/* card 가 정렬되는 크기 */
 #itemListCardWrapped {
     width : 1210px;
     display : inline-block;
