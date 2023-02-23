@@ -18,6 +18,7 @@
 
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
+    <link rel="stylesheet" href="/css/notice/noticeDtl.css"></link>
     <style>
         tr{ text-align : center; }
     </style>
@@ -25,13 +26,15 @@
 
 
 <div layout:fragment="content">
-
-    <p class="h2" style="text-align : center; margin-bottom : 15px;">공지사항</p>
+    <div class="content__all">
+        <div id="page__title">
+            <p id="itemListTitle" th:text="공지사항"></p>
+        </div>
         <table class="table">
             <tr class="title-tr">
                 <td th:text="${notices.id}" style="width : 10px">No.</td>
-                <td th:text="${notices.noticeStatus}" style="width : 30px">카테고리</td>
-                <td th:text="${notices.noticeTeam}" style="width : 40px">구단</td>
+                <td th:text="${notices.noticeStatus.title}" style="width : 100px">카테고리</td>
+                <td th:text="${notices.team.title}" style="width : 140px">구단</td>
                 <th th:text="${notices.noticeTitle}">제목</th>
             </tr>
             <tr class="content-tr">

@@ -100,14 +100,18 @@
 </th:block>
 
 <th:block layout:fragment="css">
+  <link rel="stylesheet" href="/css/notice/notice.css">
   <style>
     select{ margin-right : 10px; }
   </style>
 </th:block>
 
 <div layout:fragment="content">
+  <div class="content__all">
+    <div id="page__title">
+      <p id="itemListTitle" th:text="공지사항"></p>
+    </div>
   <form>
-    <p class="h2" style="text-align : center; margin-bottom : 15px;">공지사항</p>
     <table class="table" th:action="@{'/notice/'+${notices.number}}" role="form" method="get" th:object="${notices}">
 
       <thead>
@@ -138,16 +142,6 @@
       </tbody>
     </table>
 
-    <div sec:authorize="hasRole('ADMIN')">
-      <th:block>
-        <button type="button" class="btn btn-outline-secondary" onclick="location.href='/admin/notice/new'"> 글쓰기 </button>
-        <button type="button" class="btn btn-danger" id="deleteBtn" onclick="modifyNotice()">삭제</button>
-        <input type="checkbox" id="delList">
-      </th:block>
-    </div>
-
-
-
     <div th:with="start=${(notices.number/maxPage)*maxPage +1}, end=(${(notices.totalPages == 0) ? 1:(start+(maxPage-1) < notices.totalPages ? start + (maxPage -1) : notices.totalPages)})">
 
       <ul class="pagination justify-content-center">
@@ -171,7 +165,13 @@
       </ul>
 
     </div>
-
+    <div sec:authorize="hasRole('ADMIN')" id="buttonBlock">
+      <th:block>
+        <button type="button" class="btn btn-outline-secondary" onclick="location.href='/admin/notice/new'"> 글쓰기 </button>
+        <button type="button" class="btn btn-danger" id="deleteBtn" onclick="modifyNotice()">삭제</button>
+        <input type="checkbox" id="delList">
+      </th:block>
+    </div>
     <!--        <div class="form-inline justify-content-center" th:object="${noticeSearchDto}">-->
     <!--            <select th:field="*{searchDateType}" class="form-control" style="width:auto;">-->
     <!--                <option value="all">전체기간</option>-->
@@ -196,5 +196,6 @@
 
     <!--        </div>-->
   </form>
+</div>
 </div>
 </html>

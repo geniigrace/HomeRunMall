@@ -43,9 +43,11 @@
 </th:block>
 
 <div layout:fragment="content">
-
+    <div class="content__all">
+        <div id="page__title">
+            <p id="itemListTitle" th:text="공지사항"></p>
+        </div>
     <form role="form" method="post" enctype="multipart/form-data" th:object="${noticeFormDto}"> <!--enctype : 이미지 받으려고 쓰는 것 -->
-        <p class="h2" style="text-align : center; margin-bottom : 15px;">공지사항</p>
 
         <input type="hidden" th:field="*{id}">
 

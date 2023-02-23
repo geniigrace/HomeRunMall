@@ -8,14 +8,16 @@
   <meta name="_csrf_header" th:content="${_csrf.headerName}">
 </head>
 <th:block layout:fragment="css">
+  <link rel="stylesheet" href="/css/community/community.css"></link>
   <style>
-
   </style>
 </th:block>
 
 <div layout:fragment="content">
-
-  커뮤니티 페이지
+  <div class="content__all">
+    <div id="page__title">
+      <p id="itemListTitle" th:text="커뮤니티"></p>
+    </div>
 
 </div>
 

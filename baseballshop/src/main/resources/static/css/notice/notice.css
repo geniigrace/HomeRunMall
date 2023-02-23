@@ -1,13 +1,3 @@
-    .input-group{ margin-bottom : 15px; }
-
-    .input-group-text{ width : 90px; }
-
-    .img-div { margin-bottom : 10px; }
-
-    .fieldError { color : #bd2130; }
-
-    #hiddenShowStatus { display : none; }
-
 
 a:hover   {
         text-decoration : none;
@@ -33,3 +23,5 @@ a:hover   {
     background-color : #000042;
     /*border : 1px solid black;*/
 }
+
+#buttonBlock { text-align : left; }
