@@ -17,4 +17,6 @@ public interface ItemRepositoryCustom {
     Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable);
 
     Page<ItemListDto> getItemListPage(String itemCategory, Pageable pageable);
+
+    Page<ItemListDto> getTeamItemListPage(String itemCategory,String tea, Pageable pageable);
 }

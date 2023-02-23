@@ -51,7 +51,6 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
          }
 
     }
-
     private BooleanExpression searchCategory(ItemCategory searchCategory){
        if(StringUtils.equals("", searchCategory) || searchCategory == null) {
            return null;
@@ -97,6 +96,11 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
     private BooleanExpression searchItemCategory(String itemCategory){
          ItemCategory itemCategoryEnum = ItemCategory.valueOf(itemCategory);
         return itemCategory == null ? null : QItem.item.category.eq(itemCategoryEnum);
+    }
+
+    private BooleanExpression searchItemTeam(String team){
+         Team itemTeamEnum = Team.valueOf(team);
+         return team == null ? null : QItem.item.team.eq(itemTeamEnum);
     }
 
     @Override
@@ -147,7 +151,7 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
 
     //상품리스트 페이지
     @Override
-    public Page<ItemListDto> getItemListPage(String itemCategory, Pageable pageable){
+    public Page<ItemListDto> getItemListPage(String itemCategory,Pageable pageable){
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
 
@@ -155,6 +159,24 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
                 = queryFactory.select(new QItemListDto(item.id, item.itemName,itemImg.imgUrl, item.price, item.category))
                 .from(itemImg).join(itemImg.item, item).where(itemImg.repImgYn.eq("Y"))
                 .where(searchItemCategory(itemCategory))
+                .orderBy(item.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize()).fetchResults();
+
+        List<ItemListDto> content = results.getResults();
+        long total = results.getTotal();
+        return new PageImpl<>(content, pageable, total);
+    }
+
+    @Override
+    public Page<ItemListDto> getTeamItemListPage(String itemCategory,String team, Pageable pageable){
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+
+        QueryResults<ItemListDto> results
+                = queryFactory.select(new QItemListDto(item.id, item.itemName,itemImg.imgUrl, item.price, item.category))
+                .from(itemImg).join(itemImg.item, item).where(itemImg.repImgYn.eq("Y"))
+                .where(searchItemCategory(itemCategory), searchItemTeam(team))
                 .orderBy(item.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize()).fetchResults();

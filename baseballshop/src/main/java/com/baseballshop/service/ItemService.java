@@ -129,4 +129,9 @@ public class ItemService {
     public Page<ItemListDto> getItemListPage(String itemCategory, Pageable pageable){
         return itemRepository.getItemListPage(itemCategory, pageable);
     }
+
+    @Transactional(readOnly = true)
+    public Page<ItemListDto> getTeamItemListPage(String itemCategory, String team, Pageable pageable){
+        return itemRepository.getTeamItemListPage(itemCategory,team, pageable);
+    }
 }

@@ -26,13 +26,39 @@ public class ItemController {
     @GetMapping(value = "/item/{itemCategory}")
     public String itemList(@PathVariable("itemCategory")String itemCategory, Optional<Integer> page, Model model, ItemSearchDto itemSearchDto){
 
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
+
+
+        String itemCategoryTitle = ItemCategory.valueOf(itemCategory).getTitle();
+        String itemCategoryKey = ItemCategory.valueOf(itemCategory).getKey();
+
+        Page<ItemListDto> items = itemService.getItemListPage(itemCategory, pageable);
+
+
+
+        model.addAttribute("itemCategoryKey", itemCategoryKey);
+        model.addAttribute("itemCategoryTitle",itemCategoryTitle);
+        model.addAttribute("items", items);
+        model.addAttribute("itemSearchDto", itemSearchDto);
+        model.addAttribute("maxPage", 10);
+
+        return "itemList/itemList";
+    }
+
+    @GetMapping(value = "/item/{itemCategory}/{team}")
+    public String itemList(@PathVariable("itemCategory")String itemCategory, @PathVariable("team")String team, Optional<Integer> page, Model model, ItemSearchDto itemSearchDto){
 
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
 
-        Page<ItemListDto> items = itemService.getItemListPage(itemCategory, pageable);
         String itemCategoryTitle = ItemCategory.valueOf(itemCategory).getTitle();
+        String itemCategoryKey = ItemCategory.valueOf(itemCategory).getKey();
 
+        Page<ItemListDto> items = itemService.getTeamItemListPage(itemCategory, team,  pageable);
+
+
+
+        model.addAttribute("itemCategoryKey", itemCategoryKey);
         model.addAttribute("itemCategoryTitle",itemCategoryTitle);
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto", itemSearchDto);

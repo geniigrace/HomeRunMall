@@ -15,7 +15,7 @@ public enum Team {
     DS("DS","두산베어스"),
     HH("HH","한화이글스"),
     KT("KT","KT위즈"),
-    LT("LT","롯데자이언츠"),
+    LTT("LTT","롯데자이언츠"),
     KIA("KIA","기아타이거즈"),
     LG("LG","LG트윈스"),
     KW("KW","키움히어로즈"),
