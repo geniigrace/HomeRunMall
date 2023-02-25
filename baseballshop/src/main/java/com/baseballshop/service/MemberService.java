@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -27,7 +28,7 @@ public class MemberService implements UserDetailsService {
 
     //입력받은 ID로 ID 중복 확인
     public void validateDuplicateMember(Member member){
-        Member findMember = memberRepository.findByUserId(member.getUserId());
+        Member findMember = memberRepository.findByEmail(member.getEmail());
 
         if(findMember != null){
             throw new IllegalStateException("이미 가입된 회원입니다.");
@@ -36,25 +37,25 @@ public class MemberService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Member member = memberRepository.findByUserId(userId);
+        Member member = memberRepository.findByEmail(email);
 
         if(member==null){
-            throw new UsernameNotFoundException(userId);
+            throw new UsernameNotFoundException(email);
         }
 
         //빌드패턴
         return User.builder()
-                .username(member.getUserId())
+                .username(member.getEmail())
                 .password(member.getPassword())
                 .roles(member.getRole().toString())
                 .build();
     }
 
     //아이디 중복확인 버튼을 위한 중복확인 함수
-    public Member validateCheck(String checkId){
+    public Member validateCheck(String checkEmail){
 
-        return  memberRepository.findByUserId(checkId);
+        return  memberRepository.findByEmail(checkEmail);
     }
 }

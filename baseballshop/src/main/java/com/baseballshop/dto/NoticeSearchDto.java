@@ -21,8 +21,6 @@ public class NoticeSearchDto {
 
     private String searchDateType;
 
-    //private ItemSellStatus searchSellStatus;
-
     private String searchBy;
 
     private String searchQuery = "";

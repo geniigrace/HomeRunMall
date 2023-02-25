@@ -1,10 +1,9 @@
 package com.baseballshop.controller;
 
 import com.baseballshop.constant.ItemCategory;
+import com.baseballshop.dto.ItemFormDto;
 import com.baseballshop.dto.ItemListDto;
 import com.baseballshop.dto.ItemSearchDto;
-import com.baseballshop.dto.MainItemDto;
-import com.baseballshop.entity.Item;
 import com.baseballshop.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,7 +22,7 @@ public class ItemController {
 
     private final ItemService itemService;
 
-    @GetMapping(value = "/item/{itemCategory}")
+    @GetMapping(value = "/itemSearch/{itemCategory}")
     public String itemList(@PathVariable("itemCategory")String itemCategory, Optional<Integer> page, Model model, ItemSearchDto itemSearchDto){
 
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
@@ -42,10 +41,10 @@ public class ItemController {
         model.addAttribute("itemSearchDto", itemSearchDto);
         model.addAttribute("maxPage", 10);
 
-        return "itemList/itemList";
+        return "item/itemList";
     }
 
-    @GetMapping(value = "/item/{itemCategory}/{team}")
+    @GetMapping(value = "/itemSearch/{itemCategory}/{team}")
     public String itemList(@PathVariable("itemCategory")String itemCategory, @PathVariable("team")String team, Optional<Integer> page, Model model, ItemSearchDto itemSearchDto){
 
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
@@ -64,6 +63,14 @@ public class ItemController {
         model.addAttribute("itemSearchDto", itemSearchDto);
         model.addAttribute("maxPage", 10);
 
-        return "itemList/itemList";
+        return "item/itemList";
+    }
+
+
+    @GetMapping(value = "/item/{itemId}")
+    public String itemDtl(Model model, @PathVariable("itemId")Long itemId){
+        ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
+        model.addAttribute("item", itemFormDto);
+        return "item/itemDtl";
     }
 }

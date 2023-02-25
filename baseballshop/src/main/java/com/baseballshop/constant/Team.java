@@ -6,9 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum Team {
-
     KBO("KBO","KBO"),
-    KOREA("TEAM_KOREA", "대표팀"),
+    KOREA("KOREA", "대표팀"),
     NC("NC","NC다이노스"),
     SS("SS","삼성라이온즈"),
     SSG("SSG","SSG랜더스"),

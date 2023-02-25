@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RequestMapping("/members")
 @Controller
@@ -66,7 +67,7 @@ public class MemberController {
 
     //아이디 중복확인을 위한 맵핑
     @PostMapping(value = "/validatecheck")
-    public @ResponseStatus ResponseEntity validateCheck (@RequestBody @Valid Map<String, String> userId, BindingResult bindingResult){
+    public @ResponseStatus ResponseEntity validateCheck (@RequestBody @Valid Map<String, String> email, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             StringBuilder sb = new StringBuilder();
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
@@ -79,9 +80,11 @@ public class MemberController {
 
         Member checked;
         boolean result;
+        String checkEmail = email.get("email");
 
         try{
-            checked= memberService.validateCheck(userId.get("userId"));
+            checked= memberService.validateCheck(checkEmail);
+            System.out.println("이메일 넘어온거~ :"+email);
 
             if(checked==null){
 

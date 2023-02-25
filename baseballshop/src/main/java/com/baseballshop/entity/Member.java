@@ -29,13 +29,14 @@ public class Member{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String userTeam;
+    private Team userTeam;
 
-    @Column(unique = true)
-    private String userId;
+//    @Column(unique = true)
+//    private String userId;
 
     private String password;
 
+    @Column(unique = true)
     private String email;
 
     private String name;
@@ -57,7 +58,7 @@ public class Member{
         Member member = new Member();
 
         member.setUserTeam(memberFormDto.getUserTeam());
-        member.setUserId(memberFormDto.getUserId());
+//        member.setUserId(memberFormDto.getUserId());
         String pw = passwordEncoder.encode(memberFormDto.getPassword());
         member.setPassword(pw);
         member.setEmail(memberFormDto.getEmail());
