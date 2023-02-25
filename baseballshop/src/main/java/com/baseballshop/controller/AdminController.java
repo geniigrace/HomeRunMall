@@ -1,9 +1,12 @@
 package com.baseballshop.controller;
 
+import com.baseballshop.config.CustomOAuth2UserService;
 import com.baseballshop.dto.*;
 import com.baseballshop.entity.Item;
+import com.baseballshop.entity.Member;
 import com.baseballshop.entity.Notice;
 import com.baseballshop.repository.ItemRepository;
+import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.repository.NoticeRepository;
 import com.baseballshop.service.ItemService;
 import com.baseballshop.service.NoticeService;
@@ -36,15 +39,37 @@ public class AdminController {
     private final NoticeService noticeService;
     private final NoticeRepository noticeRepository;
 
+    private final MemberRepository memberRepository;
+    private final CustomOAuth2UserService customOAuth2UserService;
+
     //관리페이지
     @GetMapping(value = "/adminpage")
-    public String adminpage(){
+    public String adminpage( Model model, Principal principal){
+
+        if(principal!=null) {
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+            } else {
+                model.addAttribute("loginName", member.getName());
+            }
+        }
+
         return "admin/adminpage";
     }
 
     //상품등록
     @GetMapping(value ="/item/new")
-    public String itemForm(Model model){
+    public String itemForm(Model model,Principal principal){
+
+        if(principal!=null) {
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+            } else {
+                model.addAttribute("loginName", member.getName());
+            }
+        }
 
         model.addAttribute("itemFormDto", new ItemFormDto());
 
@@ -78,7 +103,16 @@ public class AdminController {
 
     //상품관리
     @GetMapping(value = {"/items", "/items/{page}"}) //상품관리리스트, 상품 수정페이지
-    public String itemManage(ItemSearchDto itemSearchDto, @PathVariable("page") Optional<Integer> page, Model model){
+    public String itemManage(ItemSearchDto itemSearchDto, @PathVariable("page") Optional<Integer> page, Model model, Principal principal){
+
+        if(principal!=null) {
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+            } else {
+                model.addAttribute("loginName", member.getName());
+            }
+        }
 
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
@@ -107,7 +141,16 @@ public class AdminController {
 
     //상품 수정
     @GetMapping(value = "/item/{itemId}")
-    public String itemDtl(@PathVariable("itemId")Long itemId, Model model){
+    public String itemDtl(@PathVariable("itemId")Long itemId, Model model, Principal principal){
+
+        if(principal!=null) {
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+            } else {
+                model.addAttribute("loginName", member.getName());
+            }
+        }
 
         try{
             ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
@@ -169,14 +212,33 @@ public class AdminController {
 
     //전체주문내역
     @GetMapping(value = "/orders")
-    public String allOders(){
+    public String allOders(Model model, Principal principal){
+
+        if(principal!=null) {
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+            } else {
+                model.addAttribute("loginName", member.getName());
+            }
+        }
+
         return "admin/orders";
     }
 
     //공지등록
     //공지사항 등록하기
     @GetMapping(value = "/notice/new")
-    public String noticeForm(Model model){
+    public String noticeForm(Model model, Principal principal){
+
+        if(principal!=null) {
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+            } else {
+                model.addAttribute("loginName", member.getName());
+            }
+        }
         model.addAttribute("noticeFormDto", new NoticeFormDto());
         return "admin/noticeForm";
     }
@@ -204,7 +266,16 @@ public class AdminController {
 
     //공지사항 수정 : 내용
     @GetMapping(value = "/notice/{noticeId}")
-    public String noticeUpdate(@PathVariable("noticeId")Long noticeId, Model model){
+    public String noticeUpdate(@PathVariable("noticeId")Long noticeId, Model model, Principal principal){
+
+        if(principal!=null) {
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+            } else {
+                model.addAttribute("loginName", member.getName());
+            }
+        }
 
         try{
             NoticeFormDto noticeFormDto = noticeService.preNotice(noticeId);
@@ -269,7 +340,17 @@ public class AdminController {
 
     //회원관리
     @GetMapping(value = "/members" )
-    public String memberList(){
+    public String memberList(Model model, Principal principal){
+
+        if(principal!=null) {
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+            } else {
+                model.addAttribute("loginName", member.getName());
+            }
+        }
+
         return "admin/members";
     }
 }

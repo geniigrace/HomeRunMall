@@ -1,9 +1,12 @@
 package com.baseballshop.controller;
 
+import com.baseballshop.config.CustomOAuth2UserService;
 import com.baseballshop.constant.ItemCategory;
 import com.baseballshop.dto.ItemFormDto;
 import com.baseballshop.dto.ItemListDto;
 import com.baseballshop.dto.ItemSearchDto;
+import com.baseballshop.entity.Member;
+import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -21,9 +25,21 @@ import java.util.Optional;
 public class ItemController {
 
     private final ItemService itemService;
+    private final MemberRepository memberRepository;
+    private final CustomOAuth2UserService customOAuth2UserService;
+
 
     @GetMapping(value = "/itemSearch/{itemCategory}")
-    public String itemList(@PathVariable("itemCategory")String itemCategory, Optional<Integer> page, Model model, ItemSearchDto itemSearchDto){
+    public String itemList(@PathVariable("itemCategory")String itemCategory, Optional<Integer> page, Model model, Principal principal, ItemSearchDto itemSearchDto){
+
+        if(principal!=null) {
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+            } else {
+                model.addAttribute("loginName", member.getName());
+            }
+        }
 
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
@@ -45,7 +61,16 @@ public class ItemController {
     }
 
     @GetMapping(value = "/itemSearch/{itemCategory}/{team}")
-    public String itemList(@PathVariable("itemCategory")String itemCategory, @PathVariable("team")String team, Optional<Integer> page, Model model, ItemSearchDto itemSearchDto){
+    public String itemList(@PathVariable("itemCategory")String itemCategory, @PathVariable("team")String team, Optional<Integer> page, Model model, Principal principal, ItemSearchDto itemSearchDto){
+
+        if(principal!=null) {
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+            } else {
+                model.addAttribute("loginName", member.getName());
+            }
+        }
 
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
@@ -68,7 +93,17 @@ public class ItemController {
 
 
     @GetMapping(value = "/item/{itemId}")
-    public String itemDtl(Model model, @PathVariable("itemId")Long itemId){
+    public String itemDtl(Model model, Principal principal, @PathVariable("itemId")Long itemId){
+
+        if(principal!=null) {
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+            } else {
+                model.addAttribute("loginName", member.getName());
+            }
+        }
+
         ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
         model.addAttribute("item", itemFormDto);
         return "item/itemDtl";

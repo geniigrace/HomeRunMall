@@ -1,10 +1,13 @@
 package com.baseballshop.controller;
 
+import com.baseballshop.config.CustomOAuth2UserService;
 import com.baseballshop.dto.NoticeDeleteDto;
 import com.baseballshop.dto.NoticeDto;
 import com.baseballshop.dto.NoticeFormDto;
 import com.baseballshop.dto.NoticeSearchDto;
+import com.baseballshop.entity.Member;
 import com.baseballshop.entity.Notice;
+import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,9 +28,24 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CommunityController {
 
+    private final MemberRepository memberRepository;
+
+    private final CustomOAuth2UserService customOAuth2UserService;
+
+
     //커뮤니티
     @GetMapping(value = "/community")
-    public String community(){
+    public String community( Model model, Principal principal){
+
+        if(principal!=null) {
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+            } else {
+                model.addAttribute("loginName", member.getName());
+            }
+        }
+
         return "community/community";
     }
 
@@ -35,7 +54,17 @@ public class CommunityController {
 
     //공지사항 리스트
     @GetMapping(value = "/notice")
-    public String noticeManage(NoticeSearchDto noticeSearchDto, @PathVariable("page") Optional<Integer> page, Model model){
+    public String noticeManage(NoticeSearchDto noticeSearchDto, @PathVariable("page") Optional<Integer> page,  Model model, Principal principal){
+
+        if(principal!=null) {
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+            } else {
+                model.addAttribute("loginName", member.getName());
+            }
+        }
+
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
         Page<Notice> notices = noticeService.getNoticePage(noticeSearchDto,pageable);
 
@@ -50,7 +79,16 @@ public class CommunityController {
 
     //공지사항 글보기
     @GetMapping(value = "/notice/{noticeId}")
-    public String noticeDtl(@PathVariable("noticeId")Long noticeId, Model model){
+    public String noticeDtl(@PathVariable("noticeId")Long noticeId,  Model model, Principal principal){
+
+        if(principal!=null) {
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+            } else {
+                model.addAttribute("loginName", member.getName());
+            }
+        }
 
         NoticeFormDto noticeFormDto = noticeService.preNotice(noticeId);
 

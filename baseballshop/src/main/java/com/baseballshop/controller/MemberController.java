@@ -6,6 +6,7 @@ import com.baseballshop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28,23 +30,22 @@ public class MemberController {
 
     //회원가입 페이지를 위한 맵핑
     @GetMapping(value = "/new")
-    public String memberForm(Model model){
+    public String memberForm(Model model) {
         model.addAttribute("memberFormDto", new MemberFormDto());
         return "member/memberForm";
     }
 
     @PostMapping(value = "/new")
-    public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model){
+    public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "member/memberForm";
         }
 
-        try{
+        try {
             Member member = Member.createMember(memberFormDto, passwordEncoder);
             memberService.saveMember(member);
-        }
-        catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "member/memberForm";
         }
@@ -54,25 +55,25 @@ public class MemberController {
     }
 
     //로그인 페이지를 위한 맵핑
-    @GetMapping(value="/login")
-    public String loginMember(){
+    @GetMapping(value = "/login")
+    public String loginMember() {
         return "/member/memberLoginForm";
     }
 
-    @GetMapping(value="/login/error")
-    public String loginError(Model model){
+    @GetMapping(value = "/login/error")
+    public String loginError(Model model) {
         model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요.");
         return "/member/memberLoginForm";
     }
 
     //아이디 중복확인을 위한 맵핑
     @PostMapping(value = "/validatecheck")
-    public @ResponseStatus ResponseEntity validateCheck (@RequestBody @Valid Map<String, String> email, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    public @ResponseStatus ResponseEntity validateCheck(@RequestBody @Valid Map<String, String> email, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             StringBuilder sb = new StringBuilder();
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 
-            for(FieldError fieldError : fieldErrors){
+            for (FieldError fieldError : fieldErrors) {
                 sb.append(fieldError.getDefaultMessage());
             }
             return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
@@ -82,22 +83,19 @@ public class MemberController {
         boolean result;
         String checkEmail = email.get("email");
 
-        try{
-            checked= memberService.validateCheck(checkEmail);
-            System.out.println("이메일 넘어온거~ :"+email);
+        try {
+            checked = memberService.validateCheck(checkEmail);
 
-            if(checked==null){
+            if (checked == null) {
 
                 result = false;
 
-            }
-            else{
+            } else {
 
                 result = true;
 
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 

@@ -1,3 +1,5 @@
+<!--<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>-->
+
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -5,11 +7,12 @@
     <th:block layout:fragment="script">
         <script>
 
-        function gotoLogin(){
+         $(document).ready(function(){
+        $("#preLoginMenu").children().click(function(){
             alert('로그인이 필요합니다.');
             location.href='/members/login';
-        }
-
+        });
+       })
     </script>
     </th:block>
 
@@ -41,24 +44,24 @@
                         </li>
 
                         <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_USER')">
-                            <span class="nav-link"><span id="hrm-info" style="font-weight-bold" sec:authentication="name" href="/user/mypage"></span>님</span>
+                            <span class="nav-link"><span id="hrm-info" style="font-weight-bold" th:text="${loginName}"></span>님</span>
                         </li>
 
                         <li class="nav-item"  sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-                            <span class="nav-link"><span id="hrm-info" style="font-weight-bold" sec:authentication="name" href="/admin/adminpage"></span>님</span>
+                            <span class="nav-link"><span id="hrm-info" style="font-weight-bold" th:text="${loginName}"></span>님</span>
                         </li>
 
                         <li class="nav-item dropdown" sec:authorize="isAnonymous()" >
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" onclick="gotoLogin()">마이페이지</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" onclick="gotoLogin()">장바구니</a></li>
-                                <li><a class="dropdown-item" onclick="gotoLogin()">찜목록</a></li>
-                                <li><a class="dropdown-item" onclick="gotoLogin()">주문내역</a></li>
-                                <li><a class="dropdown-item" onclick="gotoLogin()">회원정보</a></li>
+                            <ul class="dropdown-menu" id="preLoginMenu">
+                                <li><a class="dropdown-item">장바구니</a></li>
+                                <li><a class="dropdown-item">찜목록</a></li>
+                                <li><a class="dropdown-item">주문내역</a></li>
+                                <li><a class="dropdown-item">회원정보</a></li>
                             </ul>
                         </li>
 
-                        <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('ROLE_USER')" >
+                        <li class="nav-item dropdown"  sec:authorize="hasAnyAuthority('ROLE_USER')" >
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/user/mypage">마이페이지</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/user/cart">장바구니</a></li>
@@ -68,7 +71,7 @@
                             </ul>
                         </li>
 
-                        <li class="nav-item dropdown"  sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                        <li class="nav-item dropdown"  sec:authorize="hasRole('ROLE_ADMIN')">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/admin/adminpage" >관리페이지</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/admin/item/new">상품등록</a></li>

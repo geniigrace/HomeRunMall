@@ -29,6 +29,7 @@ public class Member{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private Team userTeam;
 
 //    @Column(unique = true)
@@ -48,7 +49,7 @@ public class Member{
     private String address;
 
     @Enumerated(EnumType.STRING)
-    private Role role = Role.ADMIN;
+    private Role role;
 
     @CreatedDate
     @Column(updatable = false)

@@ -1,5 +1,6 @@
 package com.baseballshop.config;
 
+import com.baseballshop.constant.Role;
 import com.baseballshop.dto.SessionUser;
 import com.baseballshop.entity.Member;
 import com.baseballshop.repository.MemberRepository;
@@ -29,6 +30,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     @Autowired
     private HttpSession httpSession;
 
+    private static String loginName;
+
+    public String loadLoginUserName(){
+        return loginName;
+    }
+
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
         OAuth2UserService oAuth2UserService = new DefaultOAuth2UserService();
@@ -46,10 +53,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         Member member = saveOrUpdate(attributes);
         httpSession.setAttribute("member", new SessionUser(member));
 
-        System.out.println(attributes.getAttributes());
-        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ADMIN"))
-                , attributes.getAttributes(),
-                attributes.getNameAttributeKey());
+        System.out.println("@@@@@@@@@@@@@@@@ attributes.getAttribute() : "+attributes.getAttributes());
+        System.out.println("@@@@@@@@@@@@@@@@ attributes.getName() : "+attributes.getName());
+        loginName = attributes.getName();
+
+        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))
+                , attributes.getAttributes()
+                , attributes.getNameAttributeKey());
     }
     //혹시 이미 저장된 정보라면, update 처리
     private Member saveOrUpdate(OAuthAttributes attributes){
@@ -63,6 +73,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
               member.setEmail(attributes.getEmail());
               member.setPicture(attributes.getPicture());
               member.setName(attributes.getName());
+              member.setRole(Role.USER);
               member.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm")));
          }
          else {
