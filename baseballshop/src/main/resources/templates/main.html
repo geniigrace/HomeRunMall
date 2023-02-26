@@ -55,7 +55,7 @@
           <input type="hidden" name="searchQuery" th:value="${itemSearchDto.searchQuery}">
 
           <div th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
-            <p class="h3 font-weight-bold" th:text="${itemSearchDto.searchQuery}+'검색결과'"></p>
+            <p class="h3 font-weight-bold" th:text="'\''+${itemSearchDto.searchQuery}+'\' 검색결과'"></p>
           </div>
           <div id="itemListCardWrapped">
             <th:block th:each = "item, status : ${items.getContent()}">

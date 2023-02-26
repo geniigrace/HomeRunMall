@@ -81,7 +81,7 @@
 
 
 #itemListContent {
-      width : 98%;
+      width : 100%;
       padding : 3px;
       display : inline-block;
       text-align : center;
@@ -89,7 +89,6 @@
 }
 
 #itemListCardWrapped {
-    padding-left : 80px;
     display : inline-block;
     /*border : 1px solid green;*/
 }
@@ -124,6 +123,8 @@
 
 #itemInfoItemName { margin : 0; }
 
+#pagingWrap{ width : 100%; }
 #paging {
+    display : inline-block;
     text-align : center;
 }
