@@ -66,7 +66,7 @@ public class MemberController {
         return "/member/memberLoginForm";
     }
 
-    //아이디 중복확인을 위한 맵핑
+    //이메일 중복확인을 위한 맵핑
     @PostMapping(value = "/validatecheck")
     public @ResponseStatus ResponseEntity validateCheck(@RequestBody @Valid Map<String, String> email, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
