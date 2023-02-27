@@ -53,7 +53,7 @@
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
 
-            var url = "/cartItem/" + cartItemId + "?count=" + count;
+            var url = "/user/cartItem/" + cartItemId + "?count=" + count;
 
             $.ajax({
                 url : url,
@@ -71,7 +71,7 @@
                         alert('로그인 후 이용해주세요.');
                         location.href='/members/login';
                     }else{
-                        alert(jqXHR.responseText);
+                        alert('에러가 발생했습니다. '+jqXHR.responseText);
                     }
                 }
             });
@@ -82,7 +82,7 @@
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
 
-            var url = "/cartItem/" + cartItemId;
+            var url = "/user/cartItem/" + cartItemId;
 
             $.ajax({
                 url : url,
@@ -94,7 +94,7 @@
                 dataType : "json",
                 cache : false,
                 success : function(result, status){
-                    location.href='/cart';
+                    location.href='/user/cart';
                 },
                 error : function(jqXHR, status, error){
                     if(jqXHR.status == '401'){
@@ -111,7 +111,7 @@
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
 
-            var url = "/cart/orders";
+            var url = "/user/cart/orders";
 
             var dataList = new Array();
             var paramData = new Object();

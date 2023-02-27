@@ -1,12 +1,13 @@
 package com.baseballshop.controller;
 
 import com.baseballshop.config.CustomOAuth2UserService;
-import com.baseballshop.dto.CartDto;
-import com.baseballshop.dto.CartItemDto;
-import com.baseballshop.dto.SessionUser;
+import com.baseballshop.dto.*;
+import com.baseballshop.entity.CartItem;
 import com.baseballshop.entity.Member;
+import com.baseballshop.repository.CartItemRepository;
 import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.service.CartService;
+import com.baseballshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +47,7 @@ public class UserController {
 
         return "user/mypage";
     }
-    //장바구니
+    //장바구니 페이지 생성 및 연결
     @GetMapping(value = "/cart")
     public String orderHist(Principal principal, Model model){
 
@@ -79,6 +80,7 @@ public class UserController {
         return "/user/cart";
     }
 
+    //장바구니에 상품 담기
     @PostMapping(value = "/cart")
     public @ResponseBody ResponseEntity addCart (@RequestBody @Valid CartItemDto cartItemDto, BindingResult bindingResult, Principal principal){
         if(bindingResult.hasErrors()){
@@ -117,8 +119,88 @@ public class UserController {
         return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/like")
-    public String like(Model model, Principal principal){
+    //장바구니 수량 변경
+    @PatchMapping(value = "/cartItem/{cartItemId}")
+    public @ResponseBody ResponseEntity updateCartItem(@PathVariable("cartItemId") Long cartItemId, int count, Principal principal){
+
+        String email ="";
+        Member member = memberRepository.findByEmail(principal.getName());
+
+        if(member == null ){ //소셜 로그인 일 때
+            SessionUser user = (SessionUser)httpSession.getAttribute("member");
+            email = user.getEmail();
+        }
+        else{
+            email=principal.getName();
+        }
+
+        if(count <=0){
+            return new ResponseEntity<String>("최소 1개 이상 담아주세요.", HttpStatus.BAD_REQUEST);
+        }
+        else if( !cartService.validateCartItem(cartItemId, email)){
+            return new ResponseEntity<String>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
+        }
+
+        cartService.updateCartItemCount(cartItemId, count);
+        return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
+    }
+
+    //장바구니 상품 삭제
+    @DeleteMapping(value = "/cartItem/{cartItemId}")
+    public @ResponseBody ResponseEntity deleteCartItem(@PathVariable("cartItemId") Long cartItemId, Principal principal){
+        String email="";
+        Member member = memberRepository.findByEmail(principal.getName());
+
+        if(member == null ){ //소셜 로그인 일 때
+            SessionUser user = (SessionUser)httpSession.getAttribute("member");
+            email = user.getEmail();
+        }
+        else{
+            email=principal.getName();
+        }
+
+        if (!cartService.validateCartItem(cartItemId, email)) {
+            return new ResponseEntity<String>("수정권한이 없습니다.", HttpStatus.FORBIDDEN);
+        }
+        cartService.deleteCartItem(cartItemId);
+        return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
+    }
+    //장바구니에서 주문하기
+    @PostMapping(value = "/cart/orders")
+    public @ResponseBody ResponseEntity orderCartItem(@RequestBody CartOrderDto cartOrderDto, Principal principal){
+
+        List<CartOrderDto> cartOrderDtoList = cartOrderDto.getCartOrderDtoList();
+
+        String email="";
+        Member member = memberRepository.findByEmail(principal.getName());
+
+        if(member == null ){ //소셜 로그인 일 때
+            SessionUser user = (SessionUser)httpSession.getAttribute("member");
+            email = user.getEmail();
+        }
+        else{
+            email=principal.getName();
+        }
+
+        if(cartOrderDtoList == null || cartOrderDtoList.size() ==0){
+            return new ResponseEntity<String>("주문할 상품을 선택해주세요.", HttpStatus.FORBIDDEN);
+        }
+        for(CartOrderDto cartOder : cartOrderDtoList){
+            if (!cartService.validateCartItem(cartOder.getCartItemId(), email)) {
+                return new ResponseEntity<String>("주문 권한이 없습니다.", HttpStatus.FORBIDDEN);
+            }
+        }
+
+        Long orderId = cartService.orderCartItem(cartOrderDtoList, email);
+        return new ResponseEntity<Long>(orderId, HttpStatus.OK);
+    }
+    //주문하기
+    // (주문하기) -> #1. 주문서 작성 -> (결제하기) => #2. 구매내역
+
+    //주문서 작성
+    @GetMapping(value = "/ordersheet")
+
+    public String order(Model model, Principal principal){
 
         if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
@@ -131,7 +213,7 @@ public class UserController {
             }
         }
 
-        return "user/like";
+        return "user/order";
     }
 
     //주문내역
@@ -152,9 +234,9 @@ public class UserController {
         return "user/orderlist";
     }
 
-    //주문서 작성
-    @GetMapping(value = "/order")
-    public String order(Model model, Principal principal){
+    //찜하기
+    @GetMapping(value = "/like")
+    public String like(Model model, Principal principal){
 
         if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
@@ -167,7 +249,7 @@ public class UserController {
             }
         }
 
-        return "user/order";
+        return "user/like";
     }
 
     //회원정보 조회
