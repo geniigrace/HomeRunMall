@@ -5,6 +5,7 @@ import com.baseballshop.constant.ItemCategory;
 import com.baseballshop.dto.ItemFormDto;
 import com.baseballshop.dto.ItemListDto;
 import com.baseballshop.dto.ItemSearchDto;
+import com.baseballshop.dto.SessionUser;
 import com.baseballshop.entity.Member;
 import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.service.ItemService;
@@ -17,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.Optional;
 
@@ -26,16 +28,17 @@ public class ItemController {
 
     private final ItemService itemService;
     private final MemberRepository memberRepository;
-    private final CustomOAuth2UserService customOAuth2UserService;
-
+    private final HttpSession httpSession;
 
     @GetMapping(value = "/itemSearch/{itemCategory}")
     public String itemList(@PathVariable("itemCategory")String itemCategory, Optional<Integer> page, Model model, Principal principal, ItemSearchDto itemSearchDto){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }
@@ -63,10 +66,12 @@ public class ItemController {
     @GetMapping(value = "/itemSearch/{itemCategory}/{team}")
     public String itemList(@PathVariable("itemCategory")String itemCategory, @PathVariable("team")String team, Optional<Integer> page, Model model, Principal principal, ItemSearchDto itemSearchDto){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }
@@ -95,10 +100,12 @@ public class ItemController {
     @GetMapping(value = "/item/{itemId}")
     public String itemDtl(Model model, Principal principal, @PathVariable("itemId")Long itemId){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }

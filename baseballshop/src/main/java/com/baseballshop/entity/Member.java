@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter;
 public class Member{
 
     @Id
-    @Column(name = "userNum")
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

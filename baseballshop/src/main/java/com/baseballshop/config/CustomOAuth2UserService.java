@@ -44,7 +44,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // 현재 진행중인 서비스를 구부하기 위해 문자열로 받음. oAuth2UserRequest.getClinetRegistration().getREgistrationId()
         String registrationId = oAuth2UserRequest.getClientRegistration().getRegistrationId();
 
-        //OAuth2 로그인 시 키 값이 도니다. 구글은 키 값이 "sub" dlrh, 네이버는 "response"이고, 카카오는 "id" 이다.
+        //OAuth2 로그인 시 키 값이 된다. 구글은 키 값이 "sub" 이고, 네이버는 "response"이고, 카카오는 "id" 이다.
         String userNameAttributeName = oAuth2UserRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
         //oAuth2 로그인을 통해 가져온 OAuth2USer의 attribute를 담아주는  of 메소드
@@ -55,6 +55,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         System.out.println("@@@@@@@@@@@@@@@@ attributes.getAttribute() : "+attributes.getAttributes());
         System.out.println("@@@@@@@@@@@@@@@@ attributes.getName() : "+attributes.getName());
+        System.out.println("@@@@@@@@@@@@@@@@ attributes.getEmail() : "+attributes.getEmail());
         loginName = attributes.getName();
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))

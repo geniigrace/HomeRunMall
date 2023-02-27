@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
@@ -38,19 +39,21 @@ public class AdminController {
     private final ItemRepository itemRepository;
     private final NoticeService noticeService;
     private final NoticeRepository noticeRepository;
-
     private final MemberRepository memberRepository;
-    private final CustomOAuth2UserService customOAuth2UserService;
+    private final HttpSession httpSession;
 
     //관리페이지
     @GetMapping(value = "/adminpage")
     public String adminpage( Model model, Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){//로그인 했을 때
             Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
-            } else {
+
+            if (member == null) {//소셜 로그인 했을 때
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
+            } else {//로컬 로그인 했을 때
                 model.addAttribute("loginName", member.getName());
             }
         }
@@ -62,11 +65,14 @@ public class AdminController {
     @GetMapping(value ="/item/new")
     public String itemForm(Model model,Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){//로그인 했을 때
             Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
-            } else {
+
+            if (member == null) {//소셜 로그인 했을 때
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
+            } else {//로컬 로그인 했을 때
                 model.addAttribute("loginName", member.getName());
             }
         }
@@ -105,10 +111,12 @@ public class AdminController {
     @GetMapping(value = {"/items", "/items/{page}"}) //상품관리리스트, 상품 수정페이지
     public String itemManage(ItemSearchDto itemSearchDto, @PathVariable("page") Optional<Integer> page, Model model, Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }
@@ -143,15 +151,16 @@ public class AdminController {
     @GetMapping(value = "/item/{itemId}")
     public String itemDtl(@PathVariable("itemId")Long itemId, Model model, Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }
         }
-
         try{
             ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
             model.addAttribute("itemFormDto", itemFormDto); //View로 보내기 위해 모델 추가
@@ -214,10 +223,12 @@ public class AdminController {
     @GetMapping(value = "/orders")
     public String allOders(Model model, Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }
@@ -231,14 +242,17 @@ public class AdminController {
     @GetMapping(value = "/notice/new")
     public String noticeForm(Model model, Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }
         }
+
         model.addAttribute("noticeFormDto", new NoticeFormDto());
         return "admin/noticeForm";
     }
@@ -268,10 +282,12 @@ public class AdminController {
     @GetMapping(value = "/notice/{noticeId}")
     public String noticeUpdate(@PathVariable("noticeId")Long noticeId, Model model, Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }
@@ -342,10 +358,12 @@ public class AdminController {
     @GetMapping(value = "/members" )
     public String memberList(Model model, Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }

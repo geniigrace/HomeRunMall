@@ -1,10 +1,7 @@
 package com.baseballshop.controller;
 
 import com.baseballshop.config.CustomOAuth2UserService;
-import com.baseballshop.dto.NoticeDeleteDto;
-import com.baseballshop.dto.NoticeDto;
-import com.baseballshop.dto.NoticeFormDto;
-import com.baseballshop.dto.NoticeSearchDto;
+import com.baseballshop.dto.*;
 import com.baseballshop.entity.Member;
 import com.baseballshop.entity.Notice;
 import com.baseballshop.repository.MemberRepository;
@@ -19,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -29,18 +27,18 @@ import java.util.Optional;
 public class CommunityController {
 
     private final MemberRepository memberRepository;
-
-    private final CustomOAuth2UserService customOAuth2UserService;
-
-
+    private final NoticeService noticeService;
+    private final HttpSession httpSession;
     //커뮤니티
     @GetMapping(value = "/community")
     public String community( Model model, Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }
@@ -49,17 +47,16 @@ public class CommunityController {
         return "community/community";
     }
 
-    //공지사항
-    private final NoticeService noticeService;
-
     //공지사항 리스트
     @GetMapping(value = "/notice")
     public String noticeManage(NoticeSearchDto noticeSearchDto, @PathVariable("page") Optional<Integer> page,  Model model, Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }
@@ -81,10 +78,12 @@ public class CommunityController {
     @GetMapping(value = "/notice/{noticeId}")
     public String noticeDtl(@PathVariable("noticeId")Long noticeId,  Model model, Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }

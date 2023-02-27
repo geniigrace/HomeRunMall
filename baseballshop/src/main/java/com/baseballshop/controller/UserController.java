@@ -1,33 +1,44 @@
 package com.baseballshop.controller;
 
 import com.baseballshop.config.CustomOAuth2UserService;
+import com.baseballshop.dto.CartDto;
+import com.baseballshop.dto.CartItemDto;
+import com.baseballshop.dto.SessionUser;
 import com.baseballshop.entity.Member;
 import com.baseballshop.repository.MemberRepository;
+import com.baseballshop.service.CartService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @RequestMapping("/user")
 @Controller
 @RequiredArgsConstructor
 public class UserController {
 
+    private final CartService cartService;
     private final MemberRepository memberRepository;
-
-    private final CustomOAuth2UserService customOAuth2UserService;
-
+    private final HttpSession httpSession;
     //마이페이지
     @GetMapping(value = "/mypage")
     public String mypage(Model model, Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }
@@ -37,28 +48,84 @@ public class UserController {
     }
     //장바구니
     @GetMapping(value = "/cart")
-    public String cart(Model model, Principal principal){
+    public String orderHist(Principal principal, Model model){
 
-        if(principal!=null) {
+        List<CartDto> cartDtoList;
+        String email="";
+
+        if(principal!=null){ //로그인 했을 때
             Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
-            } else {
-                model.addAttribute("loginName", member.getName());
-            }
-        }
 
-        return "user/cart";
+            if (member == null) {//소셜 로그인 일 때
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+
+                //사용자 이름
+                model.addAttribute("loginName", user.getName());
+
+                //카트로 연결
+                email = user.getEmail();
+                cartDtoList = cartService.getCartList(email);
+
+            } else {//로컬 로그인 일 때
+                //사용자 이름
+                model.addAttribute("loginName", member.getName());
+
+                //카트로 연결
+                email= principal.getName();
+                cartDtoList = cartService.getCartList(email);
+            }
+            model.addAttribute("cartItems", cartDtoList);
+        }
+        return "/user/cart";
     }
 
-    //찜목록
+    @PostMapping(value = "/cart")
+    public @ResponseBody ResponseEntity addCart (@RequestBody @Valid CartItemDto cartItemDto, BindingResult bindingResult, Principal principal){
+        if(bindingResult.hasErrors()){
+            StringBuilder sb = new StringBuilder();
+            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+
+            for(FieldError fieldError : fieldErrors){
+                sb.append(fieldError.getDefaultMessage());
+            }
+            return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
+        }
+
+        String email="";
+        Long cartItemId;
+
+        try{
+            if(principal!=null) { //로그인 했을 때
+                Member member = memberRepository.findByEmail(principal.getName());
+
+                if (member == null) {//소셜 로그인 일 때
+                    SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                    email = user.getEmail();
+                    cartItemId = cartService.addCart(cartItemDto, email);
+
+                } else {//로컬 로그인 일 때
+                    email = principal.getName();
+                    cartItemId = cartService.addCart(cartItemDto, email);
+                }
+            }
+            else {
+                return new ResponseEntity<String>("로그인이 필요합니다.", HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e){
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/like")
     public String like(Model model, Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }
@@ -71,10 +138,12 @@ public class UserController {
     @GetMapping(value = "/orderlist")
     public String orderlist(Model model, Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }
@@ -87,10 +156,12 @@ public class UserController {
     @GetMapping(value = "/order")
     public String order(Model model, Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }
@@ -103,10 +174,12 @@ public class UserController {
     @GetMapping(value = "/myinfo")
     public String myinfo(Model model, Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }
@@ -119,10 +192,12 @@ public class UserController {
     @GetMapping(value = "/myinfoEdit")
     public String myinfoEdit(Model model, Principal principal){
 
-        if(principal!=null) {
+        if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
-                model.addAttribute("loginName",customOAuth2UserService.loadLoginUserName());
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
             } else {
                 model.addAttribute("loginName", member.getName());
             }
