@@ -111,7 +111,7 @@
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
 
-            var url = "/user/cart/orders";
+            var url = "/user/cart/order";
 
             var dataList = new Array();
             var paramData = new Object();
@@ -140,7 +140,7 @@
                 cache : false,
                 success : function(result, status){
                     alert("주문이 완료 되었습니다.");
-                    location.href='/orders';
+                    location.href='/user/orderlist';
                 },
                 error : function(jqXHR, status, error){
                     if(jqXHR.status == '401'){

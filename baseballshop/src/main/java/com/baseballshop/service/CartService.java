@@ -102,7 +102,7 @@ public class CartService {
 
     }
 
-    // 카트 -> 주문서 작성 -> 주문확인 단계에서 진행
+    // 카트 -> 주문
     //장바구니에서 주문하기를 위한 추가
     public Long orderCartItem(List<CartOrderDto> cartOrderDtoList, String email){
 
