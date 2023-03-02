@@ -66,7 +66,8 @@
                       </div>
                       <div id="itemListInfoWrap">
                         <p id="itemInfoItemName">[[${item.itemName}]]</p>
-                        <p id="itemInfoItemPrice">[[${item.price}]]원</p>
+                        <p id="itemInfoItemPrice">[[${#numbers.formatInteger(item.price,0,'COMMA')}]]원</p>
+
                       </div>
                     </a>
                   </div>
