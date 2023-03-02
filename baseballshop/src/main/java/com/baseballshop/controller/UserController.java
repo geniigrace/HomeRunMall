@@ -1,14 +1,14 @@
 package com.baseballshop.controller;
 
-import com.baseballshop.config.CustomOAuth2UserService;
 import com.baseballshop.dto.*;
-import com.baseballshop.entity.CartItem;
 import com.baseballshop.entity.Member;
-import com.baseballshop.repository.CartItemRepository;
 import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.service.CartService;
 import com.baseballshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/user")
 @Controller
@@ -28,6 +29,7 @@ import java.util.List;
 public class UserController {
 
     private final CartService cartService;
+    private final OrderService orderService;
     private final MemberRepository memberRepository;
     private final HttpSession httpSession;
     //마이페이지
@@ -54,11 +56,11 @@ public class UserController {
         List<CartDto> cartDtoList;
         String email="";
 
-        if(principal!=null){ //로그인 했을 때
+        if(principal!=null) { //로그인 했을 때
             Member member = memberRepository.findByEmail(principal.getName());
 
             if (member == null) {//소셜 로그인 일 때
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                SessionUser user = (SessionUser) httpSession.getAttribute("member");
 
                 //사용자 이름
                 model.addAttribute("loginName", user.getName());
@@ -72,12 +74,12 @@ public class UserController {
                 model.addAttribute("loginName", member.getName());
 
                 //카트로 연결
-                email= principal.getName();
+                email = principal.getName();
                 cartDtoList = cartService.getCartList(email);
             }
             model.addAttribute("cartItems", cartDtoList);
         }
-        return "/user/cart";
+            return "user/cart";
     }
 
     //장바구니에 상품 담기
@@ -165,8 +167,36 @@ public class UserController {
         cartService.deleteCartItem(cartItemId);
         return new ResponseEntity<Long>(cartItemId, HttpStatus.OK);
     }
-    //장바구니에서 주문하기
-    @PostMapping(value = "/cart/orders")
+
+    //주문
+    @GetMapping(value = {"/orderlist","/orderlist/{page}"})
+
+    public String order(Model model, Principal principal, @PathVariable("page") Optional<Integer> page){
+
+        if(principal!=null) {
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                SessionUser user = (SessionUser) httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
+            } else {
+                model.addAttribute("loginName", member.getName());
+            }
+
+
+            Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+
+            Page<OrderHistDto> orderHistDtoList = orderService.getOrderList(principal.getName(), pageable);
+
+            model.addAttribute("orders", orderHistDtoList);
+            model.addAttribute("page", pageable.getPageNumber());
+            model.addAttribute("maxPage", 5);
+        }
+            return "user/orderlist";
+    }
+
+    //장바구니에서 주문
+    @PostMapping(value = "/cart/order")
     public @ResponseBody ResponseEntity orderCartItem(@RequestBody CartOrderDto cartOrderDto, Principal principal){
 
         List<CartOrderDto> cartOrderDtoList = cartOrderDto.getCartOrderDtoList();
@@ -190,52 +220,54 @@ public class UserController {
                 return new ResponseEntity<String>("주문 권한이 없습니다.", HttpStatus.FORBIDDEN);
             }
         }
-
         Long orderId = cartService.orderCartItem(cartOrderDtoList, email);
         return new ResponseEntity<Long>(orderId, HttpStatus.OK);
     }
-    //주문하기
-    // (주문하기) -> #1. 주문서 작성 -> (결제하기) => #2. 구매내역
 
-    //주문서 작성
-    @GetMapping(value = "/ordersheet")
+    //제품 상세페이지에서 주문
+    @PostMapping(value = "/itemdtl/order")
+    public @ResponseBody
+    ResponseEntity order(@RequestBody @Valid OrderDto orderDto, BindingResult bindingResult, Principal principal){
 
-    public String order(Model model, Principal principal){
+        if (bindingResult.hasErrors()) {
+            StringBuilder sb = new StringBuilder();
+            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 
-        if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {
-                model.addAttribute("loginName", member.getName());
+            for(FieldError fieldError : fieldErrors){
+                sb.append(fieldError.getDefaultMessage());
             }
+
+            return new ResponseEntity<String> (sb.toString(),HttpStatus.BAD_REQUEST);
         }
 
-        return "user/order";
-    }
+        String email="";
+        Long orderId;
 
-    //주문내역
-    @GetMapping(value = "/orderlist")
-    public String orderlist(Model model, Principal principal){
-
-        if(principal!=null){
+        if(principal!=null) { //로그인 되어 있을 때
             Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {
-                model.addAttribute("loginName", member.getName());
+            if(member==null){ //소셜 로그인 일 때
+                SessionUser user = (SessionUser) httpSession.getAttribute("member");
+                email = user.getEmail();
             }
-        }
+            else {//로컬 로그인 일 때
+                email=principal.getName();
+            }
 
-        return "user/orderlist";
+            try {
+                orderId = orderService.order(orderDto, email);
+            } catch (Exception e) {
+                return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+
+            return new ResponseEntity<Long>(orderId, HttpStatus.OK);
+        }
+        else {//로그인 없이 접근시
+            return new ResponseEntity<String>("로그인이 필요합니다.", HttpStatus.FORBIDDEN);
+        }
     }
 
     //찜하기
-    @GetMapping(value = "/like")
+     @GetMapping(value = "/like")
     public String like(Model model, Principal principal){
 
         if(principal!=null){

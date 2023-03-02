@@ -6,14 +6,7 @@
 
     <th:block layout:fragment="script">
         <script>
-
-         $(document).ready(function(){
-        $("#preLoginMenu").children().click(function(){
-            alert('로그인이 필요합니다.');
-            location.href='/members/login';
-        });
-       })
-    </script>
+        </script>
     </th:block>
 
     <th:block layout:fragment="css">
@@ -61,12 +54,12 @@
                                 </li>
 
                                 <li class="nav-item dropdown" sec:authorize="isAnonymous()" >
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" onclick="gotoLogin()">마이페이지</a>
-                                    <ul class="dropdown-menu" id="preLoginMenu">
-                                        <li><a class="dropdown-item">장바구니</a></li>
-                                        <li><a class="dropdown-item">찜목록</a></li>
-                                        <li><a class="dropdown-item">주문내역</a></li>
-                                        <li><a class="dropdown-item">회원정보</a></li>
+                                    <a class="nav-link dropdown-toggle preLoginMenu" data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/members/login">마이페이지</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="/members/login">장바구니</a></li>
+                                        <li><a class="dropdown-item" href="/members/login">찜목록</a></li>
+                                        <li><a class="dropdown-item" href="/members/login">주문내역</a></li>
+                                        <li><a class="dropdown-item" href="/members/login">회원정보</a></li>
                                     </ul>
                                 </li>
 
@@ -75,7 +68,7 @@
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="/user/cart">장바구니</a></li>
                                         <li><a class="dropdown-item" href="/user/like">찜목록</a></li>
-                                        <li><a class="dropdown-item" href="/user/order">주문내역</a></li>
+                                        <li><a class="dropdown-item" href="/user/orderlist">주문내역</a></li>
                                         <li><a class="dropdown-item" href="/user/myinfo">회원정보</a></li>
                                     </ul>
                                 </li>

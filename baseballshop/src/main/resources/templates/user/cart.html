@@ -107,7 +107,7 @@
             });
         }
 
-        function orders(){
+        function order(){
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
 
@@ -217,7 +217,7 @@
             총 주문 금액 : <span id="orderTotalPrice" class="text-danger">0원</span>
         </h2>
         <div class="text-center mt-3">
-            <button type="button" class="btn btn-primary btn-lg" onclick="orders()">주문하기</button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="order()">주문하기</button>
         </div>
     </div>
 </div>
