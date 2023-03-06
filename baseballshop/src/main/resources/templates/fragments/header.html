@@ -15,105 +15,104 @@
     </th:block>
 
 <div th:fragment="header">
-    <div class="p-3 m-0 border-0" id="all__header" >
-        <div class="topContainer">
-            <div class="topBar" id="topBarMenu">
-                <div class="topBarContainer">
-                    <div class="topBarContent">
-                        <div class="col">
+    <div class="all__header">
+
+            <div class="nav-top-header">
+                <div class="nav-top">
+                    <div class="nav-top-menu">
+                        <div class="nav-logo">
                             <a class="navbar-brand" href="/" >
                                 HomeRunMall
                             </a>
                         </div>
-                        <div class="col">
-                            <div id="searchBlock">
-                                <form class="d-flex" th:action="@{/}" method="get">
-                                    <input type="search" name="searchQuery" placeholder="Search" aria-label="Search" style="border : none; border-bottom : 1px solid; text-align : center; width : 250px;">
-                                    <button class="btn btn-sm btn-outline-secondary" type="submit" style="border : none;">🔍</button>
-                                </form>
-                            </div>
+                        <div class="nav-search">
+                            <form th:action="@{/}" method="get">
+                                <input type="search" name="searchQuery" placeholder="Search" aria-label="Search" class="text-center nav-search-input">
+                                <button type="submit" class="btn btn-sm btn-outline-secondary nav-search-btn">🔍</button>
+                            </form>
                         </div>
-                        <div class="col-md-auto" >
-                            <ul class="nav justify-content-end">
-                                <li class="nav-item" sec:authorize="isAnonymous()">
-                                    <a class="nav-link" href="/members/new">회원가입</a>
+                        <div class="nav-membersmenu">
+                            <ul class="nav-bar">
+                                <li class="nav-info" sec:authorize="isAnonymous()">
+                                    <a class="nav-join" href="/members/new">회원가입</a>
                                 </li>
 
-                                <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_USER')">
-                                    <div class="nav-link" id="nav-link-userName">
-                                        <span id="hrm-info-user" th:text="${loginName}">이름</span> 님,
-                                        <span id="welcomeMSG"> 환영합니다!</span>
+                                <li class="nav-info" sec:authorize="hasAnyAuthority('ROLE_USER')">
+                                    <div class="nav-welcome" >
+                                        <span class="nav-welcome-info" th:text="${loginName}">이름</span> 님,
+                                        <span class="nav-welcome-msg  "> 환영합니다!</span>
                                     </div>
                                 </li>
 
-                                <li class="nav-item"  sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-                                    <div class="nav-link" id="nav-link-userName">
-                                        <span id="hrm-info-admin" th:text="${loginName}">이름</span> 님,
-                                        <span id="welcomeMSG">환영합니다!</span>
+                                <li class="nav-info"  sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                                    <div class="nav-welcome">
+                                        <span class="nav-welcome-info" th:text="${loginName}">이름</span>님,
+                                        <span class="nav-welcome-msg ">환영합니다!</span>
                                     </div>
                                 </li>
-
-                                <li class="nav-item dropdown" sec:authorize="isAnonymous()" >
-                                    <a class="nav-link dropdown-toggle preLoginMenu" data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/members/login">마이페이지</a>
+                                <li class="nav-page dropdown" sec:authorize="isAnonymous()" >
+                                    <a class="dropdown-toggle preLoginMenu " data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/members/login">마이페이지</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="/members/login">장바구니</a></li>
-                                        <li><a class="dropdown-item" href="/members/login">찜목록</a></li>
-                                        <li><a class="dropdown-item" href="/members/login">주문내역</a></li>
-                                        <li><a class="dropdown-item" href="/members/login">회원정보</a></li>
+                                        <li><a class="dropdown-item " href="/members/login">장바구니</a></li>
+                                        <li><a class="dropdown-item " href="/members/login">찜목록</a></li>
+                                        <li><a class="dropdown-item " href="/members/login">주문내역</a></li>
+                                        <li><a class="dropdown-item " href="/members/login">회원정보</a></li>
                                     </ul>
                                 </li>
 
-                                <li class="nav-item dropdown"  sec:authorize="hasAnyAuthority('ROLE_USER')" >
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/user/mypage">마이페이지</a>
+                                <li class="nav-page dropdown"  sec:authorize="hasAnyAuthority('ROLE_USER')" >
+                                    <a class="dropdown-toggle " data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/user/mypage">마이페이지</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="/user/cart">장바구니</a></li>
-                                        <li><a class="dropdown-item" href="/user/like">찜목록</a></li>
-                                        <li><a class="dropdown-item" href="/user/orderlist">주문내역</a></li>
-                                        <li><a class="dropdown-item" href="/user/myinfo">회원정보</a></li>
+                                        <li><a class="dropdown-item " href="/user/cart">장바구니</a></li>
+                                        <li><a class="dropdown-item " href="/user/like">찜목록</a></li>
+                                        <li><a class="dropdown-item " href="/user/orderlist">주문내역</a></li>
+                                        <li><a class="dropdown-item " href="/user/myinfo">회원정보</a></li>
                                     </ul>
                                 </li>
 
-                                <li class="nav-item dropdown"  sec:authorize="hasRole('ROLE_ADMIN')">
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/admin/adminpage" >관리페이지</a>
+                                <li class="nav-page dropdown"  sec:authorize="hasRole('ROLE_ADMIN')">
+                                    <a class="dropdown-toggle " data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/admin/adminpage" >관리페이지</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="/admin/item/new">상품등록</a></li>
-                                        <li><a class="dropdown-item" href="/admin/items">상품관리</a></li>
-                                        <li><a class="dropdown-item" href="/admin/orders">주문내역</a></li>
-                                        <li><a class="dropdown-item" href="/admin/notice/new">공지등록</a></li>
-                                        <li><a class="dropdown-item" href="/admin/members">회원관리</a></li>
+                                        <li><a class="dropdown-item " href="/admin/item/new">상품등록</a></li>
+                                        <li><a class="dropdown-item " href="/admin/items">상품관리</a></li>
+                                        <li><a class="dropdown-item " href="/admin/orders">주문내역</a></li>
+                                        <li><a class="dropdown-item " href="/admin/notice/new">공지등록</a></li>
+                                        <li><a class="dropdown-item " href="/admin/members">회원관리</a></li>
                                     </ul>
                                 </li>
-
-                                <li class="nav-item" sec:authorize="isAnonymous()">
-                                    <a class="nav-link" href="/members/login" >로그인</a>
+                                <li class="nav-loginout" sec:authorize="isAnonymous()">
+                                    <a class="nav-loginout-inner " href="/members/login" >로그인</a>
                                 </li>
 
-                                <li class="nav-item" sec:authorize="isAuthenticated()">
-                                    <a class="nav-link" href="/members/logout" >로그아웃</a>
+                                <li class="nav-loginout" sec:authorize="isAuthenticated()">
+                                    <a class="nav-loginout-inner " href="/members/logout" >로그아웃</a>
                                 </li>
-
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="topBar" id="topBarNav">
-                <div class="topBarContainer">
-                    <div class="topBarContent">
-                        <div class="col text-white"><a href="/itemSearch/UNIFORM">유니폼</a></div>
-                        <div class="col text-white"><a href="/itemSearch/BALLCAP">모자</a></div>
-                        <div class="col text-white"><a href="/itemSearch/CLOTHES">의류</a></div>
-                        <div class="col text-white"><a href="/itemSearch/GOODS">잡화</a></div>
-                        <div class="col text-white"><a href="/itemSearch/BBITEM">야구용품</a></div>
-                        <div class="col text-white"><a href="/itemSearch/CHEERITEM">응원용품</a></div>
-                        <div class="col text-white"><a href="/itemSearch/EVENT">기획전</a></div>
-                        <div class="col text-white"><a href="/itemSearch/PLAYER">플레이어</a></div>
-                        <div class="col text-white"></div>
-                        <div class="col text-white"><a href="/community">커뮤니티</a></div>
-                        <div class="col text-white"><a href="/notice">공지사항</a></div>
+            <div class="nav-bottom-header">
+                <div class="nav-bottom">
+                    <div class="nav-bottom-menu">
+                        <div class="nav-bottom-menu1">
+                            <div class="nav-bottom-inmenu1 text-white-area"><p th:onclick="|location.href='/itemSearch/UNIFORM'|">유니폼</p></div>
+                            <div class="nav-bottom-inmenu1 text-white-area"><p th:onclick="|location.href='/itemSearch/BALLCAP'|">모자</p></div>
+                            <div class="nav-bottom-inmenu1 text-white-area"><p th:onclick="|location.href='/itemSearch/CLOTHES'|">의류</p></div>
+                            <div class="nav-bottom-inmenu1 text-white-area"><p th:onclick="|location.href='/itemSearch/GOODS'|">잡화</p></div>
+                            <div class="nav-bottom-inmenu1 text-white-area"><p th:onclick="|location.href='/itemSearch/BBITEM'|">야구용품</p></div>
+                            <div class="nav-bottom-inmenu1 text-white-area"><p th:onclick="|location.href='/itemSearch/CHEERITEM'|">응원용품</p></div>
+                            <div class="nav-bottom-inmenu1 text-white-area"><p th:onclick="|location.href='/itemSearch/EVENT'|">기획전</p></div>
+                            <div class="nav-bottom-inmenu1 text-white-area"><p th:onclick="|location.href='/itemSearch/PLAYER'|">플레이어</p></div>
+                        </div>
+                        <div class="nav-bottom-menu2">
+                            <div class="nav-bottom-inmenu2 text-white-area"><p th:onclick="|location.href='/community'|">커뮤니티</p></div>
+                            <div class="nav-bottom-inmenu2 text-white-area"><p th:onclick="|location.href='/notice'|">공지사항</p></div>
+                        </div>
                     </div>
                 </div>
             </div>
+
     </div>
 </div>
 </html>

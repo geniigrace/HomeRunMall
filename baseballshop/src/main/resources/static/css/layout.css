@@ -18,80 +18,139 @@ html{
     text-align: center;
 }
 
-ul.nav li.dropdown:hover > ul.dropdown-menu { display : block; margin: 0;}
+ul.nav-bar li.dropdown:hover > ul.dropdown-menu { display : block; margin: 0;}
 
-#all__header {
+a, .nav-welcome, .text-white-area {
+    color : #5D5D5D;
+    text-decoration : none;
+    font-size : 0.9em;
+}
+.nav-welcome-info {
+    font-size : 1em;
+    text-weight : bold;
+}
+
+a:hover{
+    text-decoration : none;
+    font-weight : bold;
+    color : #5D5D5D;
+}
+
+.all__header{
     width : 100vw;
+    min-width : 100vw;
     height : 140px;
-    text-align:center;
-    /* background-color : yellow; */
-}
-
-.topContainer {
-    display : inline-block;
-    text-align:center;
-    width : 100%;
-    position : absolute;
-        left : 0px;
-    /* background-color : skyblue; */
-}
-
-.topBar {
-    width : 100%;
-    display : inline-block;
     text-align : center;
-    /* border : 1px solid black;*/
-}
-#topBarMenu{
-    margin-top : 11px;
-}
-#topBarNav {
-    height : 40px;
-    margin-top : 21px;
-    /* color : #ffffff; */
-    background-color : #000042;
 }
 
-.topBarContainer {
-     display : inline-block;
-     text-align : center;
-}
-
-.topBarContent {
-    width : 90vw;
-    display : flex;
-    padding-top : 6px;
-}
-
-.navbar-brand, #searchBlock {
-    margin : 0;
-    float : left;
-}
-.nav-link {
-    margin : 0;
-    color : #5D5D5D;
-    text-decoration : none;
-    font-size : 0.9em;
-    text-align : right;
-}
-
-#hrm-info-user, #hrm-info-admin {
-    margin : 0;
+.nav-top-header{
+    width : 100%;
+    text-align : center;
     display : inline-block;
 }
 
-#welcomeMSG {
-    font-size : 0.9em;
+.nav-top{
+    display : inline-block;
 }
 
-a {
-    color : #5D5D5D;
-    text-decoration : none;
-    font-size : 0.9em;
+.nav-top-menu{
+    width : 90vw;
+    height : 100px;
+    display : flex;
 }
 
-.text-white>a {
+.nav-logo {
+    width : 33%;
+    padding-top : 40px;
+}
+
+.nav-search {
+    width : 34%;
+    padding-top : 40px;
+}
+
+.nav-search-input{
+    border : none;
+    border-bottom : 1px solid #5d5d5d;;
+    text-align : center;
+    width : 250px;
+}
+
+.nav-search-btn{
+    border : none;
+}
+
+.nav-membersmenu{
+    width : 33%;
+    padding-top : 40px;
+}
+
+.nav-bar>li {
+    list-style : none;
+}
+
+.nav-membersmenu>ul {
+    display : flex;
+}
+
+.nav-info{
+    width : 34%;
+}
+
+.nav-page{
+    width : 33%;
+}
+
+.nav-loginout{
+    width : 33%;
+}
+
+.nav-bottom-header {
+    width : 100%;
+    height : 40px;
+    text-align : center;
+    background-color : #ececec;
+}
+
+.nav-bottom {
+    width : 90vw;
+    height : 100%;
+    text-align : center;
+    display : inline-block;
+}
+.nav-bottom-menu{
+    width : 100%;
+    height : 100%;
+    display : flex;
+    position : relative;
+}
+.nav-bottom-menu1 {
+    width : 70%;
+    height : 100%;
+    display : flex;
+}
+
+.nav-bottom-menu2 {
+    width : 20%;
+    height : 100%;
+    display : flex;
+    position : absolute;
+        right : 0;
+}
+
+.nav-bottom-inmenu1{
+    width : 12.5%;
+    height : 100%;
+    padding-top : 7px;
+}
+
+.nav-bottom-inmenu2{
+    width : 50%;
+    height : 100%;
+    padding-top : 7px;
+}
+
+.nav-bottom-inmenu1:hover, .nav-bottom-inmenu2:hover{
+    background-color : #000042;
     color : #FFFFFF;
-    text-decoration : none;
-    font-size : 0.9em;
 }
