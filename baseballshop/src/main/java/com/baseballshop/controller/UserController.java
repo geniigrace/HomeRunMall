@@ -173,20 +173,23 @@ public class UserController {
 
     public String order(Model model, Principal principal, @PathVariable("page") Optional<Integer> page){
 
-        if(principal!=null) {
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+        String email = "";
+
+        if(principal!=null) {//로그인 했을 때
             Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
+
+            if (member == null) {//소셜로그인 일 때
                 SessionUser user = (SessionUser) httpSession.getAttribute("member");
+                email=user.getEmail();
                 model.addAttribute("loginName", user.getName());
 
-            } else {
+            } else {//로컬 로그인 일 때
+                email= principal.getName();
                 model.addAttribute("loginName", member.getName());
             }
 
-
-            Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
-
-            Page<OrderHistDto> orderHistDtoList = orderService.getOrderList(principal.getName(), pageable);
+            Page<OrderHistDto> orderHistDtoList = orderService.getOrderList(email, pageable);
 
             model.addAttribute("orders", orderHistDtoList);
             model.addAttribute("page", pageable.getPageNumber());

@@ -34,7 +34,6 @@ public class CartItem extends BaseEntity{
         cartItem.setCart(cart);
         cartItem.setItem(item);
         cartItem.setCount(count);
-
         return cartItem;
     }
 

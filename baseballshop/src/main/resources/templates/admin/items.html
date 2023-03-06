@@ -195,8 +195,8 @@
                 <td th:text="${item.category.title}"></td>
 <!--                <td> 썸네일 </td>-->
                 <td><a th:href="'/admin/item/'+${item.id}" th:text="${item.itemName}"></a></td>
-                <td th:text="${item.price}"></td>
-                <td th:text="${item.stockNumber}"></td>
+                <td th:text="${#numbers.formatInteger(item.price, 0, 'COMMA')}"></td>
+                <td th:text="${#numbers.formatInteger(item.stockNumber, 0, 'COMMA')}"></td>
             </tr>
             </tbody>
         </table>
