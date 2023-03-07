@@ -1,0 +1,45 @@
+.page__form{
+    width : 70vw;
+    margin : 20px 0;
+    display : inline-block;
+    text-align : center;
+    padding-top : 20px;
+}
+
+.input-content{
+    display : inline-block;
+     width : 40%;
+}
+.fieldError{
+    color: #bd2130;
+}
+
+.error{
+    padding : 10px 20px;
+    font-size : 0.8em;
+    color: #bd2130;
+}
+
+.form-control {
+    border : none;
+    border-bottom : 1px solid #ced4da;
+    border-radius : 0px;
+    font-size : 0.8em;
+    margin-top : 10px;
+    margin-bottom : 10px;
+}
+
+.btn-secondary {
+    background-color : #000042;
+    font-size : 0.8em;
+}
+
+.loginAndJoinBtnList{
+    margin-top : 30px;
+    margin-bottom : 5px;
+}
+
+.snsBtn {
+    margin : 0 3px;
+    width : 38px;
+}

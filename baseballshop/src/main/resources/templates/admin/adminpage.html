@@ -8,15 +8,22 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
 </head>
 <th:block layout:fragment="css">
+    <link rel="stylesheet" href="/css/contentLayout.css">
     <style>
-
     </style>
 </th:block>
 
 <div layout:fragment="content">
-관리자 페이지
-
+    <div class="content__all">
+        <div class="page__title__wrap">
+            <div class="page__title">
+                <p class="pageTitle">관리자 페이지</p>
+            </div>
+        </div>
+        <div class="page__body__wrap">
+            <div class="page__body">
+            </div>
+        </div>
+    </div>
 </div>
-
-
 </html>

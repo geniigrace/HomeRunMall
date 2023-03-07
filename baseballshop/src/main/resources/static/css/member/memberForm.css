@@ -1,0 +1,59 @@
+/* .page__body__wrap { background-color : yellow; }
+.page__body { background-color : skylbue; }
+.page__form { bord : 1px solid black; } */
+
+.page__form{
+    width : 70vw;
+    margin : 20px 0;
+    display : inline-block;
+    text-align : center;
+    padding-top : 20px;
+}
+
+.input-content{
+    display : inline-block;
+    width : 60%;
+}
+.fieldError{
+    color: #bd2130;
+}
+
+.alert{
+    padding : 10px 20px;
+    font-size : 0.8em;
+}
+
+.email-form{
+    width : 85%;
+}
+.email-btn {
+    margin-left : 13px;
+    margin-top : 10px;
+    height : 35px;
+}
+
+.email-block {
+    display : flex;
+}
+
+.form-control {
+    border : none;
+    border-bottom : 1px solid #ced4da;
+    border-radius : 0px;
+    font-size : 0.9em;
+    margin-top : 10px;
+    margin-bottom : 10px;
+}
+
+.custom-select, select>option{
+    font-size : 0.9em;
+}
+
+.btn-secondary {
+    background-color : #000042;
+    font-size : 0.8em;
+}
+
+.join-btn {
+    margin-top : 30px;
+}

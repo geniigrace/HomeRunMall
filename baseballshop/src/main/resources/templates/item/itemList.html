@@ -16,6 +16,7 @@
 
 <th:block layout:fragment="css">
   <link rel="stylesheet" href="/css/item/itemList.css">
+  <link rel="stylesheet" href="/css/contentlayout.css">
   <link rel="stylesheet" href="/css/layout.css">
   <style></style>
 </th:block>
@@ -23,18 +24,16 @@
 <div layout:fragment="content">
   <div class="content__all">
     <div class="page__title__wrap">
-      <div id="page__title">
-        <p id="itemListTitle" th:text="${itemCategoryTitle}"></p>
+      <div class="page__title">
+        <p class="pageTitle" th:text="${itemCategoryTitle}"></p>
       </div>
     </div>
-    <div id="leftSideMenu">
-      <div id="teamListWrap">
-        <div id="teamList">
+    <div class="page__body__wrap">
+      <div class="page__body">
+        <div class="teamList">
           <div class="teamListMenu">
             <ui class="no_dot">
               <li><a th:href="@{/itemSearch/{itemCategoryKey}(itemCategoryKey=${itemCategoryKey})}">전체보기</a></p></li>
-            </ui>
-            <ui class="no_dot">
               <li><a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=KBO)}">KBO</a><br></li>
               <li><a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=SSG)}">SSG랜더스</a></li>
               <li><a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=DS)}">두산베어스</a></li>
@@ -49,10 +48,6 @@
             </ui>
           </div>
         </div>
-      </div>
-    </div>
-    <div id="rightSideList">
-      <div id="itemListContent">
         <input type="hidden" name="searchQuery" th:value="${itemSearchDto.searchQuery}">
         <div th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
           <p class="h3 font-weight-bold" th:text="'\''+${itemSearchDto.searchQuery}+'\' 검색결과'"></p>
@@ -79,7 +74,7 @@
 
                 <li class="page-item" th:classappend="${items.number eq 0} ? 'disabled' ">
                   <a th:href="@{'/' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number-1}}" aria-label='Previous' class="page-link">
-                    <span aria-hidden="true">Pre</span>
+                    <span class="preAndNextBtn" aria-hidden="true">◀︎</span>
                   </a>
                 </li>
 
@@ -89,7 +84,7 @@
 
                 <li class="page-item" th:classappend="${items.number+1 ge items.totalPages} ?'disabled'">
                   <a th:href="@{ '/'+ '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number + 1}}" aria-label="Next" class="page-link">
-                    <span aria-hidden="true">Next</span>
+                    <span class="preAndNextBtn" aria-hidden="true">▶︎</span>
                   </a>
                 </li>
               </ul>

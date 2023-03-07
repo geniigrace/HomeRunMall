@@ -71,3 +71,18 @@
 }
 
 #itemInfoItemName { margin : 0; }
+
+
+.preAndNextBtn {
+    font-size : 0.8em;
+}
+
+.page-link {
+    border : none;
+    color : #000042;
+}
+
+.page-item.active .page-link{
+    background-color : #000042;
+    border-color : #000042;
+}

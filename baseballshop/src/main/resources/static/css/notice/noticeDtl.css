@@ -1,20 +1,17 @@
-
-.content__all {
-      width : 100vw;
-      height : 100%;
-      text-align : center;
-       position: absolute;
-          left: 0px;
-          top : 140px;
-       /*border : 1px solid red;*/
+.page__form{
+    width : 90vw;
+    margin : 20px 0;
+    display : inline-block;
 }
-#page__title{
-    width : 100%;
-    height : 55px;
-    text-align : center;
-    padding-top : 10px;
-    font-size : 1.3em;
-    color : #ffffff;
-    background-color : #000042;
-    /*border : 1px solid black;*/
+
+.content-tr{
+    height : 30vw;
+}
+
+tr{
+    text-align : center; }
+
+.table {
+    font-size : 0.9em;
+     color : #5d5d5d;
 }

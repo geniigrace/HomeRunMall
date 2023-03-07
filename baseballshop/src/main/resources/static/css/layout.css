@@ -20,7 +20,14 @@ html{
 
 ul.nav-bar li.dropdown:hover > ul.dropdown-menu { display : block; margin: 0;}
 
-a, .nav-welcome, .text-white-area {
+.dropdown-item,
+.navbar-brand,
+.nav-join,
+.nav-myPage,
+.nav-adminPage,
+.nav-loginout-inner,
+.nav-welcome,
+.text-white-area {
     color : #5D5D5D;
     text-decoration : none;
     font-size : 0.9em;
@@ -61,7 +68,13 @@ a:hover{
 
 .nav-logo {
     width : 33%;
-    padding-top : 40px;
+    float : left;
+    padding-top : 10px;
+}
+
+.nav-logo>img {
+    width : 100%;
+    float : left;
 }
 
 .nav-search {
@@ -71,7 +84,7 @@ a:hover{
 
 .nav-search-input{
     border : none;
-    border-bottom : 1px solid #5d5d5d;;
+    border-bottom : 1px solid #e4e4e4;
     text-align : center;
     width : 250px;
 }
@@ -153,4 +166,8 @@ a:hover{
 .nav-bottom-inmenu1:hover, .nav-bottom-inmenu2:hover{
     background-color : #000042;
     color : #FFFFFF;
+}
+
+input::placeholder{
+    color : #e4e4e4;
 }

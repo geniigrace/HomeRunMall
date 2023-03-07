@@ -81,7 +81,7 @@
 
           <li class="page-item" th:classappend="${items.number eq 0} ? 'disabled' ">
             <a th:href="@{'/' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number-1}}" aria-label='Previous' class="page-link">
-              <span aria-hidden="true">Pre</span>
+              <span class="preAndNextBtn" aria-hidden="true">◀︎</span>
             </a>
           </li>
 
@@ -91,7 +91,7 @@
 
           <li class="page-item" th:classappend="${items.number+1 ge items.totalPages} ?'disabled'">
             <a th:href="@{ '/'+ '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number + 1}}" aria-label="Next" class="page-link">
-              <span aria-hidden="true">Next</span>
+              <span class="preAndNextBtn" aria-hidden="true">▶︎</span>
             </a>
           </li>
         </ul>

@@ -1,0 +1,14 @@
+.page__form{
+    width : 90vw;
+    margin : 20px 0;
+    display : inline-block;
+}
+
+.btnArea {
+    float : left;
+}
+
+.searchBar{
+    float : right;
+    margin-bottom : 10px;
+}

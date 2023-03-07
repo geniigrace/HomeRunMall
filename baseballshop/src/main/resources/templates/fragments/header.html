@@ -16,14 +16,11 @@
 
 <div th:fragment="header">
     <div class="all__header">
-
             <div class="nav-top-header">
                 <div class="nav-top">
                     <div class="nav-top-menu">
                         <div class="nav-logo">
-                            <a class="navbar-brand" href="/" >
-                                HomeRunMall
-                            </a>
+                            <a class="navbar-brand" href="/"><img src="/img/HRMlogo.png"></a>
                         </div>
                         <div class="nav-search">
                             <form th:action="@{/}" method="get">
@@ -51,27 +48,27 @@
                                     </div>
                                 </li>
                                 <li class="nav-page dropdown" sec:authorize="isAnonymous()" >
-                                    <a class="dropdown-toggle preLoginMenu " data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/members/login">마이페이지</a>
+                                    <a class="dropdown-toggle nav-myPage" data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/members/login">마이페이지</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item " href="/members/login">장바구니</a></li>
-                                        <li><a class="dropdown-item " href="/members/login">찜목록</a></li>
+<!--                                        <li><a class="dropdown-item " href="/members/login">찜목록</a></li>-->
                                         <li><a class="dropdown-item " href="/members/login">주문내역</a></li>
-                                        <li><a class="dropdown-item " href="/members/login">회원정보</a></li>
+                                        <li><a class="dropdown-item " href="/members/login">내정보</a></li>
                                     </ul>
                                 </li>
 
                                 <li class="nav-page dropdown"  sec:authorize="hasAnyAuthority('ROLE_USER')" >
-                                    <a class="dropdown-toggle " data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/user/mypage">마이페이지</a>
+                                    <a class="dropdown-toggle nav-myPage" data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/user/mypage">마이페이지</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item " href="/user/cart">장바구니</a></li>
-                                        <li><a class="dropdown-item " href="/user/like">찜목록</a></li>
+<!--                                        <li><a class="dropdown-item " href="/user/like">찜목록</a></li>-->
                                         <li><a class="dropdown-item " href="/user/orderlist">주문내역</a></li>
-                                        <li><a class="dropdown-item " href="/user/myinfo">회원정보</a></li>
+                                        <li><a class="dropdown-item " href="/user/myinfo">내정보</a></li>
                                     </ul>
                                 </li>
 
                                 <li class="nav-page dropdown"  sec:authorize="hasRole('ROLE_ADMIN')">
-                                    <a class="dropdown-toggle " data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/admin/adminpage" >관리페이지</a>
+                                    <a class="dropdown-toggle nav-adminPage " data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/admin/adminpage" >관리페이지</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item " href="/admin/item/new">상품등록</a></li>
                                         <li><a class="dropdown-item " href="/admin/items">상품관리</a></li>

@@ -5,3 +5,9 @@
     .fieldError { color : #bd2130; }
 
     #hideShowStatus { display : none; }
+
+    .page__form{
+        width : 50vw;
+        margin : 20px 0;
+        display : inline-block;
+    }

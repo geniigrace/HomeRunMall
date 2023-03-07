@@ -1,0 +1,28 @@
+.mgb-15{ margin-bottom : 15px; }
+
+        .mgt-30{ margin-top : 30px; }
+
+        .mgt-50{ margin-top : 50px; }
+
+        .repImgDiv{
+            margin-right : 15px;
+            height : auto;
+            width : 50%;
+        }
+
+        .repImg{
+            width : 100%;
+            height : 400px;
+        }
+
+        .wd50{
+            height : auto;
+            width : 50%
+        }
+
+.page__body {
+    margin-right:25%;
+    margin-left:25%;
+}
+
+.d-flex { margin : 20px; }
