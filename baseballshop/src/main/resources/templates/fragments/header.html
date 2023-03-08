@@ -37,21 +37,20 @@
                                 <li class="nav-info" sec:authorize="hasAnyAuthority('ROLE_USER')">
                                     <div class="nav-welcome" >
                                         <span class="nav-welcome-info" th:text="${loginName}">이름</span> 님,
-                                        <span class="nav-welcome-msg  "> 환영합니다!</span>
+                                        <span class="nav-welcome-msg"> 환영합니다!</span>
                                     </div>
                                 </li>
 
                                 <li class="nav-info"  sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
                                     <div class="nav-welcome">
                                         <span class="nav-welcome-info" th:text="${loginName}">이름</span>님,
-                                        <span class="nav-welcome-msg ">환영합니다!</span>
+                                        <span class="nav-welcome-msg">환영합니다!</span>
                                     </div>
                                 </li>
                                 <li class="nav-page dropdown" sec:authorize="isAnonymous()" >
                                     <a class="dropdown-toggle nav-myPage" data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/members/login">마이페이지</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item " href="/members/login">장바구니</a></li>
-<!--                                        <li><a class="dropdown-item " href="/members/login">찜목록</a></li>-->
                                         <li><a class="dropdown-item " href="/members/login">주문내역</a></li>
                                         <li><a class="dropdown-item " href="/members/login">내정보</a></li>
                                     </ul>
@@ -61,7 +60,6 @@
                                     <a class="dropdown-toggle nav-myPage" data-bs-toggle="dropdown" role="button" aria-expanded="false" href="/user/mypage">마이페이지</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item " href="/user/cart">장바구니</a></li>
-<!--                                        <li><a class="dropdown-item " href="/user/like">찜목록</a></li>-->
                                         <li><a class="dropdown-item " href="/user/orderlist">주문내역</a></li>
                                         <li><a class="dropdown-item " href="/user/myinfo">내정보</a></li>
                                     </ul>
@@ -72,7 +70,7 @@
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item " href="/admin/item/new">상품등록</a></li>
                                         <li><a class="dropdown-item " href="/admin/items">상품관리</a></li>
-                                        <li><a class="dropdown-item " href="/admin/orders">주문내역</a></li>
+                                        <li><a class="dropdown-item " href="/admin/orders">주문관리</a></li>
                                         <li><a class="dropdown-item " href="/admin/notice/new">공지등록</a></li>
                                         <li><a class="dropdown-item " href="/admin/members">회원관리</a></li>
                                     </ul>

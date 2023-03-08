@@ -118,6 +118,10 @@ a:hover{
     width : 33%;
 }
 
+.nav-welcome-msg{
+    font-size : 0.8em;
+}
+
 .nav-bottom-header {
     width : 100%;
     height : 40px;
