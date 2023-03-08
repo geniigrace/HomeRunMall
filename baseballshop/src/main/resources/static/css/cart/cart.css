@@ -1,0 +1,45 @@
+.page__form{
+    width : 90vw;
+    min-width : 90vw;
+    margin : 20px 0;
+    display : inline-block;
+}
+
+.table {
+    width : 100%;
+    font-size : 0.9em;
+    color : #5d5d5d;
+    border-top : 1px solid #dee2e6;
+    border-bottom : 1px solid #dee2e6;
+}
+
+.btn-secondary {
+    background-color : #000042;
+    font-size : 0.8em;
+}
+
+.tdStyle{
+
+    height : 150px;
+    text-align : center;
+}
+
+.repImg {
+    width : 100px;
+    height : 100px;
+}
+
+
+.itemEachName-area {
+    float : left;
+    width : 70%;
+    overflow : hidden;
+    text-overflow:ellipsis;
+    margin-right : 50px;
+}
+.itemEachCount-area{
+    display : flex;
+}
+.inputCount-area{
+    width : 50px;
+}

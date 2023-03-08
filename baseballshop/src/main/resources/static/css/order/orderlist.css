@@ -1,29 +1,20 @@
-.content-mg{
-        margin-left : 30%;
-        margin-right : 30%;
-        margin-top : 2%;
-        margin-bottom : 100px;
-    }
+.page__form{
+    width : 90vw;
+    margin : 20px 0;
+    display : inline-block;
+}
 
-    .repImgDiv{
-        margin-right : 15px;
-        margin-left : 15px;
-        height : auto;
-    }
+.tdStyle{
+    height : 200px;
+}
 
-    .repImg{
-        height : 100px;
-        width : 100px;
-    }
+/* 제품 이미지 */
 
-    .card{
-        width : 750px;
-        height : 100%;
-        padding : 30px;
-        margin-bottom : 20px;
-    }
-
-    .fs18{ font-size : 18px; }
-
-    .fs24{ font-size : 24px; }
-
+.repImgWrap{
+    width : 100px;
+    height : 100px;
+}
+.repImg{
+    width : 100px;
+    height : 100px;
+}
