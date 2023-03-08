@@ -14,12 +14,15 @@ public class OrderItemDto {
 
     private int orderPrice;
 
+    private int orderItemTotalPrice;
+
     private String imgUrl;
 
     public OrderItemDto(OrderItem orderItem, String imgUrl){
         this.itemName = orderItem.getItem().getItemName();
         this.count = orderItem.getCount();
         this.orderPrice = orderItem.getOrderPrice();
+        this.orderItemTotalPrice = orderItem.getOrderItemTotalPrice();
         this.imgUrl = imgUrl;
     }
 }

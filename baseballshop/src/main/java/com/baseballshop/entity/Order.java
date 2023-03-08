@@ -34,6 +34,7 @@ public class Order {
     // OrderItem에 있는 Order에 의해 관리
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    private int orderTotalPrice;
 
     private LocalDateTime regTime;
 
@@ -50,19 +51,23 @@ public class Order {
         order.setMember(member);
         for (OrderItem orderItem : orderItemList) {
             order.addOrderItem(orderItem);
-
         }
         order.setOrderStatus(OrderStatus.ORDER);
 
-        order.setOrderDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm")));
+        order.setOrderDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")));
 
+        int totalOrderPrice=0;
+        for(OrderItem orderItem : orderItemList){
+            totalOrderPrice += orderItem.getOrderItemTotalPrice();
+        }
+        order.setOrderTotalPrice(totalOrderPrice);
         return order;
     }
 
     public int getTotalPrice() {
         int totalPrice = 0;
         for (OrderItem orderItem : orderItems) {
-            totalPrice += orderItem.getTotalPrice();
+            totalPrice += orderItem.getOrderItemTotalPrice();
         }
 
         return totalPrice;
