@@ -4,16 +4,26 @@
     text-align : center;
     margin-top : 20px;
     margin-bottom : 20px;
-    border-bottom : 1px solid #eaeaea;
     /* background-color : #eaeaea; */
 }
-.teamListMenu{ display : inline-block; }
+.teamListMenu{
+    display : inline-block;
+}
 
-.no_dot { list-style-type : none; margin:0; display : flex; }
+.no_dot {
+    list-style-type : none;
+    margin:0;
+    display : flex;
+    border-bottom : 1px solid #eaeaea;
+}
+
 .no_dot>li, .no_dot>li>a {
     color : #5D5D5D;
     text-decoration : none;
     font-size : 0.9em;
+}
+.no_dot>li>a:hover{
+    color : #000042;
 }
 .no_dot>li{
     width : 90px;
