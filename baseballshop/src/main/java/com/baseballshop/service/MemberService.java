@@ -1,6 +1,8 @@
 package com.baseballshop.service;
 
 import com.baseballshop.config.OAuthAttributes;
+import com.baseballshop.dto.MemberFormDto;
+import com.baseballshop.dto.MemberModifyDto;
 import com.baseballshop.dto.SessionUser;
 import com.baseballshop.entity.Member;
 import com.baseballshop.repository.MemberRepository;
@@ -11,10 +13,12 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.Optional;
 
 @Service
@@ -64,5 +68,24 @@ public class MemberService implements UserDetailsService {
     public Member validateCheck(String checkEmail){
 
         return  memberRepository.findByEmail(checkEmail);
+    }
+
+    public MemberModifyDto getMemberInfo(String email){
+        Member member = memberRepository.findByEmail(email);
+
+        MemberModifyDto memberModifyDto = new MemberModifyDto();
+        memberModifyDto.setEmail(member.getEmail());
+        memberModifyDto.setName(member.getName());
+        memberModifyDto.setPhone(member.getPhone());
+        memberModifyDto.setAddress(member.getAddress());
+        memberModifyDto.setUserTeam(member.getUserTeam());
+
+        return memberModifyDto;
+
+    }
+
+    public void updateMember(MemberModifyDto memberModifyDto, String email){
+        Member member = memberRepository.findByEmail(email);
+        member.updateMember(memberModifyDto);
     }
 }

@@ -1,17 +1,17 @@
 package com.baseballshop.entity;
 
-import com.baseballshop.constant.Grade;
 import com.baseballshop.constant.Role;
 import com.baseballshop.constant.Team;
 import com.baseballshop.dto.MemberFormDto;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.baseballshop.dto.MemberModifyDto;
+import com.baseballshop.dto.SessionUser;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -89,4 +89,13 @@ public class Member{
         return this;
     }
 
+    public void updateMember(MemberModifyDto memberModifyDto){
+        if(memberModifyDto.getPassword() != null){
+            this.password = memberModifyDto.getPassword();
+        }
+        this.userTeam=memberModifyDto.getUserTeam();
+        this.name=memberModifyDto.getName();
+        this.phone= memberModifyDto.getPhone();
+        this.address= memberModifyDto.getAddress();
+    }
 }

@@ -4,6 +4,7 @@ import com.baseballshop.dto.*;
 import com.baseballshop.entity.Member;
 import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.service.CartService;
+import com.baseballshop.service.MemberService;
 import com.baseballshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,8 +32,10 @@ public class UserController {
 
     private final CartService cartService;
     private final OrderService orderService;
+    private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final HttpSession httpSession;
+    private final PasswordEncoder passwordEncoder;
     //마이페이지
     @GetMapping(value = "/mypage")
     public String mypage(Model model, Principal principal){
@@ -287,39 +291,52 @@ public class UserController {
         return "user/like";
     }
 
-    //회원정보 조회
+    //회원정보 수정
     @GetMapping(value = "/myinfo")
     public String myinfo(Model model, Principal principal){
+        String email="";
+        Boolean loginRoot=false;
 
         if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
             if (member == null) {
                 SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                email=user.getEmail();
+                loginRoot=true;
                 model.addAttribute("loginName", user.getName());
 
             } else {
+                email=principal.getName();
+                loginRoot=false;
                 model.addAttribute("loginName", member.getName());
             }
         }
 
+        MemberModifyDto memberModifyDto = memberService.getMemberInfo(email);
+        memberModifyDto.setLoginRoot(loginRoot);
+        model.addAttribute("memberModifyDto",memberModifyDto);
         return "user/myinfo";
     }
 
-    //회원정보 수정 : 회원가입 페이지에서 읽어오고 아이디만 수정할수 없게 처리
-    @GetMapping(value = "/myinfoEdit")
-    public String myinfoEdit(Model model, Principal principal){
+    @PostMapping(value = "/myinfo")
+    public String myinfoModify(MemberModifyDto memberModifyDto, BindingResult bindingResult, Model model,Principal principal) {
 
-        if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {
-                model.addAttribute("loginName", member.getName());
-            }
+        if (bindingResult.hasErrors()) {
+            return "user/myinfo";
         }
 
-        return "user/myinfoEdit";
+        try {
+            if(memberModifyDto.getPassword() != null) {
+                memberModifyDto.setPassword(passwordEncoder.encode(memberModifyDto.getPassword()));
+            }
+            memberService.updateMember(memberModifyDto, memberModifyDto.getEmail());
+
+        }  catch (Exception e){
+            model.addAttribute("errorMessage", "회원정보 수정 중 에러가 발생하였습니다.");
+            return "user/myinfo";
+        }
+
+        return "redirect:/user/myinfo";
+
     }
 }
