@@ -46,7 +46,9 @@ public class Member{
 
     private String phone;
 
-    private String address;
+    private String address1;
+
+    private String address2;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -65,7 +67,8 @@ public class Member{
         member.setEmail(memberFormDto.getEmail());
         member.setName(memberFormDto.getName());
         member.setPhone(memberFormDto.getPhone());
-        member.setAddress(memberFormDto.getAddress());
+        member.setAddress1(memberFormDto.getAddress1());
+        member.setAddress2(memberFormDto.getAddress2());
         member.setRole(Role.ADMIN);
 
         return member;
@@ -96,6 +99,7 @@ public class Member{
         this.userTeam=memberModifyDto.getUserTeam();
         this.name=memberModifyDto.getName();
         this.phone= memberModifyDto.getPhone();
-        this.address= memberModifyDto.getAddress();
+        this.address1= memberModifyDto.getAddress1();
+        this.address2= memberModifyDto.getAddress2();
     }
 }

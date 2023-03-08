@@ -40,7 +40,9 @@ public class MemberFormDto {
     private String phone;
 
     @NotEmpty(message = "주소를 입력하세요.")
-    private String address;
+    private String address1;
 
+    @NotEmpty(message = "상세 주소를 입력하세요.")
+    private String address2;
 
 }

@@ -77,7 +77,8 @@ public class MemberService implements UserDetailsService {
         memberModifyDto.setEmail(member.getEmail());
         memberModifyDto.setName(member.getName());
         memberModifyDto.setPhone(member.getPhone());
-        memberModifyDto.setAddress(member.getAddress());
+        memberModifyDto.setAddress1(member.getAddress1());
+        memberModifyDto.setAddress2(member.getAddress2());
         memberModifyDto.setUserTeam(member.getUserTeam());
 
         return memberModifyDto;
