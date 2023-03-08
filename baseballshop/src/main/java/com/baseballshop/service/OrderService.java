@@ -3,6 +3,7 @@ package com.baseballshop.service;
 import com.baseballshop.dto.OrderDto;
 import com.baseballshop.dto.OrderHistDto;
 import com.baseballshop.dto.OrderItemDto;
+import com.baseballshop.dto.SessionUser;
 import com.baseballshop.entity.*;
 import com.baseballshop.repository.ItemImgRepository;
 import com.baseballshop.repository.ItemRepository;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     private final ItemImgRepository itemImgRepository;
+    private final HttpSession httpSession;
 
     public Long order(OrderDto orderDto, String email) {
 
@@ -82,6 +85,10 @@ public class OrderService {
     public boolean validateOrder(Long orderId, String email) {
 
         Member curMember = memberRepository.findByEmail(email);
+        if(curMember == null){
+            SessionUser user=(SessionUser) httpSession.getAttribute("member");
+            curMember=memberRepository.findByEmail(user.getEmail());
+        }
         Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
 
         Member savedMember = order.getMember();

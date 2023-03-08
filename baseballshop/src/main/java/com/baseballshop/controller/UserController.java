@@ -36,6 +36,8 @@ public class UserController {
     private final MemberRepository memberRepository;
     private final HttpSession httpSession;
     private final PasswordEncoder passwordEncoder;
+
+
     //마이페이지
     @GetMapping(value = "/mypage")
     public String mypage(Model model, Principal principal){
@@ -53,6 +55,7 @@ public class UserController {
 
         return "user/mypage";
     }
+
     //장바구니 페이지 생성 및 연결
     @GetMapping(value = "/cart")
     public String orderHist(Principal principal, Model model){
@@ -273,23 +276,43 @@ public class UserController {
         }
     }
 
-    //찜하기
-     @GetMapping(value = "/like")
-    public String like(Model model, Principal principal){
+    //주문취소
+    @PostMapping("/order/{orderId}/cancel")
+    public @ResponseBody ResponseEntity cancelOrder(@PathVariable("orderId") Long orderId, Principal principal){
+        String email="";
 
-        if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {
-                model.addAttribute("loginName", member.getName());
-            }
+        if(principal.getName() == null){
+            SessionUser user = (SessionUser) httpSession.getAttribute("member");
+            email=user.getEmail();
+        }
+        else {
+            email= principal.getName();
         }
 
-        return "user/like";
+        if(!orderService.validateOrder(orderId, email)){
+            return new ResponseEntity<String>("주문 취소 권한이 없습니다.", HttpStatus.FORBIDDEN);
+        }
+        orderService.cancelOrder(orderId);
+        return new ResponseEntity<Long>(orderId, HttpStatus.OK);
     }
+
+    //찜하기
+//     @GetMapping(value = "/like")
+//    public String like(Model model, Principal principal){
+//
+//        if(principal!=null){
+//            Member member = memberRepository.findByEmail(principal.getName());
+//            if (member == null) {
+//                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+//                model.addAttribute("loginName", user.getName());
+//
+//            } else {
+//                model.addAttribute("loginName", member.getName());
+//            }
+//        }
+//
+//        return "user/like";
+//    }
 
     //회원정보 수정
     @GetMapping(value = "/myinfo")
