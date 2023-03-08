@@ -4,17 +4,60 @@
     display : inline-block;
 }
 
+.btn-secondary {
+    background-color : #000042;
+    font-size : 0.8em;
+}
+.cancelMsg { color : red; }
+
+table{
+    font-size : 0.9em;
+    color : #5d5d5d;
+    border-top : 1px solid #dee2e6;
+    border-bottom : 1px solid #dee2e6;
+}
 .tdStyle{
-    height : 200px;
+    height : 130px;
+    text-align : center;
 }
 
-/* 제품 이미지 */
+.orderItemInfoAllWrap{
+    text-align : center;
+    display : inline-block;
+    width : 100%;
+    height : 100%;
+}
+.repImg {
+    width : 100px;
+    height : 100px;
+}
 
+.orderItemInfo, .repImgWrap{
+    float : left;
+    width : 50%;
+    display : inline-block;
+}
+.orderItemInfo{
+    margin-top:42px;
+}
 .repImgWrap{
-    width : 100px;
-    height : 100px;
+    margin-top:15px;
 }
-.repImg{
-    width : 100px;
-    height : 100px;
+.pageNumber{
+    margin-top : 30px;
+}
+
+
+.preAndNextBtn {
+    font-size : 0.8em;
+}
+
+.page-link {
+    border : none;
+    color : #000042;
+}
+
+.page-item.active .page-link{
+    background-color : #000042;
+    border-color : #000042;
 }
