@@ -6,6 +6,7 @@ import com.baseballshop.entity.Member;
 import com.baseballshop.entity.Notice;
 import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.service.NoticeService;
+import com.baseballshop.service.QnaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,9 +15,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +30,7 @@ import java.util.Optional;
 public class CommunityController {
 
     private final MemberRepository memberRepository;
+    private final QnaService qnaService;
     private final NoticeService noticeService;
     private final HttpSession httpSession;
     //커뮤니티
@@ -96,7 +100,25 @@ public class CommunityController {
         return "community/noticeDtl";
     }
 
-    //QNA 등록
+    //QNA
+    @GetMapping(value = "/qna")
+    public String qna( Model model, Principal principal){
+
+        if(principal!=null){
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                model.addAttribute("loginName", user.getName());
+
+            } else {
+                model.addAttribute("loginName", member.getName());
+            }
+        }
+
+        return "community/qna";
+    }
+
+    //QNA 등록페이지
     @GetMapping(value = "/qna/new")
     public String qnaForm(Model model, Principal principal){
         String email="";
@@ -121,4 +143,22 @@ public class CommunityController {
         return "community/qnaForm";
     }
 
+    //QNA 등록
+    @PostMapping(value = "/qna/new")
+    public String qnaNew(@Valid QnaFormDto qnaFormDto, BindingResult bindingResult, Model model, Principal principal){
+        if(bindingResult.hasErrors()){
+            return "community/qna";
+        }
+
+        try{
+            qnaService.saveQna(qnaFormDto, principal);
+        }
+        catch (Exception e){
+            model.addAttribute("errorMessage", "게시글 등록중 에러가 발생했습니다.");
+            return "community/qna";
+        }
+
+        return "redirect:/qna";
+
+    }
 }
