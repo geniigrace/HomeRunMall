@@ -96,4 +96,29 @@ public class CommunityController {
         return "community/noticeDtl";
     }
 
+    //QNA 등록
+    @GetMapping(value = "/qna/new")
+    public String qnaForm(Model model, Principal principal){
+        String email="";
+
+        if(principal!=null){
+            Member member = memberRepository.findByEmail(principal.getName());
+            if (member == null) {
+                SessionUser user = (SessionUser)httpSession.getAttribute("member");
+                email=user.getEmail();
+                model.addAttribute("loginName", user.getName());
+
+            } else {
+                email=member.getEmail();
+                model.addAttribute("loginName", member.getName());
+            }
+        }
+        QnaFormDto qnaFormDto = new QnaFormDto();
+        qnaFormDto.setQnaEmail(email);
+
+        model.addAttribute("qnaFormDto",qnaFormDto);
+
+        return "community/qnaForm";
+    }
+
 }

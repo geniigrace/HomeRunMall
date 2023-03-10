@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="utf-8">
+</head>
+<!--사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+</script>
+</th:block>
+<!--사용자 css 추가 -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" href="/css/community/qnaForm.css">
+    <link rel="stylesheet" href="/css/contentLayout.css">
+    <style></style>
+</th:block>
+
+<div layout:fragment="content">
+    <div class="content__all">
+        <div class="page__title__wrap">
+            <div class="page__title">
+                <p class="pageTitle">Q&A</p>
+            </div>
+        </div>
+        <div class="page__body__wrap">
+            <div class="page__body">
+                <form class="page__form" role="form" method="post" th:object="${qnaFormDto}">
+
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="input-group" id="hiddenShowStatus">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">삭제여부</span>
+                        </div>
+                        <select th:field="*{showStatus}" class="custom-select">
+                            <option value="SHOW"></option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text form-control">카테고리</span>
+                        </div>
+                        <select th:field="*{qnaType}" class="custom-select form-control">
+                            <option value="ITEM" th:text=${T(com.baseballshop.constant.QnaStatus).ITEM.title}></option>
+                            <option value="DELIVERY" th:text=${T(com.baseballshop.constant.QnaStatus).DELIVERY.title}></option>
+                            <option value="ETC" th:text=${T(com.baseballshop.constant.QnaStatus).ETC.title}></option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text form-control">이메일</span>
+                        </div>
+                        <input type="text" th:field="*{qnaEmail}" th:value="${qnaFormDto.qnaEmail}" class="form-control" readonly>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text form-control">제목</span>
+                        </div>
+                        <input type="text" th:field="*{qnaTitle}" class="form-control" placeholder="제목을 입력해주세요.">
+                    </div>
+                    <p th:if="${#fields.hasErrors('qnaTitle')}" th:errors="*{qnaTitle}" class="fieldError form-control">Incorrect data</p>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text form-control">내용</span>
+                        </div>
+                        <textarea class="form-control" aria-label="With textarea" th:field="*{qnaContent}" style="height: 280px"></textarea>
+                    </div>
+                    <p th:if="${#fields.hasErrors('qnaContent')}" th:errors="*{qnaContent}" class="fieldError form-control">Incorrect data</p>
+
+                    <div th:if="${#strings.isEmpty(qnaFormDto.id)}" style="text-align : center">
+                        <button th:formaction="@{/qna/new}" type="submit" class="btn btn-secondary">저장</button>
+                    </div>
+
+                    <div th:unless="${#strings.isEmpty(qnaFormDto.id)}" style="text-align : center">
+                        <button th:formaction="@{'/qna/'+ ${qnaFormDto.id}}" type="submit" class="btn btn-secondary">수정</button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="location.href='/qna'"> 뒤로 </button>
+                    </div>
+
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
