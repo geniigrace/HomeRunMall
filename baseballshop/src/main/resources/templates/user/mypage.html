@@ -8,14 +8,43 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
 </head>
 <th:block layout:fragment="css">
+    <link rel="stylesheet" href="/css/contentLayout.css">
+    <link rel="stylesheet" href="/css/page/page.css">
     <style>
-
     </style>
 </th:block>
 
 <div layout:fragment="content">
-마이페이지
+    <div class="content__all">
+        <div class="page__title__wrap">
+            <div class="page__title">
+                <p class="pageTitle">마이페이지</p>
+            </div>
+        </div>
+        <div class="page__body__wrap">
+            <div class="page__body">
+                <div class="imgPage">
+                    <div class="imgWrap">
+                        <div class="imgWrap1">
+                            <div class="imgWrap1-1">
+                                <a href="/user/cart"><img src="/img/userCart.png"></a>
+                            </div>
+                            <div class="imgWrap1-2">
+                                <a href="/user/orderlist"><img src="/img/userOrderList.png"></a>
+                            </div>
+                        </div>
+                        <div class="imgWrap2">
+                            <div class="imgWrap2-1">
+                                <a href="/qna"><img src="/img/userQna.png"></a>
+                            </div>
+                            <div class="imgWrap2-2">
+                                <a href="/user/myinfo"><img src="/img/userMyinfo.png"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
 </html>

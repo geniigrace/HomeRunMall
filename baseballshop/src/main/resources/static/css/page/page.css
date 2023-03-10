@@ -1,0 +1,25 @@
+.imgPage{
+    width : 100%;
+    min-width : 100%;
+    text-align : center;
+}
+.imgWrap{
+    display : inline-block;
+    text-align : center;
+    margin-top : 50px;
+}
+
+.imgWrap1, .imgWrap2{
+    display : flex;
+}
+
+.imgWrap1-1, .imgWrap1-2, .imgWrap2-1, .imgWrap2-2{
+    margin : 10px;
+}
+
+a>img{
+    border-bottom : 3px solid #ffffff;
+}
+a>img:hover{
+    border-bottom : 3px solid #ececec;
+}
