@@ -45,15 +45,13 @@
     margin-bottom : 10px;
 }
 
-.custom-select, select>option{
-    font-size : 0.9em;
-}
+.custom-select, select>option{ font-size : 0.9em; }
 
 .btn-secondary {
     background-color : #000042;
     font-size : 0.8em;
 }
 
-.join-btn {
-    margin-top : 30px;
-}
+.join-btn { margin-top : 30px;}
+
+.form-control[readonly]{ background-color:#ffffff;}
