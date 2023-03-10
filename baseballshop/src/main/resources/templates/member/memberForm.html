@@ -78,48 +78,49 @@ $(function(){
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
 
-        var url = "/members/validatecheck";
+            var url = "/members/validatecheck";
 
-        var paramData = {
-            email : $("#email").val()
-        }
-
-        var param = JSON.stringify(paramData);
-
-        $.ajax({
-            url : url,
-            type : "POST",
-            contentType : "application/json",
-            data : param,
-            beforeSend : function(xhr){
-                   xhr.setRequestHeader(header, token);
-            },
-            dataType : "json",
-            cache : false,
-
-            success : function(result, status){
-                    var checked = result;
-                   if(checked == true ) { // 아이디가 있을 경우
-
-                    $("#id-alert-success").hide();
-                    $("#id-alert-danger").show();
-                    $("#submit").removeAttr("disabled");
-                   }
-
-                   else{ //아이디가 없는 경우
-
-                    $("#id-alert-success").show();
-                    $("#id-alert-danger").hide();
-                    $("#submit").attr("disabled", "disabled");
-
-                   }
-
-            },
-
-            error : function(jqXHR, status, error){
-                      alert('에러 발생');
+            var paramData = {
+                email : $("#email").val()
             }
-        });
+
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url : url,
+                type : "POST",
+                contentType : "application/json",
+                data : param,
+                beforeSend : function(xhr){
+                       xhr.setRequestHeader(header, token);
+                },
+                dataType : "json",
+                cache : false,
+
+                success : function(result, status){
+                        var checked = result;
+                       if(checked == true ) { // 아이디가 있을 경우
+
+                        $("#id-alert-success").hide();
+                        $("#id-alert-danger").show();
+                        $("#submit").removeAttr("disabled");
+                       }
+
+                       else{ //아이디가 없는 경우
+
+                        $("#id-alert-success").show();
+                        $("#id-alert-danger").hide();
+                        $("#submit").attr("disabled", "disabled");
+
+                       }
+
+                },
+
+                error : function(jqXHR, status, error){
+                          alert('이메일을 확인하세요.');
+                          document.getElementById("email").focus();
+                }
+            });
     };
 
 window.onload = function(){
@@ -128,11 +129,11 @@ window.onload = function(){
         new daum.Postcode({
             oncomplete: function(data) { //선택시 입력값 세팅
                 document.getElementById("address_kakao").value = data.address; // 주소 넣기
-                document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+                document.getElementById("address_detail").focus(); //상세입력 포커싱
             }
         }).open();
     });
-};
+}
   </script>
 </th:block>
 

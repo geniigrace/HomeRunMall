@@ -83,23 +83,28 @@ public class MemberController {
         boolean result;
         String checkEmail = email.get("email");
 
-        try {
-            checked = memberService.validateCheck(checkEmail);
-
-            if (checked == null) {
-
-                result = false;
-
-            } else {
-
-                result = true;
-
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        if(checkEmail==null||checkEmail==""){
+            return new ResponseEntity<String>("이메일을 입력하세요.", HttpStatus.BAD_REQUEST);
         }
+        else {
+            try {
+                checked = memberService.validateCheck(checkEmail);
 
-        return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+                if (checked == null) {
+
+                    result = false;
+
+                } else {
+
+                    result = true;
+
+                }
+            } catch (Exception e) {
+                return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+
+            return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+        }
     }
 
 }
