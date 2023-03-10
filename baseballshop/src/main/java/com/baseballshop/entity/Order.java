@@ -25,7 +25,7 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    private String orderMemberId;
+    //private String orderMemberId;
 
     private String orderDate;
 
@@ -52,8 +52,8 @@ public class Order {
         Order order = new Order();
         order.setMember(member);
 
-        String[] str=member.getEmail().split("@");
-        order.setOrderMemberId(str[0]);
+//        String[] str=member.getEmail().split("@");
+//        order.setOrderMemberId(str[0]);
 
         for (OrderItem orderItem : orderItemList) {
             order.addOrderItem(orderItem);

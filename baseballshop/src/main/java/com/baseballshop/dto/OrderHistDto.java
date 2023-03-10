@@ -29,7 +29,9 @@ public class OrderHistDto {
         this.orderDate = order.getOrderDate();
         this.orderStatus = order.getOrderStatus();
         this.orderTotalPrice = order.getTotalPrice();
-        this.orderMemberId = order.getOrderMemberId();
+        //this.orderMemberId = order.getOrderMemberId();
+        String[] orderMemId=order.getMember().getEmail().split("@");
+        this.orderMemberId=orderMemId[0];
     }
 
     public void addOrderItemDto(OrderItemDto orderItemDto){
