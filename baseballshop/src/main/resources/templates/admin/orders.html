@@ -9,6 +9,7 @@
 </head>
 <th:block layout:fragment="css">
     <link rel="stylesheet" href="/css/contentLayout.css">
+    <link rel="stylesheet" href="/css/order/orderlistAdmin.css">
     <style>
     </style>
 </th:block>
@@ -17,11 +18,91 @@
     <div class="content__all">
         <div class="page__title__wrap">
             <div class="page__title">
-                <p class="pageTitle">주 관리</p>
+                <p class="pageTitle">주문 관리</p>
             </div>
         </div>
         <div class="page__body__wrap">
             <div class="page__body">
+                <div class="page__form">
+                    <table class="table">
+                        <colgroup>
+                            <col width="8%"> <!--주문번호-->
+                            <col width="15%"><!--주문일자-->
+                            <col width="35%"><!--주문정보-->
+                            <col width="15%"><!--주문총액-->
+                            <col width="13%"><!--주문자-->
+                            <col width="14%"><!--주문상태-->
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <td>주문 번호</td>
+                            <td>주문 일자</td>
+                            <td>주문 정보</td>
+                            <td>주문 총액</td>
+                            <td>주문자</td>
+                            <td>주문 상태</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="order, staus : ${orders.getContent()}">
+                            <td class="text-center align-middle" th:text="${order.orderId}"></td>
+                            <td class="text-center align-middle" th:text="${order.orderDate}"></td>
+                            <td class="text-center align-middle">
+                                <div class=" orderItemInfoAllWrap text-center align-middle"
+                                     th:each="orderItem : ${order.orderItemDtoList}">
+                                    <div class="orderItemInfo">
+                                        <div class="orderItemName-area">
+                                            <div class="orderItemName">
+                                                <span id="orderItemName">[[${orderItem.itemName}]]</span>
+                                            </div>
+                                        </div>
+                                        <div class="orderItemCount-area" style="vertical-align: middle;">
+                                            <span id="orderItemPrice"
+                                                  th:text="${#numbers.formatInteger(orderItem.orderPrice,0,'COMMA')} + '원'"></span>
+                                            <span id="orderItemCount" th:text="${orderItem.count} + '개'"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center align-middle"
+                                th:text="${#numbers.formatInteger(order.orderTotalPrice,0,'COMMA')} + '원'"></td>
+                            <td class="text-center align-middle" th:text="${order.orderMemberId}">주문자아이디</td>
+                            <td class="text-center align-middle">
+                                <th:block
+                                        th:if="${order.orderStatus == T(com.baseballshop.constant.OrderStatus).ORDER}">
+                                    주문완료<br>
+                                </th:block>
+                                <th:block
+                                        th:unless="${order.orderStatus == T(com.baseballshop.constant.OrderStatus).ORDER}">
+                                    <p class="cancelMsg">(취소 완료)</p>
+                                </th:block>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="pageNumber"
+                         th:with="start=${(orders.number/maxPage)*maxPage+1}, end=( ${(orders.totalPages ==0) ? 1:(start+ (maxPage-1) < orders.totalPages ? start + (maxPage -1) : orders.totalPages)})">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" th:classappend="${orders.number eq 0}?'disabled' : ''">
+                                <a th:href="@{ '/orders/'+ ${orders.number-1} }" aria-label="Previous"
+                                   class="page-link">
+                                    <span class="preAndNextBtn" aria-hidden="true">◀</span>
+                                </a>
+                            </li>
+                            <li class="page-item" th:each="page : ${#numbers.sequence(start, end)}"
+                                th:classappend="${orders.number eq page-1}? 'active' : ''">
+                                <a th:href="@{ '/orders/'+${page-1} }" th:inline="text"
+                                   class="page-link">[[${page}]]</a>
+                            </li>
+                            <li class="page-item"
+                                th:classappend="${orders.number+1 ge orders.totalPages}? 'disabled' : ''">
+                                <a th:href="@{ '/orders/'+${orders.number+1} }" aria-label="Next" class="page-link">
+                                    <span class="preAndNextBtn" aria-hidden="true">▶</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

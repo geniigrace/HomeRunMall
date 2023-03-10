@@ -17,13 +17,15 @@ import java.util.List;
 public class Order {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    private String orderMemberId;
 
     private String orderDate;
 
@@ -49,6 +51,10 @@ public class Order {
     public static Order createOrder(Member member, List<OrderItem> orderItemList) {
         Order order = new Order();
         order.setMember(member);
+
+        String[] str=member.getEmail().split("@");
+        order.setOrderMemberId(str[0]);
+
         for (OrderItem orderItem : orderItemList) {
             order.addOrderItem(orderItem);
         }

@@ -1,0 +1,71 @@
+
+.page__form{
+    width : 90vw;
+    margin : 20px 0;
+    display : inline-block;
+}
+
+.btn-secondary {
+    background-color : #000042;
+    font-size : 0.8em;
+}
+.cancelMsg { color : red; }
+
+table{
+    font-size : 0.9em;
+    color : #5d5d5d;
+    border-top : 1px solid #dee2e6;
+    border-bottom : 1px solid #dee2e6;
+}
+
+
+.orderItemInfoAllWrap{
+    text-align : center;
+    display : inline-block;
+    width : 100%;
+    height : 100%;
+}
+.orderItemInfo {
+    display : flex;
+    text-align : center;
+}
+
+.orderItemName-area{
+    width : 60%;
+    margin-left : 20px;
+}
+.orderItemCount-area {
+    width : 40%;
+}
+.orderItemName{
+    width : 200px;
+}
+
+#orderItemName{
+    float : left;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    word-wrap:normal;
+    width:200px;
+    overflow:hidden;
+}
+#orderItemCount {
+    margin-left : 15px;
+}
+.pageNumber{
+    margin-top : 30px;
+}
+
+.preAndNextBtn {
+    font-size : 0.8em;
+}
+
+.page-link {
+    border : none;
+    color : #000042;
+}
+
+.page-item.active .page-link{
+    background-color : #000042;
+    border-color : #000042;
+}

@@ -62,12 +62,12 @@ public class CommunityController {
             }
         }
 
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
         Page<Notice> notices = noticeService.getNoticePage(noticeSearchDto,pageable);
 
         model.addAttribute("notices", notices);
         model.addAttribute("noticeSearchDto", noticeSearchDto);
-        model.addAttribute("maxPage", 5);
+        model.addAttribute("maxPage", 10);
 
         return "community/notice";
     }

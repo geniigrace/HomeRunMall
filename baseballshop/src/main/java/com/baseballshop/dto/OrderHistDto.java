@@ -14,6 +14,7 @@ import java.util.List;
 public class OrderHistDto {
 
     private Long orderId;
+    private String orderMemberId;
 
     private String orderDate;
 
@@ -28,6 +29,7 @@ public class OrderHistDto {
         this.orderDate = order.getOrderDate();
         this.orderStatus = order.getOrderStatus();
         this.orderTotalPrice = order.getTotalPrice();
+        this.orderMemberId = order.getOrderMemberId();
     }
 
     public void addOrderItemDto(OrderItemDto orderItemDto){

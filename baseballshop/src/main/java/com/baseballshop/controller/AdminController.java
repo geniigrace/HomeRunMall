@@ -5,11 +5,14 @@ import com.baseballshop.dto.*;
 import com.baseballshop.entity.Item;
 import com.baseballshop.entity.Member;
 import com.baseballshop.entity.Notice;
+import com.baseballshop.entity.Order;
 import com.baseballshop.repository.ItemRepository;
 import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.repository.NoticeRepository;
+import com.baseballshop.repository.OrderRepository;
 import com.baseballshop.service.ItemService;
 import com.baseballshop.service.NoticeService;
+import com.baseballshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,7 +43,9 @@ public class AdminController {
     private final NoticeService noticeService;
     private final NoticeRepository noticeRepository;
     private final MemberRepository memberRepository;
+    private final OrderService orderService;
     private final HttpSession httpSession;
+    private final OrderRepository orderRepository;
 
     //관리페이지
     @GetMapping(value = "/adminpage")
@@ -220,8 +225,9 @@ public class AdminController {
 
 
     //전체주문내역
-    @GetMapping(value = "/orders")
-    public String allOders(Model model, Principal principal){
+    //주문관리
+    @GetMapping(value = {"/orders","/orders/{page}"})
+    public String orders(Model model, @PathVariable("page") Optional<Integer> page, Principal principal ){
 
         if(principal!=null){
             Member member = memberRepository.findByEmail(principal.getName());
@@ -234,8 +240,17 @@ public class AdminController {
             }
         }
 
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+
+        Page<OrderHistDto> orderHistDtoList = orderService.getAllOrderList(pageable);
+
+        model.addAttribute("orders", orderHistDtoList);
+        model.addAttribute("page", pageable.getPageNumber());
+        model.addAttribute("maxPage", 5);
+
         return "admin/orders";
     }
+
 
     //공지등록
     //공지사항 등록하기
@@ -371,4 +386,5 @@ public class AdminController {
 
         return "admin/members";
     }
+
 }

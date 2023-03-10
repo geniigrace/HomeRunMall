@@ -17,5 +17,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("select count(o) from Order o where o.member.email= :email")
     Long countOrder(@Param("email") String email);
 
+    List<Order> findAllByOrderByIdDesc (Pageable pageable);
 
+    Long countBy();
 }

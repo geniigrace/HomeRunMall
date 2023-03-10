@@ -80,6 +80,31 @@ public class OrderService {
 
     }
 
+    @Transactional(readOnly = true)
+    public Page<OrderHistDto>getAllOrderList(Pageable pageable){
+
+        List<Order> orders=orderRepository.findAllByOrderByIdDesc(pageable);
+        Long totalOrderCount = orderRepository.countBy();
+
+        List<OrderHistDto> orderHistDtos = new ArrayList<>();
+
+        for(Order order : orders){
+            OrderHistDto orderHistDto = new OrderHistDto(order);
+
+            List<OrderItem> orderItems = order.getOrderItems();
+
+            for(OrderItem orderItem : orderItems){
+                ItemImg itemImg = itemImgRepository.findByItemIdAndRepImgYn(orderItem.getItem().getId(), "Y");
+                OrderItemDto orderItemDto = new OrderItemDto(orderItem, itemImg.getImgUrl());
+                orderHistDto.addOrderItemDto(orderItemDto);
+            }
+
+            orderHistDtos.add(orderHistDto);
+        }
+        return new PageImpl<OrderHistDto>(orderHistDtos, pageable, totalOrderCount);
+
+    }
+
     //주문내역 > 주문취소를 위한 추가
     @Transactional(readOnly = true)
     public boolean validateOrder(Long orderId, String email) {
