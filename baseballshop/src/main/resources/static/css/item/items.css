@@ -12,3 +12,27 @@
     float : right;
     margin-bottom : 10px;
 }
+
+
+.table {
+    font-size : 0.9em;
+    color : #5d5d5d;
+}
+
+td>a{
+    color : #5d5d5d;
+}
+
+.preAndNextBtn {
+    font-size : 0.8em;
+}
+
+.page-link {
+    border : none;
+    color : #000042;
+}
+
+.page-item.active .page-link{
+    background-color : #000042;
+    border-color : #000042;
+}

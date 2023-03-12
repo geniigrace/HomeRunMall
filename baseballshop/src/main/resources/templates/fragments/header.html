@@ -62,7 +62,7 @@
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item " href="/user/cart">장바구니</a></li>
                                         <li><a class="dropdown-item " href="/user/orderlist">주문내역</a></li>
-                                        <li><a class="dropdown-item " href="/qna">문의하기</a></li>
+                                        <li><a class="dropdown-item " href="/qna/new">문의하기</a></li>
                                         <li><a class="dropdown-item " href="/user/myinfo">내정보</a></li>
                                     </ul>
                                 </li>
@@ -75,7 +75,6 @@
                                         <li><a class="dropdown-item " href="/admin/orders">주문관리</a></li>
                                         <li><a class="dropdown-item " href="/admin/notice/new">공지등록</a></li>
                                         <li><a class="dropdown-item " href="/admin/members">회원관리</a></li>
-                                        <li><a class="dropdown-item " href="/qna">문의관리</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-loginout" sec:authorize="isAnonymous()">
@@ -104,7 +103,7 @@
                             <div class="nav-bottom-inmenu1 text-white-area"><p th:onclick="|location.href='/itemSearch/PLAYER'|">플레이어</p></div>
                         </div>
                         <div class="nav-bottom-menu2">
-                            <div class="nav-bottom-inmenu2 text-white-area"><p th:onclick="|location.href='/community'|">커뮤니티</p></div>
+                            <div class="nav-bottom-inmenu2 text-white-area"><p th:onclick="|location.href='/qna'|">고객센터</p></div>
                             <div class="nav-bottom-inmenu2 text-white-area"><p th:onclick="|location.href='/notice'|">공지사항</p></div>
                         </div>
                     </div>

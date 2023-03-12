@@ -1,0 +1,25 @@
+.input-group{ margin-bottom : 15px; }
+
+.input-group-text{ width : 90px; height : 100%; }
+
+.fieldError { color : #bd2130; }
+
+#hiddenShowStatus { display : none; }
+
+.page__form{
+        width : 50vw;
+        margin : 20px 0;
+        display : inline-block;
+}
+
+.form-control {
+    font-size : 0.9em;
+    color : #5d5d5d;
+    }
+
+.custom-select, select>option{ font-size : 0.9em; }
+
+.btn-secondary {
+    background-color : #000042;
+    font-size : 0.8em;
+}
