@@ -6,7 +6,6 @@ import com.baseballshop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +13,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.security.Principal;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RequestMapping("/members")
 @Controller
@@ -36,7 +36,7 @@ public class MemberController {
     }
 
     @PostMapping(value = "/new")
-    public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
+    public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model, HttpServletResponse response) {
 
         if (bindingResult.hasErrors()) {
             return "member/memberForm";
@@ -45,15 +45,19 @@ public class MemberController {
         try {
             Member member = Member.createMember(memberFormDto, passwordEncoder);
             memberService.saveMember(member);
-        } catch (IllegalStateException e) {
+
+            response.setContentType("text/html; charset=euc-kr");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('회원가입이 완료되었습니다!'); location.href='/members/login'; </script>");
+            out.flush();
+
+            return "member/memberLoginForm";
+
+        } catch (IllegalStateException | IOException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "member/memberForm";
         }
-
-        return "redirect:/members/login";
-
     }
-
     //로그인 페이지를 위한 맵핑
     @GetMapping(value = "/login")
     public String loginMember() {
