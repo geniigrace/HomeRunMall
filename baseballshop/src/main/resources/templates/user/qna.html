@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/layout}">
+
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+</head>
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+  function answerDone(id){
+      var token = $("meta[name='_csrf']").attr("content");
+      var header = $("meta[name='_csrf_header']").attr("content");
+
+      var url = "/qna/" + id + "/done";
+      var paramData = {
+        doneId : id,
+      }
+
+      var param = JSON.stringify(paramData);
+
+      $.ajax({
+          url : url,
+          type : "PUT",
+          contentType : "application/json",
+          data : param,
+          beforeSend : function(xhr){
+              xhr.setRequestHeader(header, token);
+              },
+          dataType : "json",
+          cache : false,
+          success : function(result, status){
+              alert("답변이 완료 되었습니다.");
+              location.href='/qna/'+[[${page}]];
+              },
+          error : function(jqXHR, status, error){
+              if(jqXHR.status == '401'){
+                    alert('로그인 후 이용해주세요');
+                    location.href='/members/login';
+                    }
+              else{
+                alert(jqXHR.responseText);
+                }
+          }
+      });
+  }
+    </script>
+</th:block>
+<th:block layout:fragment="css">
+    <link rel="stylesheet" href="/css/qna/qna.css">
+    <link rel="stylesheet" href="/css/contentlayout.css">
+    <style>
+    </style>
+</th:block>
+
+<div layout:fragment="content">
+    <div class="content__all">
+        <div class="page__title__wrap">
+            <div class="page__title">
+                <p class="pageTitle">고객센터</p>
+            </div>
+        </div>
+        <div class="page__body__wrap">
+            <div class="page__body">
+                <form class="page__form">
+                    <table class="table" th:action="@{'/qna/'+${qna.number}}" role="form" method="get" th:object="${qna}">
+                        <thead>
+                        <tr>
+                            <td sec:authorize="hasRole('ADMIN')">
+                                <input type="checkbox" id="checkall" onclick="checkAll()">
+                            </td>
+                            <td>No.</td>
+                            <td>카테고리</td>
+                            <td>제목</td>
+                            <td>작성자</td>
+                            <td>등록일</td>
+                            <td>답변</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="qna : ${qna}">
+                            <td sec:authorize="hasRole('ADMIN')">
+                                <input type="checkbox" id="qnaCheckList" name="qnaCheckBox" th:value="${qna.id}"></td>
+                            <td th:text="${qna.id}"></td>
+                            <td th:text="${qna.qnaType.title}"></td>
+                            <td><a th:href="@{/qna/{id}(id=${qna.id})}" th:text="${qna.qnaTitle}"></a></td>
+                            <td th:text="${qna.qnaMemberId}"></td>
+                            <td th:text="${qna.qnaDate}"></td>
+                            <td>
+                                <div th:if="${qna.qnaType == T(com.baseballshop.constant.QnaStatus).FAQ}"></div>
+                                <div th:unless="${qna.qnaType == T(com.baseballshop.constant.QnaStatus).FAQ}">
+                                    <th:block th:if="${qna.answerType == T(com.baseballshop.constant.QnaStatus).NOT}">
+                                        <p th:text="${T(com.baseballshop.constant.QnaStatus).NOT.title}"></p>
+                                        <button sec:authorize="hasRole('ADMIN')" type="button" class="btn btn-secondary" th:value="${qna.id}"
+                                                onclick="answerDone(this.value)">답변 완료
+                                        </button>
+                                    </th:block>
+                                    <th:block th:if="${qna.answerType == T(com.baseballshop.constant.QnaStatus).DONE}">
+                                        <p th:text="${T(com.baseballshop.constant.QnaStatus).DONE.title}"></p>
+                                    </th:block>
+                                </div>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div th:with="start=${(qna.number/maxPage)*maxPage +1}, end=(${(qna.totalPages == 0) ? 1:(start+(maxPage-1) < qna.totalPages ? start + (maxPage -1) : qna.totalPages)})">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" th:classappend="${qna.first}?'disabled'"><!--첫번째 아이템이면 pre 안띄움 -->
+                                <a th:onclick="'javascript:page('+${qna.number - 1} + ')'" aria-label='Previous'
+                                   class="page-link">
+                                    <span class="preAndNextBtn" aria-hidden="true">◀︎</span>
+                                </a>
+                            </li>
+                            <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}"
+                                th:classappend="${qna.number eq page-1}?'active':''">
+                                <a th:onclick="'javascript:page('+${page -1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+                            </li>
+                            <li class="page-item" th:classappend="${qna.last}?'disabled'">
+                                <a th:onclick="'javascript:page(' + ${qna.number + 1} + ')'" aria-label="Next"
+                                   class="page-link">
+                                    <span class="preAndNextBtn" aria-hidden="true">►</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div sec:authorize="hasRole('USER')" class="buttonBlock">
+                        <button type="button" class="btn btn-secondary" onclick="location.href='/qna/new'">문의하기</button>
+                    </div>
+                    <div sec:authorize="hasRole('ADMIN')" class="buttonBlock">
+                        <button type="button" class="btn btn-secondary" onclick="location.href='/qna/new'">FAQ 등록하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/layout}">
 <head>
     <meta charset="utf-8">
@@ -44,9 +45,10 @@
                             <span class="input-group-text form-control">카테고리</span>
                         </div>
                         <select th:field="*{qnaType}" class="custom-select form-control">
-                            <option value="ITEM" th:text=${T(com.baseballshop.constant.QnaStatus).ITEM.title}></option>
-                            <option value="DELIVERY" th:text=${T(com.baseballshop.constant.QnaStatus).DELIVERY.title}></option>
-                            <option value="ETC" th:text=${T(com.baseballshop.constant.QnaStatus).ETC.title}></option>
+                            <option sec:authorize="hasRole('USER')" value="ITEM" th:text=${T(com.baseballshop.constant.QnaStatus).ITEM.title}></option>
+                            <option sec:authorize="hasRole('USER')" value="DELIVERY" th:text=${T(com.baseballshop.constant.QnaStatus).DELIVERY.title}></option>
+                            <option sec:authorize="hasRole('USER')" value="ETC" th:text=${T(com.baseballshop.constant.QnaStatus).ETC.title}></option>
+                            <option sec:authorize="hasRole('ADMIN')" value="FAQ" th:text=${T(com.baseballshop.constant.QnaStatus).FAQ.title}></option>
                         </select>
                     </div>
                     <div class="input-group">

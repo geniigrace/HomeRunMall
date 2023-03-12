@@ -1,23 +1,24 @@
 package com.baseballshop.controller;
 
 import com.baseballshop.dto.*;
-import com.baseballshop.entity.Member;
 import com.baseballshop.entity.Notice;
-import com.baseballshop.repository.MemberRepository;
+import com.baseballshop.service.LoginUserService;
 import com.baseballshop.service.NoticeService;
 import com.baseballshop.service.QnaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -25,24 +26,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CommunityController {
 
-    private final MemberRepository memberRepository;
     private final QnaService qnaService;
+    private final LoginUserService loginUserService;
     private final NoticeService noticeService;
-    private final HttpSession httpSession;
 
     //공지사항 리스트
     @GetMapping(value = "/notice")
     public String noticeManage(NoticeSearchDto noticeSearchDto, @PathVariable("page") Optional<Integer> page,  Model model, Principal principal){
 
         if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {
-                model.addAttribute("loginName", member.getName());
-            }
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
         }
 
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
@@ -55,21 +49,13 @@ public class CommunityController {
         return "notice/notice";
     }
 
-
-
     //공지사항 글보기
     @GetMapping(value = "/notice/{noticeId}")
     public String noticeDtl(@PathVariable("noticeId")Long noticeId,  Model model, Principal principal){
 
         if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {
-                model.addAttribute("loginName", member.getName());
-            }
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
         }
 
         NoticeFormDto noticeFormDto = noticeService.preNotice(noticeId);
@@ -80,19 +66,20 @@ public class CommunityController {
     }
 
     //QNA
-    @GetMapping(value = "/qna")
-    public String qna( Model model, Principal principal){
+    @GetMapping(value = {"/qna", "/qna/{page}"})
+    public String qna(@PathVariable("page") Optional<Integer> page,  Model model, Principal principal){
 
         if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {
-                model.addAttribute("loginName", member.getName());
-            }
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
         }
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
+
+        Page<QnaListDto> qna = qnaService.getQnaPage(pageable);
+
+        model.addAttribute("qna", qna);
+        model.addAttribute("page", pageable.getPageNumber());
+        model.addAttribute("maxPage", 5);
 
         return "user/qna";
     }
@@ -100,26 +87,22 @@ public class CommunityController {
     //QNA 등록페이지
     @GetMapping(value = "/qna/new")
     public String qnaForm(Model model, Principal principal){
-        String email="";
+
 
         if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                email=user.getEmail();
-                model.addAttribute("loginName", user.getName());
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
 
-            } else {
-                email=member.getEmail();
-                model.addAttribute("loginName", member.getName());
-            }
+            String loginEmail = loginUserService.loginUserNameEmail(principal)[1];
+            QnaFormDto qnaFormDto = new QnaFormDto();
+            qnaFormDto.setQnaEmail(loginEmail);
+            model.addAttribute("qnaFormDto",qnaFormDto);
+
+            return "user/qnaForm";
         }
-        QnaFormDto qnaFormDto = new QnaFormDto();
-        qnaFormDto.setQnaEmail(email);
-
-        model.addAttribute("qnaFormDto",qnaFormDto);
-
-        return "user/qnaForm";
+        else {
+            return "member/memberLoginForm";
+        }
     }
 
     //QNA 등록
@@ -128,7 +111,6 @@ public class CommunityController {
         if(bindingResult.hasErrors()){
             return "user/qnaForm";
         }
-
         try{
             qnaService.saveQna(qnaFormDto, principal);
         }
@@ -137,7 +119,15 @@ public class CommunityController {
             return "user/qnaForm";
         }
 
-        return "redirect:/user/qnaForm";
+        return "redirect:/qna";
+    }
 
+    //QNA 답변완료상태 변경
+    @PutMapping("/qna/{id}/done")
+    public @ResponseBody ResponseEntity doneQna(@PathVariable("id") Long qnaId,Principal principal){
+
+        Long qnaDoneId = qnaService.qnaDone(qnaId);
+
+        return new ResponseEntity<Long>(qnaDoneId, HttpStatus.OK);
     }
 }

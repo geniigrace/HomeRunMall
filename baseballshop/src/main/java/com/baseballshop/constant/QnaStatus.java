@@ -10,6 +10,7 @@ public enum QnaStatus {
     DELIVERY("DELIVERY", "배송문의"),
     ETC("ETC","기타문의"),
 
+    FAQ("FAQ","FAQ"),
     NOT("NOT","확인중"),
     DONE("DONE","답변완료");
 
