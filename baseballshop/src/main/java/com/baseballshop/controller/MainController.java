@@ -8,6 +8,7 @@ import com.baseballshop.dto.SessionUser;
 import com.baseballshop.entity.Member;
 import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.service.ItemService;
+import com.baseballshop.service.LoginUserService;
 import com.baseballshop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MainController {
     private final ItemService itemService;
-
-    private final MemberService memberService;
-    private final MemberRepository memberRepository;
-
-    private final HttpSession httpSession;
+    private final LoginUserService loginUserService;
 
     @GetMapping(value = "/")
     public String main(ItemSearchDto itemSearchDto, Optional<Integer> page, Model model, Principal principal) {
@@ -46,15 +43,8 @@ public class MainController {
         Page<MainItemDto> items = itemService.getMainItemPage(itemSearchDto, pageable);
 
         if(principal!=null){ //로그인 했을 때
-            Member member = memberRepository.findByEmail(principal.getName());
-
-            if (member == null) { //소셜로그인 일 때
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else { //로컬 로그인 일 때
-                model.addAttribute("loginName", member.getName());
-            }
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
         }
 
         model.addAttribute("items", items);

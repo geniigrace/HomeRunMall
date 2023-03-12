@@ -1,6 +1,5 @@
 package com.baseballshop.controller;
 
-import com.baseballshop.config.CustomOAuth2UserService;
 import com.baseballshop.dto.*;
 import com.baseballshop.entity.Member;
 import com.baseballshop.entity.Notice;
@@ -11,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -33,23 +29,6 @@ public class CommunityController {
     private final QnaService qnaService;
     private final NoticeService noticeService;
     private final HttpSession httpSession;
-    //커뮤니티
-    @GetMapping(value = "/community")
-    public String community( Model model, Principal principal){
-
-        if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {
-                model.addAttribute("loginName", member.getName());
-            }
-        }
-
-        return "community/community";
-    }
 
     //공지사항 리스트
     @GetMapping(value = "/notice")
@@ -73,7 +52,7 @@ public class CommunityController {
         model.addAttribute("noticeSearchDto", noticeSearchDto);
         model.addAttribute("maxPage", 10);
 
-        return "community/notice";
+        return "notice/notice";
     }
 
 
@@ -97,7 +76,7 @@ public class CommunityController {
 
         model.addAttribute("notices", noticeFormDto);
         model.addAttribute("newLineChar", '\n');
-        return "community/noticeDtl";
+        return "notice/noticeDtl";
     }
 
     //QNA
@@ -115,7 +94,7 @@ public class CommunityController {
             }
         }
 
-        return "community/qna";
+        return "user/qna";
     }
 
     //QNA 등록페이지
@@ -140,14 +119,14 @@ public class CommunityController {
 
         model.addAttribute("qnaFormDto",qnaFormDto);
 
-        return "community/qnaForm";
+        return "user/qnaForm";
     }
 
     //QNA 등록
     @PostMapping(value = "/qna/new")
     public String qnaNew(@Valid QnaFormDto qnaFormDto, BindingResult bindingResult, Model model, Principal principal){
         if(bindingResult.hasErrors()){
-            return "community/qna";
+            return "user/qnaForm";
         }
 
         try{
@@ -155,10 +134,10 @@ public class CommunityController {
         }
         catch (Exception e){
             model.addAttribute("errorMessage", "게시글 등록중 에러가 발생했습니다.");
-            return "community/qna";
+            return "user/qnaForm";
         }
 
-        return "redirect:/qna";
+        return "redirect:/user/qnaForm";
 
     }
 }

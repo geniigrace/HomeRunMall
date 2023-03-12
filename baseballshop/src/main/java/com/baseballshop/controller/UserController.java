@@ -1,9 +1,9 @@
 package com.baseballshop.controller;
 
 import com.baseballshop.dto.*;
-import com.baseballshop.entity.Member;
 import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.service.CartService;
+import com.baseballshop.service.LoginUserService;
 import com.baseballshop.service.MemberService;
 import com.baseballshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +33,7 @@ public class UserController {
     private final CartService cartService;
     private final OrderService orderService;
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
-    private final HttpSession httpSession;
+    private final LoginUserService loginUserService;
     private final PasswordEncoder passwordEncoder;
 
 
@@ -43,17 +42,14 @@ public class UserController {
     public String mypage(Model model, Principal principal){
 
         if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {
-                model.addAttribute("loginName", member.getName());
-            }
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
+            return "user/mypage";
+        }
+        else {
+            return "member/memberLoginForm";
         }
 
-        return "user/mypage";
     }
 
     //장바구니 페이지 생성 및 연결
@@ -61,32 +57,20 @@ public class UserController {
     public String orderHist(Principal principal, Model model){
 
         List<CartDto> cartDtoList;
-        String email="";
 
         if(principal!=null) { //로그인 했을 때
-            Member member = memberRepository.findByEmail(principal.getName());
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
 
-            if (member == null) {//소셜 로그인 일 때
-                SessionUser user = (SessionUser) httpSession.getAttribute("member");
-
-                //사용자 이름
-                model.addAttribute("loginName", user.getName());
-
-                //카트로 연결
-                email = user.getEmail();
-                cartDtoList = cartService.getCartList(email);
-
-            } else {//로컬 로그인 일 때
-                //사용자 이름
-                model.addAttribute("loginName", member.getName());
-
-                //카트로 연결
-                email = principal.getName();
-                cartDtoList = cartService.getCartList(email);
-            }
+            String loginEmail = loginUserService.loginUserNameEmail(principal)[1];
+            cartDtoList = cartService.getCartList(loginEmail);
             model.addAttribute("cartItems", cartDtoList);
-        }
+
             return "user/cart";
+        }
+        else {
+            return "member/memberLoginForm";
+        }
     }
 
     //장바구니에 상품 담기
@@ -102,22 +86,13 @@ public class UserController {
             return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
 
-        String email="";
         Long cartItemId;
 
         try{
             if(principal!=null) { //로그인 했을 때
-                Member member = memberRepository.findByEmail(principal.getName());
+                String loginEmail = loginUserService.loginUserNameEmail(principal)[1];
+                cartItemId = cartService.addCart(cartItemDto, loginEmail);
 
-                if (member == null) {//소셜 로그인 일 때
-                    SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                    email = user.getEmail();
-                    cartItemId = cartService.addCart(cartItemDto, email);
-
-                } else {//로컬 로그인 일 때
-                    email = principal.getName();
-                    cartItemId = cartService.addCart(cartItemDto, email);
-                }
             }
             else {
                 return new ResponseEntity<String>("로그인이 필요합니다.", HttpStatus.BAD_REQUEST);
@@ -132,21 +107,12 @@ public class UserController {
     @PatchMapping(value = "/cartItem/{cartItemId}")
     public @ResponseBody ResponseEntity updateCartItem(@PathVariable("cartItemId") Long cartItemId, int count, Principal principal){
 
-        String email ="";
-        Member member = memberRepository.findByEmail(principal.getName());
-
-        if(member == null ){ //소셜 로그인 일 때
-            SessionUser user = (SessionUser)httpSession.getAttribute("member");
-            email = user.getEmail();
-        }
-        else{
-            email=principal.getName();
-        }
+        String loginEmail = loginUserService.loginUserNameEmail(principal)[1];
 
         if(count <=0){
             return new ResponseEntity<String>("최소 1개 이상 담아주세요.", HttpStatus.BAD_REQUEST);
         }
-        else if( !cartService.validateCartItem(cartItemId, email)){
+        else if( !cartService.validateCartItem(cartItemId, loginEmail)){
             return new ResponseEntity<String>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
 
@@ -157,18 +123,9 @@ public class UserController {
     //장바구니 상품 삭제
     @DeleteMapping(value = "/cartItem/{cartItemId}")
     public @ResponseBody ResponseEntity deleteCartItem(@PathVariable("cartItemId") Long cartItemId, Principal principal){
-        String email="";
-        Member member = memberRepository.findByEmail(principal.getName());
+        String loginEmail = loginUserService.loginUserNameEmail(principal)[1];
 
-        if(member == null ){ //소셜 로그인 일 때
-            SessionUser user = (SessionUser)httpSession.getAttribute("member");
-            email = user.getEmail();
-        }
-        else{
-            email=principal.getName();
-        }
-
-        if (!cartService.validateCartItem(cartItemId, email)) {
+        if (!cartService.validateCartItem(cartItemId, loginEmail)) {
             return new ResponseEntity<String>("수정권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
         cartService.deleteCartItem(cartItemId);
@@ -181,28 +138,24 @@ public class UserController {
     public String order(Model model, Principal principal, @PathVariable("page") Optional<Integer> page){
 
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
-        String email = "";
 
         if(principal!=null) {//로그인 했을 때
-            Member member = memberRepository.findByEmail(principal.getName());
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
 
-            if (member == null) {//소셜로그인 일 때
-                SessionUser user = (SessionUser) httpSession.getAttribute("member");
-                email=user.getEmail();
-                model.addAttribute("loginName", user.getName());
+            String loginEmail = loginUserService.loginUserNameEmail(principal)[1];
 
-            } else {//로컬 로그인 일 때
-                email= principal.getName();
-                model.addAttribute("loginName", member.getName());
-            }
-
-            Page<OrderHistDto> orderHistDtoList = orderService.getOrderList(email, pageable);
+            Page<OrderHistDto> orderHistDtoList = orderService.getOrderList(loginEmail, pageable);
 
             model.addAttribute("orders", orderHistDtoList);
             model.addAttribute("page", pageable.getPageNumber());
             model.addAttribute("maxPage", 5);
-        }
+
             return "user/orderlist";
+        }
+        else {
+            return "member/memberLoginForm";
+        }
     }
 
     //장바구니에서 주문
@@ -211,26 +164,17 @@ public class UserController {
 
         List<CartOrderDto> cartOrderDtoList = cartOrderDto.getCartOrderDtoList();
 
-        String email="";
-        Member member = memberRepository.findByEmail(principal.getName());
-
-        if(member == null ){ //소셜 로그인 일 때
-            SessionUser user = (SessionUser)httpSession.getAttribute("member");
-            email = user.getEmail();
-        }
-        else{
-            email=principal.getName();
-        }
+        String loginEmail = loginUserService.loginUserNameEmail(principal)[1];
 
         if(cartOrderDtoList == null || cartOrderDtoList.size() ==0){
             return new ResponseEntity<String>("주문할 상품을 선택해주세요.", HttpStatus.FORBIDDEN);
         }
         for(CartOrderDto cartOder : cartOrderDtoList){
-            if (!cartService.validateCartItem(cartOder.getCartItemId(), email)) {
+            if (!cartService.validateCartItem(cartOder.getCartItemId(), loginEmail)) {
                 return new ResponseEntity<String>("주문 권한이 없습니다.", HttpStatus.FORBIDDEN);
             }
         }
-        Long orderId = cartService.orderCartItem(cartOrderDtoList, email);
+        Long orderId = cartService.orderCartItem(cartOrderDtoList, loginEmail);
         return new ResponseEntity<Long>(orderId, HttpStatus.OK);
     }
 
@@ -250,25 +194,15 @@ public class UserController {
             return new ResponseEntity<String> (sb.toString(),HttpStatus.BAD_REQUEST);
         }
 
-        String email="";
         Long orderId;
 
         if(principal!=null) { //로그인 되어 있을 때
-            Member member = memberRepository.findByEmail(principal.getName());
-            if(member==null){ //소셜 로그인 일 때
-                SessionUser user = (SessionUser) httpSession.getAttribute("member");
-                email = user.getEmail();
-            }
-            else {//로컬 로그인 일 때
-                email=principal.getName();
-            }
-
+            String loginEmail = loginUserService.loginUserNameEmail(principal)[1];
             try {
-                orderId = orderService.order(orderDto, email);
+                orderId = orderService.order(orderDto, loginEmail);
             } catch (Exception e) {
                 return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
             }
-
             return new ResponseEntity<Long>(orderId, HttpStatus.OK);
         }
         else {//로그인 없이 접근시
@@ -279,17 +213,10 @@ public class UserController {
     //주문취소
     @PostMapping("/order/{orderId}/cancel")
     public @ResponseBody ResponseEntity cancelOrder(@PathVariable("orderId") Long orderId, Principal principal){
-        String email="";
 
-        if(principal.getName() == null){
-            SessionUser user = (SessionUser) httpSession.getAttribute("member");
-            email=user.getEmail();
-        }
-        else {
-            email= principal.getName();
-        }
+        String loginEmail = loginUserService.loginUserNameEmail(principal)[1];
 
-        if(!orderService.validateOrder(orderId, email)){
+        if(!orderService.validateOrder(orderId, loginEmail)){
             return new ResponseEntity<String>("주문 취소 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
         orderService.cancelOrder(orderId);
@@ -317,28 +244,24 @@ public class UserController {
     //회원정보 수정
     @GetMapping(value = "/myinfo")
     public String myinfo(Model model, Principal principal){
-        String email="";
-        Boolean loginRoot=false;
+
 
         if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                email=user.getEmail();
-                loginRoot=true;
-                model.addAttribute("loginName", user.getName());
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
 
-            } else {
-                email=principal.getName();
-                loginRoot=false;
-                model.addAttribute("loginName", member.getName());
-            }
+            String loginEmail = loginUserService.loginUserNameEmail(principal)[1];
+            MemberModifyDto memberModifyDto = memberService.getMemberInfo(loginEmail);
+
+            Boolean loginRoot= loginUserService.loginUserType(principal);
+            memberModifyDto.setLoginRoot(loginRoot);
+            model.addAttribute("memberModifyDto",memberModifyDto);
+
+            return "user/myinfo";
         }
-
-        MemberModifyDto memberModifyDto = memberService.getMemberInfo(email);
-        memberModifyDto.setLoginRoot(loginRoot);
-        model.addAttribute("memberModifyDto",memberModifyDto);
-        return "user/myinfo";
+        else {
+            return "member/memberLoginForm";
+        }
     }
 
     @PostMapping(value = "/myinfo")

@@ -11,6 +11,7 @@ import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.repository.NoticeRepository;
 import com.baseballshop.repository.OrderRepository;
 import com.baseballshop.service.ItemService;
+import com.baseballshop.service.LoginUserService;
 import com.baseballshop.service.NoticeService;
 import com.baseballshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -39,48 +40,28 @@ import java.util.Optional;
 public class AdminController {
 
     private final ItemService itemService;
-    private final ItemRepository itemRepository;
     private final NoticeService noticeService;
-    private final NoticeRepository noticeRepository;
-    private final MemberRepository memberRepository;
     private final OrderService orderService;
-    private final HttpSession httpSession;
-    private final OrderRepository orderRepository;
+    private final LoginUserService loginUserService;
 
     //관리페이지
     @GetMapping(value = "/adminpage")
     public String adminpage( Model model, Principal principal){
-
         if(principal!=null){//로그인 했을 때
-            Member member = memberRepository.findByEmail(principal.getName());
-
-            if (member == null) {//소셜 로그인 했을 때
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {//로컬 로그인 했을 때
-                model.addAttribute("loginName", member.getName());
-            }
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
+            return "admin/adminpage";
         }
-
-        return "admin/adminpage";
+        else {
+            return "member/memberLoginForm";
+        }
     }
 
     //상품등록
     @GetMapping(value ="/item/new")
     public String itemForm(Model model,Principal principal){
-
-        if(principal!=null){//로그인 했을 때
-            Member member = memberRepository.findByEmail(principal.getName());
-
-            if (member == null) {//소셜 로그인 했을 때
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {//로컬 로그인 했을 때
-                model.addAttribute("loginName", member.getName());
-            }
-        }
+        String loginName = loginUserService.loginUserNameEmail(principal)[0];
+        model.addAttribute("loginName", loginName);
 
         model.addAttribute("itemFormDto", new ItemFormDto());
 
@@ -117,66 +98,45 @@ public class AdminController {
     public String itemManage(ItemSearchDto itemSearchDto, @PathVariable("page") Optional<Integer> page, Model model, Principal principal){
 
         if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
 
-            } else {
-                model.addAttribute("loginName", member.getName());
-            }
+            Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
+
+            Page<Item> items = itemService.getAdminItemPage(itemSearchDto, pageable);
+
+            model.addAttribute("items", items);
+            model.addAttribute("itemSearchDto", itemSearchDto);
+            model.addAttribute("maxPage", 3);
+
+            return "admin/items";
         }
-
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
-
-        Page<Item> items = itemService.getAdminItemPage(itemSearchDto, pageable);
-
-        model.addAttribute("items", items);
-        model.addAttribute("itemSearchDto", itemSearchDto);
-        model.addAttribute("maxPage", 3);
-
-        return "admin/items";
+        else {
+            return "member/memberLoginForm";
+        }
     }
-
-//    //상품삭제
-//    @DeleteMapping(value="/items/delete")
-//    public @ResponseBody ResponseEntity deleteItem(@RequestBody ItemDeleteDto itemDeleteDto){
-//        List<ItemDeleteDto> itemDeleteDtoList = itemDeleteDto.getItemDeleteDtoList();
-//
-//        if(itemDeleteDtoList==null || itemDeleteDtoList.size() ==0 ){
-//            return new ResponseEntity<String>("삭제할 상품을 선택하세요", HttpStatus.FORBIDDEN);
-//        }
-//
-//        Long deleteId= itemService.deleteItem(itemDeleteDtoList);
-//
-//        return new ResponseEntity<Long>(deleteId, HttpStatus.OK);
-//    }
 
     //상품 수정
     @GetMapping(value = "/item/{itemId}")
     public String itemDtl(@PathVariable("itemId")Long itemId, Model model, Principal principal){
-
         if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {
-                model.addAttribute("loginName", member.getName());
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
+            try{
+                ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
+                model.addAttribute("itemFormDto", itemFormDto); //View로 보내기 위해 모델 추가
             }
-        }
-        try{
-            ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
-            model.addAttribute("itemFormDto", itemFormDto); //View로 보내기 위해 모델 추가
-        }
-        catch (EntityNotFoundException e){
-            model.addAttribute("errorMessage", "존재하지 않는 상품입니다.");
-            model.addAttribute("itemFormDto", "new ItemFormDto");
-            return "item/itemForm";
-        }
+            catch (EntityNotFoundException e){
+                model.addAttribute("errorMessage", "존재하지 않는 상품입니다.");
+                model.addAttribute("itemFormDto", "new ItemFormDto");
+                return "item/itemForm";
+            }
 
-        return "admin/itemForm";
+            return "admin/itemForm";
+        }
+        else {
+            return "member/memberLoginForm";
+        }
     }
 
     @PostMapping(value = "/item/{itemId}")
@@ -206,7 +166,7 @@ public class AdminController {
     }
 
     //상품 삭제
-    //삭제기능 구현은 했지만 img와 외래키로 연결되어있어 작성하는 글 삭제 하지않고 구분자만 지정하여 구분자를 Delete로 두고 hide 시킬것
+    //삭제기능 구현은 했지만 img와 외래키로 연결되어있어 작성하는 글 삭제 하지않고 구분자만 지정하여 구분자를 Delete로 두고 hide 시켜 구현하였음
     @PutMapping(value = "/item/hidden")
     public @ResponseBody ResponseEntity modifyDelItem(@RequestBody ItemDeleteDto itemDeleteDto){
 
@@ -218,58 +178,45 @@ public class AdminController {
 
         Long itemId = itemService.modify(itemDeleteDto);
 
-
         return new ResponseEntity<Long>(itemId, HttpStatus.OK);
-
     }
 
-
-    //전체주문내역
-    //주문관리
+    //주문관리 : 전체주문내역
     @GetMapping(value = {"/orders","/orders/{page}"})
     public String orders(Model model, @PathVariable("page") Optional<Integer> page, Principal principal ){
 
         if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
+            Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
 
-            } else {
-                model.addAttribute("loginName", member.getName());
-            }
+            Page<OrderHistDto> orderHistDtoList = orderService.getAllOrderList(pageable);
+
+            model.addAttribute("orders", orderHistDtoList);
+            model.addAttribute("page", pageable.getPageNumber());
+            model.addAttribute("maxPage", 5);
+
+            return "admin/orders";
         }
-
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
-
-        Page<OrderHistDto> orderHistDtoList = orderService.getAllOrderList(pageable);
-
-        model.addAttribute("orders", orderHistDtoList);
-        model.addAttribute("page", pageable.getPageNumber());
-        model.addAttribute("maxPage", 5);
-
-        return "admin/orders";
+        else {
+            return "member/memberLoginForm";
+        }
     }
 
-
-    //공지등록
-    //공지사항 등록하기
+    //공지사항
+    //등록하기
     @GetMapping(value = "/notice/new")
     public String noticeForm(Model model, Principal principal){
 
         if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {
-                model.addAttribute("loginName", member.getName());
-            }
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
+            model.addAttribute("noticeFormDto", new NoticeFormDto());
+            return "admin/noticeForm";
         }
-
-        model.addAttribute("noticeFormDto", new NoticeFormDto());
-        return "admin/noticeForm";
+        else {
+            return "member/memberLoginForm";
+        }
     }
 
     @PostMapping(value = "/notice/new")
@@ -298,27 +245,23 @@ public class AdminController {
     public String noticeUpdate(@PathVariable("noticeId")Long noticeId, Model model, Principal principal){
 
         if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {
-                model.addAttribute("loginName", member.getName());
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
+            try{
+                NoticeFormDto noticeFormDto = noticeService.preNotice(noticeId);
+                model.addAttribute("noticeFormDto", noticeFormDto); //View로 보내기 위해 모델 추가
             }
-        }
+            catch (EntityNotFoundException e){
+                model.addAttribute("errorMessage", "존재하지 않는 게시글 입니다.");
+                model.addAttribute("noticeFormDto", "new NoticeFormDto");
+                return "admin/noticeForm";
+            }
 
-        try{
-            NoticeFormDto noticeFormDto = noticeService.preNotice(noticeId);
-            model.addAttribute("noticeFormDto", noticeFormDto); //View로 보내기 위해 모델 추가
-        }
-        catch (EntityNotFoundException e){
-            model.addAttribute("errorMessage", "존재하지 않는 게시글 입니다.");
-            model.addAttribute("noticeFormDto", "new NoticeFormDto");
             return "admin/noticeForm";
         }
-
-        return "admin/noticeForm";
+        else {
+            return "member/memberLoginForm";
+        }
     }
 
     // 공지사항 수정 : 이미지
@@ -349,7 +292,7 @@ public class AdminController {
     }
 
     //공지사항 삭제
-    //삭제기능 구현은 했지만 img와 외래키로 연결되어있어 작성하는 글 삭제 하지않고 구분자만 지정하여 구분자를 Delete로 두고 hide 시킬것
+    //삭제기능 구현은 했지만 img와 외래키로 연결되어있어 작성하는 글 삭제 하지않고 구분자만 지정하여 구분자를 Delete로 두고 hide 시켜 구현하였음
     @PutMapping(value = "/notice/hidden")
     public @ResponseBody ResponseEntity modifyNotice(@RequestBody NoticeDeleteDto noticeDeleteDto){
 
@@ -368,23 +311,17 @@ public class AdminController {
 
     }
 
-
     //회원관리
     @GetMapping(value = "/members" )
     public String memberList(Model model, Principal principal){
 
         if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {
-                model.addAttribute("loginName", member.getName());
-            }
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
+            return "admin/members";
         }
-
-        return "admin/members";
+        else {
+            return "member/memberLoginForm";
+        }
     }
-
 }

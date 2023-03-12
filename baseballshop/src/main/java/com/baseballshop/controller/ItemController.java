@@ -9,6 +9,7 @@ import com.baseballshop.dto.SessionUser;
 import com.baseballshop.entity.Member;
 import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.service.ItemService;
+import com.baseballshop.service.LoginUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,32 +28,22 @@ import java.util.Optional;
 public class ItemController {
 
     private final ItemService itemService;
-    private final MemberRepository memberRepository;
-    private final HttpSession httpSession;
+    private final LoginUserService loginUserService;
 
     @GetMapping(value = "/itemSearch/{itemCategory}")
     public String itemList(@PathVariable("itemCategory")String itemCategory, Optional<Integer> page, Model model, Principal principal, ItemSearchDto itemSearchDto){
 
         if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {
-                model.addAttribute("loginName", member.getName());
-            }
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
         }
 
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
-
 
         String itemCategoryTitle = ItemCategory.valueOf(itemCategory).getTitle();
         String itemCategoryKey = ItemCategory.valueOf(itemCategory).getKey();
 
         Page<ItemListDto> items = itemService.getItemListPage(itemCategory, pageable);
-
-
 
         model.addAttribute("itemCategoryKey", itemCategoryKey);
         model.addAttribute("itemCategoryTitle",itemCategoryTitle);
@@ -67,25 +58,16 @@ public class ItemController {
     public String itemList(@PathVariable("itemCategory")String itemCategory, @PathVariable("team")String team, Optional<Integer> page, Model model, Principal principal, ItemSearchDto itemSearchDto){
 
         if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {
-                model.addAttribute("loginName", member.getName());
-            }
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
         }
 
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
-
 
         String itemCategoryTitle = ItemCategory.valueOf(itemCategory).getTitle();
         String itemCategoryKey = ItemCategory.valueOf(itemCategory).getKey();
 
         Page<ItemListDto> items = itemService.getTeamItemListPage(itemCategory, team,  pageable);
-
-
 
         model.addAttribute("itemCategoryKey", itemCategoryKey);
         model.addAttribute("itemCategoryTitle",itemCategoryTitle);
@@ -96,19 +78,12 @@ public class ItemController {
         return "item/itemList";
     }
 
-
     @GetMapping(value = "/item/{itemId}")
     public String itemDtl(Model model, Principal principal, @PathVariable("itemId")Long itemId){
 
         if(principal!=null){
-            Member member = memberRepository.findByEmail(principal.getName());
-            if (member == null) {
-                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-                model.addAttribute("loginName", user.getName());
-
-            } else {
-                model.addAttribute("loginName", member.getName());
-            }
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
         }
 
         ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
