@@ -1,13 +1,9 @@
 package com.baseballshop.controller;
 
-import com.baseballshop.config.CustomOAuth2UserService;
 import com.baseballshop.constant.ItemCategory;
 import com.baseballshop.dto.ItemFormDto;
 import com.baseballshop.dto.ItemListDto;
 import com.baseballshop.dto.ItemSearchDto;
-import com.baseballshop.dto.SessionUser;
-import com.baseballshop.entity.Member;
-import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.service.ItemService;
 import com.baseballshop.service.LoginUserService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.Optional;
 

@@ -240,7 +240,7 @@ public class AdminController {
     }
 
 
-    //공지사항 수정 : 내용
+    //공지사항 수정페이지
     @GetMapping(value = "/notice/{noticeId}")
     public String noticeUpdate(@PathVariable("noticeId")Long noticeId, Model model, Principal principal){
 
@@ -264,7 +264,7 @@ public class AdminController {
         }
     }
 
-    // 공지사항 수정 : 이미지
+    // 공지사항 수정한 내용 저장
     @PostMapping(value = "/notice/{noticeId}")
     public String noticeUpdate(@Valid NoticeFormDto noticeFormDto,
                                BindingResult bindingResult,

@@ -1,27 +1,17 @@
 package com.baseballshop.controller;
 
-import com.baseballshop.config.CustomOAuth2UserService;
-import com.baseballshop.config.OAuthAttributes;
 import com.baseballshop.dto.ItemSearchDto;
 import com.baseballshop.dto.MainItemDto;
-import com.baseballshop.dto.SessionUser;
-import com.baseballshop.entity.Member;
-import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.service.ItemService;
 import com.baseballshop.service.LoginUserService;
-import com.baseballshop.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
-import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.Optional;
 

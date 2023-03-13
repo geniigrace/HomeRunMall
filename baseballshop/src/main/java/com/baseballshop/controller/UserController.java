@@ -1,7 +1,6 @@
 package com.baseballshop.controller;
 
 import com.baseballshop.dto.*;
-import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.service.CartService;
 import com.baseballshop.service.LoginUserService;
 import com.baseballshop.service.MemberService;
@@ -19,7 +18,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
