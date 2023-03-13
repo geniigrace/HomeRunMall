@@ -60,13 +60,10 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
 
     }
 
-    //상품명, 상품생성자
+    //게시글 제목
     private BooleanExpression searchByLike(String searchBy, String searchQuery){
         if(StringUtils.equals("noticeTitle", searchBy)){
             return QNotice.notice.noticeTitle.like("%"+searchQuery+"%");
-        }
-        else if(StringUtils.equals("createdBy",searchBy)){
-            return QNotice.notice.createdBy.like("%" + searchQuery + "%");
         }
         return null;
     }

@@ -9,7 +9,7 @@
 <th:block layout:fragment="css">
     <style>
 
-  </style>
+    </style>
 </th:block>
 
 <th:block layout:fragment="script">
@@ -28,17 +28,18 @@
         var searchTeam = $("#searchTeam").val();
         var searchCategory = $("#searchCategory").val();
         var searchDateType = $("#searchDateType").val();
-        var searchBy = $("#searchBy").val();
         var searchQuery = $("#searchQuery").val();
+        if(searchQuery=='undefined'){
+            searchQuery="";
+        }
 
         location.href="/admin/items/" + page +
         "?searchDateType=" + searchDateType +
         "&searchSellStatus=" + searchSellStatus +
         "&searchTeam=" + searchTeam +
         "&searchCategory=" + searchCategory +
-        "&searchBy=" + searchBy +
         "&searchQuery=" + searchQuery;
-        };
+    };
 
 
     function checkAll(){
@@ -101,12 +102,8 @@
 
             }
         });
-
-
     }
-
-
-  </script>
+    </script>
 </th:block>
 
 <th:block layout:fragment="css">
@@ -114,7 +111,8 @@
     <link rel="stylesheet" href="/css/item/items.css">
     <style>
     select{ margin-right : 10px; }
-  </style>
+
+    </style>
 </th:block>
 
 <div layout:fragment="content">
@@ -126,58 +124,59 @@
         </div>
         <div class="page__body__wrap">
             <div class="page__body">
-                <form class="page__form" th:action="@{'/admin/items/'+${items.number}}" role="form" method="get" th:object="${items}">
+                <form class="page__form" th:action="@{'/admin/items/'+${items.number}}" role="form" method="get"
+                      th:object="${items}">
 
 
-                <div class="searchBar form-inline justify-content-center" th:object="${itemSearchDto}">
+                    <div class="searchBar form-inline justify-content-center" th:object="${itemSearchDto}">
 
-                    <select th:field="*{searchSellStatus}" class="form-control" style="width:auto;">
-                        <option value="">판매상태(전체)</option>
-                        <option value="SELL">판매</option>
-                        <option value="SOLD_OUT">품절</option>
-                    </select>
+                        <select th:field="*{searchSellStatus}" class="form-control" style="width:auto;">
+                            <option value="">판매상태(전체)</option>
+                            <option value="SELL">판매</option>
+                            <option value="SOLD_OUT">품절</option>
+                        </select>
 
-                    <select th:field="*{searchTeam}"  class="form-control" style="width:auto;">
-                        <option value="">구단</option>
-                        <option value="KOREA">KOREA</option>
-                        <option value="NC">NC 다이노스</option>
-                        <option value="SS">삼성 라이온스</option>
-                        <option value="SSG">SSG 랜더스</option>
-                        <option value="DS">두산 베어스</option>
-                        <option value="HH">한화 이글스</option>
-                        <option value="KT">KT 위즈</option>
-                        <option value="LT">롯데 자이언츠</option>
-                        <option value="KIA">기아 타이거즈</option>
-                        <option value="LG">LG 트윈스</option>
-                        <option value="KW">키움 히어로즈</option>
-                    </select>
+                        <select th:field="*{searchTeam}" class="form-control" style="width:auto;">
+                            <option value="">구단</option>
+                            <option value="KOREA">KOREA</option>
+                            <option value="NC">NC 다이노스</option>
+                            <option value="SS">삼성 라이온스</option>
+                            <option value="SSG">SSG 랜더스</option>
+                            <option value="DS">두산 베어스</option>
+                            <option value="HH">한화 이글스</option>
+                            <option value="KT">KT 위즈</option>
+                            <option value="LT">롯데 자이언츠</option>
+                            <option value="KIA">기아 타이거즈</option>
+                            <option value="LG">LG 트윈스</option>
+                            <option value="KW">키움 히어로즈</option>
+                        </select>
 
-                    <select th:field="*{searchCategory}" class="form-control" style="width:auto;">
-                        <option value="">상품</option>
-                        <option value="UNIFORM">유니폼</option>
-                        <option value="BALLCAP">모자</option>
-                        <option value="CLOTHES">의류</option>
-                        <option value="GOODS">잡화</option>
-                        <option value="BBITEM">야구용품</option>
-                        <option value="CHEERITEM">응원용품</option>
-                        <option value="PLAYER">플레이어</option>
-                        <option value="EVENT">기획전</option>
-                    </select>
+                        <select th:field="*{searchCategory}" class="form-control" style="width:auto;">
+                            <option value="">상품</option>
+                            <option value="UNIFORM">유니폼</option>
+                            <option value="BALLCAP">모자</option>
+                            <option value="CLOTHES">의류</option>
+                            <option value="GOODS">잡화</option>
+                            <option value="BBITEM">야구용품</option>
+                            <option value="CHEERITEM">응원용품</option>
+                            <option value="PLAYER">플레이어</option>
+                            <option value="EVENT">기획전</option>
+                        </select>
 
 
-                    <select th:field="*{searchDateType}" class="form-control" style="width:auto;">
-                        <option value="all">전체기간</option>
-                        <option value="1d">1일</option>
-                        <option value="1W">1주</option>
-                        <option value="1m">1개월</option>
-                        <option value="6m">6개월</option>
-                    </select>
+                        <select th:field="*{searchDateType}" class="form-control" style="width:auto;">
+                            <option value="all">전체기간</option>
+                            <option value="1d">1일</option>
+                            <option value="1W">1주</option>
+                            <option value="1m">1개월</option>
+                            <option value="6m">6개월</option>
+                        </select>
+                        <input th:field="*{searchQuery}" type="text" id="searchBar" class="form-control"
+                               placeholder="상품명을 입력하세요.">
+                        <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
 
-                    <input th:field="*{searchQuery}" type="text" id="searchBar" class="form-control" placeholder="상품명을 입력하세요.">
-                    <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
-
-                </div>
-               <table class="table">
+                    </div>
+                    <table class="table">
 
                         <thead>
                         <tr>
@@ -186,7 +185,7 @@
                             <td>판매상태</td>
                             <td>구단</td>
                             <td>카테고리</td>
-            <!--                <td>썸네일</td>-->
+                            <!--                <td>썸네일</td>-->
                             <td>상품명</td>
                             <td>가격</td>
                             <td>재고</td>
@@ -196,12 +195,12 @@
                         <tbody>
                         <!--each : 반복문 돌면서 결과물 화면에 표현-->
                         <tr th:each="item, status : ${items.getContent()}">
-                            <td><input type="checkbox" name="itemCheckBox" th:value="${item.id}" ></td>
+                            <td><input type="checkbox" name="itemCheckBox" th:value="${item.id}"></td>
                             <td th:text="${item.id}"></td>
                             <td th:text="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL} ? '판매중' : '품절' "></td>
                             <td th:text="${item.team.title}"></td>
                             <td th:text="${item.category.title}"></td>
-            <!--                <td> 썸네일 </td>-->
+                            <!--                <td> 썸네일 </td>-->
                             <td><a th:href="'/admin/item/'+${item.id}" th:text="${item.itemName}"></a></td>
                             <td th:text="${#numbers.formatInteger(item.price, 0, 'COMMA')}"></td>
                             <td th:text="${#numbers.formatInteger(item.stockNumber, 0, 'COMMA')}"></td>
@@ -209,38 +208,34 @@
                         </tbody>
                     </table>
                     <div class="btnArea">
-                        <button type="button" class="btn btn-outline-secondary" onclick="location.href='/admin/item/new'"> 상품등록 </button>
-                        <button type="button" class="btn btn-danger" id="deleteBtn" onclick="modifyDelItem()">삭제</button>
+                        <button type="button" class="btn btn-outline-secondary"
+                                onclick="location.href='/admin/item/new'"> 상품등록
+                        </button>
+                        <button type="button" class="btn btn-danger" id="deleteBtn" onclick="modifyDelItem()">삭제
+                        </button>
                     </div>
 
-
-            <!--        <button type="button" class="btn btn-primary" th:onclick="itemDelete()">삭제</button>-->
-
-                    <!--페이지수, 게시글 수를 계산하기 위함-->
                     <div th:with="start=${(items.number/maxPage)*maxPage +1}, end=(${(items.totalPages == 0) ? 1:(start+(maxPage-1) < items.totalPages ? start + (maxPage -1) : items.totalPages)})">
 
                         <ul class="pagination justify-content-center">
                             <li class="page-item" th:classappend="${items.first}?'disabled'"> <!--첫번째 아이템이면 pre 안띄움 -->
-                                <a th:onclick="'javascript:page('+${items.number - 1} + ')'" aria-label='Previous' class="page-link">
-                                    <span aria-hidden="true">Pre</span>
+                                <a th:onclick="'javascript:page('+${items.number - 1} + ')'" aria-label='Previous'
+                                   class="page-link">
+                                    <span class="preAndNextBtn" aria-hidden="true">◀︎</span>
                                 </a>
                             </li>
-                            <!--페이지 번호-->
-                            <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}" th:classappend="${items.number eq page-1}?'active':''">
-                                <!--page의 next 와 pre 는 1,2,... 으로 시작되지만 페이지 index는 0부터 시작하므로 page-1 해서 지정함 -->
+                            <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}"
+                                th:classappend="${items.number eq page-1}?'active':''">
                                 <a th:onclick="'javascript:page('+${page -1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
                             </li>
-
-
                             <li class="page-item" th:classappend="${items.last}?'disabled'">
-                                <a th:onclick="'javascript:page(' + ${items.number + 1} + ')'" aria-label="Next" class="page-link">
-                                    <span aria-hidden="true">Next</span>
+                                <a th:onclick="'javascript:page(' + ${items.number + 1} + ')'" aria-label="Next"
+                                   class="page-link">
+                                    <span class="preAndNextBtn" aria-hidden="true">▶︎</span>
                                 </a>
                             </li>
                         </ul>
-
                     </div>
-
                 </form>
             </div>
         </div>

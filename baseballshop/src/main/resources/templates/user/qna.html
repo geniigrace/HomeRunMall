@@ -74,7 +74,7 @@ function qnaMemberCheck(id){
           cache : false,
           success : function(result, status){
               alert("답변이 완료 되었습니다.");
-              location.href='/qna/'+[[${page}]];
+              location.href='/qna/';
               },
           error : function(jqXHR, status, error){
               if(jqXHR.status == '401'){
@@ -86,7 +86,12 @@ function qnaMemberCheck(id){
                 }
           }
       });
+  };
+
+  function page(page){
+        location.href="/qna/"+page;
   }
+
     </script>
 </th:block>
 <th:block layout:fragment="css">
@@ -145,25 +150,28 @@ function qnaMemberCheck(id){
                         </tr>
                         </tbody>
                     </table>
-                    <div th:with="start=${(qna.number/maxPage)*maxPage +1}, end=(${(qna.totalPages == 0) ? 1:(start+(maxPage-1) < qna.totalPages ? start + (maxPage -1) : qna.totalPages)})">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item" th:classappend="${qna.first}?'disabled'"><!--첫번째 아이템이면 pre 안띄움 -->
-                                <a th:onclick="'javascript:page('+${qna.number - 1} + ')'" aria-label='Previous'
-                                   class="page-link">
-                                    <span class="preAndNextBtn" aria-hidden="true">◀︎</span>
-                                </a>
-                            </li>
-                            <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}"
-                                th:classappend="${qna.number eq page-1}?'active':''">
-                                <a th:onclick="'javascript:page('+${page -1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
-                            </li>
-                            <li class="page-item" th:classappend="${qna.last}?'disabled'">
-                                <a th:onclick="'javascript:page(' + ${qna.number + 1} + ')'" aria-label="Next"
-                                   class="page-link">
-                                    <span class="preAndNextBtn" aria-hidden="true">►</span>
-                                </a>
-                            </li>
-                        </ul>
+                    <div id="pagingWrap">
+                        <div id="paging">
+                            <div th:with="start=${(qna.number/maxPage)*maxPage +1}, end=(${(qna.totalPages == 0) ? 1:(start+(maxPage-1) < qna.totalPages ? start + (maxPage -1) : qna.totalPages)})">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item" th:classappend="${qna.first}?'disabled'">
+                                        <a th:onclick="'javascript:page('+${qna.number - 1} + ')'" aria-label='Previous' class="page-link">
+                                            <span class="preAndNextBtn" aria-hidden="true">◀︎</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}" th:classappend="${qna.number eq page-1}?'active':''">
+                                        <a th:onclick="'javascript:page('+${page -1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+                                    </li>
+
+                                    <li class="page-item" th:classappend="${qna.last}?'disabled'">
+                                        <a th:onclick="'javascript:page(' + ${qna.number + 1} + ')'" aria-label="Next" class="page-link">
+                                            <span class="preAndNextBtn" aria-hidden="true">▶︎</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                     <div sec:authorize="hasRole('USER')" class="buttonBlock">
                         <button type="button" class="btn btn-secondary" onclick="location.href='/qna/new'">문의하기</button>

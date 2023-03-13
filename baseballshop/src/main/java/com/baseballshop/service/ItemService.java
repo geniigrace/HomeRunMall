@@ -126,12 +126,12 @@ public class ItemService {
 
     //상품리스트 조회 페이지
     @Transactional(readOnly = true)
-    public Page<ItemListDto> getItemListPage(String itemCategory, Pageable pageable){
-        return itemRepository.getItemListPage(itemCategory, pageable);
+    public Page<ItemListDto> getItemListPage(ItemSearchDto itemSearchDto, String itemCategory, Pageable pageable){
+        return itemRepository.getItemListPage(itemSearchDto, itemCategory, pageable);
     }
 
     @Transactional(readOnly = true)
-    public Page<ItemListDto> getTeamItemListPage(String itemCategory, String team, Pageable pageable){
-        return itemRepository.getTeamItemListPage(itemCategory,team, pageable);
+    public Page<ItemListDto> getTeamItemListPage(ItemSearchDto itemSearchDto, String itemCategory, String team, Pageable pageable){
+        return itemRepository.getTeamItemListPage(itemSearchDto, itemCategory,team, pageable);
     }
 }

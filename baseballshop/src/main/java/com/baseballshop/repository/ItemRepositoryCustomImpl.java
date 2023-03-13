@@ -84,13 +84,14 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
 
     }
 
-    private BooleanExpression searchByLike(String searchQuery){
-        if(searchQuery != null){
+    private BooleanExpression searchByLike(String searchBy, String searchQuery){
+        if(StringUtils.equals("itemName", searchBy)){
             return QItem.item.itemName.like("%"+searchQuery+"%");
         }
-        else {
-            return null;
+        else if(StringUtils.equals("createdBy",searchBy)){
+            return QItem.item.createdBy.like("%" + searchQuery + "%");
         }
+        return null;
     }
 
     private BooleanExpression searchItemCategory(String itemCategory){
@@ -111,7 +112,7 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
                         searchSellStatusEq(itemSearchDto.getSearchSellStatus()),
                         searchTeam(itemSearchDto.getSearchTeam()),
                         searchCategory(itemSearchDto.getSearchCategory()),
-                        searchByLike(itemSearchDto.getSearchQuery()),
+                        searchItemNameLike(itemSearchDto.getSearchQuery()),
                         searchShowStatus(ShowStatus.SHOW))
                 .orderBy(QItem.item.id.desc())
                 .offset(pageable.getOffset()).
@@ -130,9 +131,9 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
 
         //QMainItemDto @QueryProjection 을 하면 DTO로 바로 조회 가능
         QueryResults<MainItemDto> results
-                = queryFactory.select(new QMainItemDto(item.id, item.itemName, item.itemDetail, itemImg.imgUrl, item.price))
+                = queryFactory.select(new QMainItemDto(item.id, item.itemName, item.itemDetail, itemImg.imgUrl, item.price, item.sellStatus))
                 .from(itemImg).join(itemImg.item, item).where(itemImg.repImgYn.eq("Y"))
-                .where(itemNameLike(itemSearchDto.getSearchQuery()),
+                .where(searchItemNameLike(itemSearchDto.getSearchQuery()),
                         searchShowStatus(ShowStatus.SHOW))
                 .orderBy(item.id.desc())
                 .offset(pageable.getOffset())
@@ -145,20 +146,22 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
     }
 
     //메인화면 관련
-    private BooleanExpression itemNameLike(String searchQuery){
+    private BooleanExpression searchItemNameLike(String searchQuery){
         return StringUtils.isEmpty(searchQuery) ? null : QItem.item.itemName.like("%" + searchQuery + "%");
     }
 
     //상품리스트 페이지
     @Override
-    public Page<ItemListDto> getItemListPage(String itemCategory,Pageable pageable){
+    public Page<ItemListDto> getItemListPage(ItemSearchDto itemSearchDto, String itemCategory,Pageable pageable){
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
 
         QueryResults<ItemListDto> results
-                = queryFactory.select(new QItemListDto(item.id, item.itemName,itemImg.imgUrl, item.price, item.category))
+                = queryFactory.select(new QItemListDto(item.id, item.itemName,itemImg.imgUrl, item.price, item.category, item.sellStatus))
                 .from(itemImg).join(itemImg.item, item).where(itemImg.repImgYn.eq("Y"))
-                .where(searchItemCategory(itemCategory))
+                .where(searchItemCategory(itemCategory),
+                        searchItemNameLike(itemSearchDto.getSearchQuery()),
+                        searchShowStatus(ShowStatus.SHOW))
                 .orderBy(item.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize()).fetchResults();
@@ -169,14 +172,17 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
     }
 
     @Override
-    public Page<ItemListDto> getTeamItemListPage(String itemCategory,String team, Pageable pageable){
+    public Page<ItemListDto> getTeamItemListPage(ItemSearchDto itemSearchDto, String itemCategory,String team, Pageable pageable){
         QItem item = QItem.item;
         QItemImg itemImg = QItemImg.itemImg;
 
         QueryResults<ItemListDto> results
-                = queryFactory.select(new QItemListDto(item.id, item.itemName,itemImg.imgUrl, item.price, item.category))
+                = queryFactory.select(new QItemListDto(item.id, item.itemName,itemImg.imgUrl, item.price, item.category, item.sellStatus))
                 .from(itemImg).join(itemImg.item, item).where(itemImg.repImgYn.eq("Y"))
-                .where(searchItemCategory(itemCategory), searchItemTeam(team))
+                .where(searchItemCategory(itemCategory),
+                        searchItemTeam(team),
+                        searchItemNameLike(itemSearchDto.getSearchQuery()),
+                        searchShowStatus(ShowStatus.SHOW))
                 .orderBy(item.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize()).fetchResults();

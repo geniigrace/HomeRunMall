@@ -39,7 +39,7 @@ public class CommunityController {
     private final MemberRepository memberRepository;
 
     //공지사항 리스트
-    @GetMapping(value = "/notice")
+    @GetMapping(value = {"/notice", "/notice/list/{page}"})
     public String noticeManage(NoticeSearchDto noticeSearchDto, @PathVariable("page") Optional<Integer> page,  Model model, Principal principal){
 
         if(principal!=null){
@@ -47,12 +47,12 @@ public class CommunityController {
             model.addAttribute("loginName", loginName);
         }
 
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
         Page<Notice> notices = noticeService.getNoticePage(noticeSearchDto,pageable);
 
         model.addAttribute("notices", notices);
         model.addAttribute("noticeSearchDto", noticeSearchDto);
-        model.addAttribute("maxPage", 10);
+        model.addAttribute("maxPage", 3);
 
         return "notice/notice";
     }
@@ -81,13 +81,12 @@ public class CommunityController {
             String loginName = loginUserService.loginUserNameEmail(principal)[0];
             model.addAttribute("loginName", loginName);
         }
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
 
         Page<QnaListDto> qna = qnaService.getQnaPage(pageable);
 
         model.addAttribute("qna", qna);
-        model.addAttribute("page", pageable.getPageNumber());
-        model.addAttribute("maxPage", 5);
+        model.addAttribute("maxPage", 3);
 
         return "user/qna";
     }

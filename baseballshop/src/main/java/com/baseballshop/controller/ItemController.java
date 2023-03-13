@@ -33,18 +33,22 @@ public class ItemController {
             model.addAttribute("loginName", loginName);
         }
 
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+
+        if (itemSearchDto.getSearchQuery() == null) {
+            itemSearchDto.setSearchQuery("");
+        }
 
         String itemCategoryTitle = ItemCategory.valueOf(itemCategory).getTitle();
         String itemCategoryKey = ItemCategory.valueOf(itemCategory).getKey();
 
-        Page<ItemListDto> items = itemService.getItemListPage(itemCategory, pageable);
+        Page<ItemListDto> items = itemService.getItemListPage(itemSearchDto, itemCategory, pageable);
 
         model.addAttribute("itemCategoryKey", itemCategoryKey);
         model.addAttribute("itemCategoryTitle",itemCategoryTitle);
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto", itemSearchDto);
-        model.addAttribute("maxPage", 10);
+        model.addAttribute("maxPage", 5);
 
         return "item/itemList";
     }
@@ -57,18 +61,22 @@ public class ItemController {
             model.addAttribute("loginName", loginName);
         }
 
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+
+        if (itemSearchDto.getSearchQuery() == null) {
+            itemSearchDto.setSearchQuery("");
+        }
 
         String itemCategoryTitle = ItemCategory.valueOf(itemCategory).getTitle();
         String itemCategoryKey = ItemCategory.valueOf(itemCategory).getKey();
 
-        Page<ItemListDto> items = itemService.getTeamItemListPage(itemCategory, team,  pageable);
+        Page<ItemListDto> items = itemService.getTeamItemListPage(itemSearchDto, itemCategory, team,  pageable);
 
         model.addAttribute("itemCategoryKey", itemCategoryKey);
         model.addAttribute("itemCategoryTitle",itemCategoryTitle);
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto", itemSearchDto);
-        model.addAttribute("maxPage", 10);
+        model.addAttribute("maxPage", 3);
 
         return "item/itemList";
     }

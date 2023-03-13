@@ -26,8 +26,8 @@ public class ItemSearchDto {
     //등록일
     private String searchDateType;
 
-    //상품명
-    private String searchBy;
+    //상품명, 등록자
+    //private String searchBy;
 
     private String searchQuery="";
 

@@ -60,6 +60,8 @@
                   <img th:src="${item.imgUrl}" th:alt="${item.itemName}" id="itemListImg">
                 </div>
                 <div id="itemListInfoWrap">
+                  <span th:if="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}" class="badge badge-primary mgb-15">판매중</span>
+                  <span th:unless="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}" class="badge badge-primary mgb-15">품절</span>
                   <p id="itemInfoItemName">[[${item.itemName}]]</p>
                   <p id="itemInfoItemPrice">[[${#numbers.formatInteger(item.price, 0, 'COMMA')}]]원</p>
                 </div>
@@ -73,17 +75,17 @@
               <ul class="pagination justify-content-center">
 
                 <li class="page-item" th:classappend="${items.number eq 0} ? 'disabled' ">
-                  <a th:href="@{'/' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number-1}}" aria-label='Previous' class="page-link">
+                  <a th:href="@{'/itemSearch/' + ${itemCategoryKey} + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number-1}}" aria-label='Previous' class="page-link">
                     <span class="preAndNextBtn" aria-hidden="true">◀︎</span>
                   </a>
                 </li>
 
                 <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}" th:classappend="${items.number eq page-1}?'active':''">
-                  <a th:href="@{ '/' + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${page -1}}" th:inline="text" class="page-link">[[${page}]]</a>
+                  <a th:href="@{ '/itemSearch/' + ${itemCategoryKey} + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${page -1}}" th:inline="text" class="page-link">[[${page}]]</a>
                 </li>
 
                 <li class="page-item" th:classappend="${items.number+1 ge items.totalPages} ?'disabled'">
-                  <a th:href="@{ '/'+ '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number + 1}}" aria-label="Next" class="page-link">
+                  <a th:href="@{ '/itemSearch/' + ${itemCategoryKey} + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number + 1}}" aria-label="Next" class="page-link">
                     <span class="preAndNextBtn" aria-hidden="true">▶︎</span>
                   </a>
                 </li>

@@ -137,7 +137,7 @@ public class UserController {
 
     public String order(Model model, Principal principal, @PathVariable("page") Optional<Integer> page){
 
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
 
         if(principal!=null) {//로그인 했을 때
             String loginName = loginUserService.loginUserNameEmail(principal)[0];
@@ -148,8 +148,7 @@ public class UserController {
             Page<OrderHistDto> orderHistDtoList = orderService.getOrderList(loginEmail, pageable);
 
             model.addAttribute("orders", orderHistDtoList);
-            model.addAttribute("page", pageable.getPageNumber());
-            model.addAttribute("maxPage", 5);
+            model.addAttribute("maxPage", 3);
 
             return "user/orderlist";
         }
@@ -219,6 +218,7 @@ public class UserController {
         if(!orderService.validateOrder(orderId, loginEmail)){
             return new ResponseEntity<String>("주문 취소 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
+
         orderService.cancelOrder(orderId);
         return new ResponseEntity<Long>(orderId, HttpStatus.OK);
     }

@@ -7,6 +7,14 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
 </head>
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+function page(page){
+location.href="/admin/orders/"+page;
+}
+</script>
+</th:block>
+
 <th:block layout:fragment="css">
     <link rel="stylesheet" href="/css/contentLayout.css">
     <link rel="stylesheet" href="/css/order/orderlistAdmin.css">
@@ -80,27 +88,28 @@
                         </tr>
                         </tbody>
                     </table>
-                    <div class="pageNumber"
-                         th:with="start=${(orders.number/maxPage)*maxPage+1}, end=( ${(orders.totalPages ==0) ? 1:(start+ (maxPage-1) < orders.totalPages ? start + (maxPage -1) : orders.totalPages)})">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item" th:classappend="${orders.number eq 0}?'disabled' : ''">
-                                <a th:href="@{ '/orders/'+ ${orders.number-1} }" aria-label="Previous"
-                                   class="page-link">
-                                    <span class="preAndNextBtn" aria-hidden="true">◀</span>
-                                </a>
-                            </li>
-                            <li class="page-item" th:each="page : ${#numbers.sequence(start, end)}"
-                                th:classappend="${orders.number eq page-1}? 'active' : ''">
-                                <a th:href="@{ '/orders/'+${page-1} }" th:inline="text"
-                                   class="page-link">[[${page}]]</a>
-                            </li>
-                            <li class="page-item"
-                                th:classappend="${orders.number+1 ge orders.totalPages}? 'disabled' : ''">
-                                <a th:href="@{ '/orders/'+${orders.number+1} }" aria-label="Next" class="page-link">
-                                    <span class="preAndNextBtn" aria-hidden="true">▶</span>
-                                </a>
-                            </li>
-                        </ul>
+                    <div id="pagingWrap">
+                        <div id="paging">
+                            <div th:with="start=${(orders.number/maxPage)*maxPage +1}, end=(${(orders.totalPages == 0) ? 1:(start+(maxPage-1) < orders.totalPages ? start + (maxPage -1) : orders.totalPages)})">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item" th:classappend="${orders.first}?'disabled'">
+                                        <a th:onclick="'javascript:page('+${orders.number - 1} + ')'" aria-label='Previous' class="page-link">
+                                            <span class="preAndNextBtn" aria-hidden="true">◀︎</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}" th:classappend="${orders.number eq page-1}?'active':''">
+                                        <a th:onclick="'javascript:page('+${page -1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+                                    </li>
+
+                                    <li class="page-item" th:classappend="${orders.last}?'disabled'">
+                                        <a th:onclick="'javascript:page(' + ${orders.number + 1} + ')'" aria-label="Next" class="page-link">
+                                            <span class="preAndNextBtn" aria-hidden="true">▶︎</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

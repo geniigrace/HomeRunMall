@@ -32,7 +32,7 @@
           cache : false,
           success : function(result, status){
               alert("주문이 취소되었습니다.");
-              location.href='/user/orderlist/'+[[${page}]];
+              location.href='/user/orderlist/';
               },
           error : function(jqXHR, status, error){
               if(jqXHR.status == '401'){
@@ -44,7 +44,12 @@
                 }
           }
       });
+  };
+
+   function page(page){
+        location.href="/user/orderlist/"+page;
   }
+
     </script>
 </th:block>
 <th:block layout:fragment="css">
@@ -93,7 +98,7 @@
                                         </div>
                                         <div class="orderItemInfo">
                                             <div class="orderItemName-area">
-                                                <span th:text="${orderItem.itemName}" ></span>
+                                                <span th:text="${orderItem.itemName}"></span>
                                                 <div>
                                                     <div class="orderItemCount-area" style="vertical-align: middle;">
                                                         <span th:text="${#numbers.formatInteger(orderItem.orderPrice,0,'COMMA')} + '원, '"></span>
@@ -122,27 +127,28 @@
                         </tr>
                         </tbody>
                     </table>
-                    <div class="pageNumber"
-                         th:with="start=${(orders.number/maxPage)*maxPage+1}, end=( ${(orders.totalPages ==0) ? 1:(start+ (maxPage-1) < orders.totalPages ? start + (maxPage -1) : orders.totalPages)})">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item" th:classappend="${orders.number eq 0}?'disabled' : ''">
-                                <a th:href="@{ '/orders/'+ ${orders.number-1} }" aria-label="Previous"
-                                   class="page-link">
-                                    <span  class="preAndNextBtn" aria-hidden="true">◀</span>
-                                </a>
-                            </li>
-                            <li class="page-item" th:each="page : ${#numbers.sequence(start, end)}"
-                                th:classappend="${orders.number eq page-1}? 'active' : ''">
-                                <a th:href="@{ '/orders/'+${page-1} }" th:inline="text"
-                                   class="page-link">[[${page}]]</a>
-                            </li>
-                            <li class="page-item"
-                                th:classappend="${orders.number+1 ge orders.totalPages}? 'disabled' : ''">
-                                <a th:href="@{ '/orders/'+${orders.number+1} }" aria-label="Next" class="page-link">
-                                    <span class="preAndNextBtn" aria-hidden="true">▶</span>
-                                </a>
-                            </li>
-                        </ul>
+                    <div id="pagingWrap">
+                        <div id="paging">
+                            <div th:with="start=${(orders.number/maxPage)*maxPage +1}, end=(${(orders.totalPages == 0) ? 1:(start+(maxPage-1) < orders.totalPages ? start + (maxPage -1) : orders.totalPages)})">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item" th:classappend="${orders.first}?'disabled'">
+                                        <a th:onclick="'javascript:page('+${orders.number - 1} + ')'" aria-label='Previous' class="page-link">
+                                            <span class="preAndNextBtn" aria-hidden="true">◀︎</span>
+                                        </a>
+                                    </li>
+
+                                    <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}" th:classappend="${orders.number eq page-1}?'active':''">
+                                        <a th:onclick="'javascript:page('+${page -1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+                                    </li>
+
+                                    <li class="page-item" th:classappend="${orders.last}?'disabled'">
+                                        <a th:onclick="'javascript:page(' + ${orders.number + 1} + ')'" aria-label="Next" class="page-link">
+                                            <span class="preAndNextBtn" aria-hidden="true">▶︎</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

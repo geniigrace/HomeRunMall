@@ -98,10 +98,15 @@ public class AdminController {
     public String itemManage(ItemSearchDto itemSearchDto, @PathVariable("page") Optional<Integer> page, Model model, Principal principal){
 
         if(principal!=null){
+
             String loginName = loginUserService.loginUserNameEmail(principal)[0];
             model.addAttribute("loginName", loginName);
 
-            Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
+            if (itemSearchDto.getSearchQuery() == null || itemSearchDto.getSearchQuery().equals("undefined")) {
+                itemSearchDto.setSearchQuery("");
+            }
+
+            Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
 
             Page<Item> items = itemService.getAdminItemPage(itemSearchDto, pageable);
 
@@ -188,13 +193,12 @@ public class AdminController {
         if(principal!=null){
             String loginName = loginUserService.loginUserNameEmail(principal)[0];
             model.addAttribute("loginName", loginName);
-            Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+            Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
 
             Page<OrderHistDto> orderHistDtoList = orderService.getAllOrderList(pageable);
 
             model.addAttribute("orders", orderHistDtoList);
-            model.addAttribute("page", pageable.getPageNumber());
-            model.addAttribute("maxPage", 5);
+            model.addAttribute("maxPage", 3);
 
             return "admin/orders";
         }
