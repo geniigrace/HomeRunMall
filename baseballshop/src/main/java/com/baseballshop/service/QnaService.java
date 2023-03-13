@@ -124,4 +124,10 @@ public class QnaService {
         QnaListDto qnaListDto = new QnaListDto(qna);
         return qnaListDto;
     }
+
+    public Long updateQna(QnaFormDto qnaFormDto){
+        Qna qna = qnaRepository.findById(qnaFormDto.getId()).orElseThrow(EntityNotFoundException::new);
+        qna.updateQna(qnaFormDto);
+        return qna.getId();
+    }
 }

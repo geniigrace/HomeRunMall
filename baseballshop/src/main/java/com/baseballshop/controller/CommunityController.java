@@ -21,7 +21,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.PrintWriter;
 import java.security.Principal;
 import java.util.Optional;
 
@@ -145,10 +147,25 @@ public class CommunityController {
         return "user/qnaForm";
     }
 
-//    @PostMapping(value = "/qna/modify/{id}")
-//    public String qnaUpdate (){
-//
-//    }
+    @PostMapping(value = "/qna/modify/{id}")
+    public String qnaUpdate (@Valid QnaFormDto qnaFormDto, BindingResult bindingResult, Model model, HttpServletResponse response){
+        if(bindingResult.hasErrors()){
+            return "user/qnaForm";
+        }
+        try{
+            qnaService.updateQna(qnaFormDto);
+
+            response.setContentType("text/html; charset=euc-kr");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('게시글이 수정되었습니다.'); location.href='/qna';</script>");
+            out.flush();
+            return "redirect:/qna";
+        }
+        catch(Exception e){
+            model.addAttribute("errorMessage", "게시글 수정 중 에러가 발생하였습니다.");
+            return "user/qnaForm";
+        }
+    }
     //QNA 답변완료상태 변경
     @PutMapping(value="/qna/done/{id}")
     public @ResponseBody ResponseEntity doneQna(@PathVariable("id") Long qnaId,Principal principal){
