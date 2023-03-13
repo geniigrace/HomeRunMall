@@ -1,7 +1,11 @@
 package com.baseballshop.controller;
 
+import com.baseballshop.constant.Role;
 import com.baseballshop.dto.*;
 import com.baseballshop.entity.Notice;
+import com.baseballshop.entity.Qna;
+import com.baseballshop.repository.MemberRepository;
+import com.baseballshop.repository.QnaRepository;
 import com.baseballshop.service.LoginUserService;
 import com.baseballshop.service.NoticeService;
 import com.baseballshop.service.QnaService;
@@ -16,9 +20,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -29,6 +33,8 @@ public class CommunityController {
     private final QnaService qnaService;
     private final LoginUserService loginUserService;
     private final NoticeService noticeService;
+    private final QnaRepository qnaRepository;
+    private final MemberRepository memberRepository;
 
     //공지사항 리스트
     @GetMapping(value = "/notice")
@@ -96,6 +102,8 @@ public class CommunityController {
             String loginEmail = loginUserService.loginUserNameEmail(principal)[1];
             QnaFormDto qnaFormDto = new QnaFormDto();
             qnaFormDto.setQnaEmail(loginEmail);
+
+            //model.addAttribute("check", false);
             model.addAttribute("qnaFormDto",qnaFormDto);
 
             return "user/qnaForm";
@@ -118,16 +126,67 @@ public class CommunityController {
             model.addAttribute("errorMessage", "게시글 등록중 에러가 발생했습니다.");
             return "user/qnaForm";
         }
-
         return "redirect:/qna";
     }
 
+    //QNA수정페이지
+    @GetMapping(value = "/qna/modify/{id}")
+    public String qnaUpdatePage(@PathVariable("id")Long qnaId, Model model, Principal principal){
+
+        String loginName = loginUserService.loginUserNameEmail(principal)[0];
+        model.addAttribute("loginName", loginName);
+
+        QnaListDto qnaListDto = qnaService.qnaView(qnaId);
+//        Boolean check = qnaService.qnaWriterCheck(loginUserService.loginUserNameEmail(principal)[1], qnaId);
+
+//        model.addAttribute("check", check);
+        model.addAttribute("qnaFormDto", qnaListDto);
+        model.addAttribute("newLineChar", '\n');
+        return "user/qnaForm";
+    }
+
+//    @PostMapping(value = "/qna/modify/{id}")
+//    public String qnaUpdate (){
+//
+//    }
     //QNA 답변완료상태 변경
-    @PutMapping("/qna/{id}/done")
+    @PutMapping(value="/qna/done/{id}")
     public @ResponseBody ResponseEntity doneQna(@PathVariable("id") Long qnaId,Principal principal){
 
         Long qnaDoneId = qnaService.qnaDone(qnaId);
 
         return new ResponseEntity<Long>(qnaDoneId, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/qna/memberCheck/{id}")
+    public @ResponseBody ResponseEntity qnaMemberCheck(@PathVariable("id")Long qnaId, Principal principal){
+       if(principal != null) {
+           //로그인한 이메일
+           String loginEmail = loginUserService.loginUserNameEmail(principal)[1];
+           //비교
+           Boolean result =qnaService.qnaWriterCheck(loginEmail, qnaId);
+           return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+       }
+       else{
+           return new ResponseEntity<Integer>(HttpStatus.UNAUTHORIZED);
+       }
+    }
+
+    @GetMapping(value="/qna/detail/{id}")
+    public String qnaDtl(@PathVariable("id")Long qnaId, Model model, Principal principal){
+        if(principal!=null){
+            String loginName = loginUserService.loginUserNameEmail(principal)[0];
+            model.addAttribute("loginName", loginName);
+        }
+
+        QnaListDto qnaListDto = qnaService.qnaView(qnaId);
+        Boolean check = qnaService.qnaMemberCheck(loginUserService.loginUserNameEmail(principal)[1], qnaId);
+
+        model.addAttribute("check", check);
+        model.addAttribute("qna", qnaListDto);
+        model.addAttribute("newLineChar", '\n');
+        return "user/qnaDtl";
+    }
+
+
 }

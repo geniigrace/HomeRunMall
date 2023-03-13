@@ -11,11 +11,51 @@
 <th:block layout:fragment="script">
     <script th:inline="javascript">
 
+function qnaMemberCheck(id){
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
+        var url ="/qna/memberCheck/"+id;
+        var paramData = { memberCheckId : id, }
+
+        var param = JSON.stringify(paramData);
+
+        $.ajax({
+            url: url,
+            type : "POST",
+            contentType : "application/json",
+            data : param,
+            beforeSend : function(xhr){
+                  xhr.setRequestHeader(header, token);
+                  },
+              dataType : "json",
+              cache : false,
+            success : function(result, status){
+                  if(result===true){
+                  location.href='/qna/detail/'+id;
+                  }
+                  else{
+                  alert('작성자만 확인 가능합니다.');
+                  location.href='/qna';
+                  }
+            },
+            error : function(jqXHR, status, error){
+                  if(jqXHR.status == '401'){
+                        alert('로그인 후 이용해주세요');
+                        location.href='/members/login';
+                  }
+                  else{
+                    alert(jqXHR.responseText);
+                  }
+            }
+        });
+    };
+
   function answerDone(id){
       var token = $("meta[name='_csrf']").attr("content");
       var header = $("meta[name='_csrf_header']").attr("content");
 
-      var url = "/qna/" + id + "/done";
+      var url = "/qna/done/"+id;
       var paramData = {
         doneId : id,
       }
@@ -85,8 +125,8 @@
                             <td sec:authorize="hasRole('ADMIN')">
                                 <input type="checkbox" id="qnaCheckList" name="qnaCheckBox" th:value="${qna.id}"></td>
                             <td th:text="${qna.id}"></td>
-                            <td th:text="${qna.qnaType.title}"></td>
-                            <td><a th:href="@{/qna/{id}(id=${qna.id})}" th:text="${qna.qnaTitle}"></a></td>
+                            <td id="qnaType" th:text="${qna.qnaType.title}"></td>
+                            <td><a th:onclick="|javascript:qnaMemberCheck('${qna.id}')|" th:text="${qna.qnaTitle}"></a></td>
                             <td th:text="${qna.qnaMemberId}"></td>
                             <td th:text="${qna.qnaDate}"></td>
                             <td>

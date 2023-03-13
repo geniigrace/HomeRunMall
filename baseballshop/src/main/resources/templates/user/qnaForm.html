@@ -27,15 +27,15 @@
         </div>
         <div class="page__body__wrap">
             <div class="page__body">
-                <form class="page__form" role="form" method="post" th:object="${qnaFormDto}">
+                <form class="page__form" role="form" method="post">
 
-                    <input type="hidden" th:field="*{id}">
+                    <input type="hidden" th:field="*{qnaFormDto.id}">
 
                     <div class="input-group" id="hiddenShowStatus">
                         <div class="input-group-prepend">
                             <span class="input-group-text">삭제여부</span>
                         </div>
-                        <select th:field="*{showStatus}" class="custom-select">
+                        <select th:field="*{qnaFormDto.showStatus}" class="custom-select">
                             <option value="SHOW"></option>
                         </select>
                     </div>
@@ -44,7 +44,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text form-control">카테고리</span>
                         </div>
-                        <select th:field="*{qnaType}" class="custom-select form-control">
+                        <select th:field="*{qnaFormDto.qnaType}" class="custom-select form-control">
                             <option sec:authorize="hasRole('USER')" value="ITEM" th:text=${T(com.baseballshop.constant.QnaStatus).ITEM.title}></option>
                             <option sec:authorize="hasRole('USER')" value="DELIVERY" th:text=${T(com.baseballshop.constant.QnaStatus).DELIVERY.title}></option>
                             <option sec:authorize="hasRole('USER')" value="ETC" th:text=${T(com.baseballshop.constant.QnaStatus).ETC.title}></option>
@@ -55,30 +55,30 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text form-control">이메일</span>
                         </div>
-                        <input type="text" th:field="*{qnaEmail}" th:value="${qnaFormDto.qnaEmail}" class="form-control" readonly>
+                        <input type="text" th:field="*{qnaFormDto.qnaEmail}" th:value="${qnaFormDto.qnaEmail}" class="form-control" readonly>
                     </div>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text form-control">제목</span>
                         </div>
-                        <input type="text" th:field="*{qnaTitle}" class="form-control" placeholder="제목을 입력해주세요.">
+                        <input type="text" th:field="*{qnaFormDto.qnaTitle}" class="form-control" placeholder="제목을 입력해주세요.">
                     </div>
-                    <p th:if="${#fields.hasErrors('qnaTitle')}" th:errors="*{qnaTitle}" class="fieldError form-control">Incorrect data</p>
+                    <p th:if="${#fields.hasErrors('qnaFormDto.qnaTitle')}" th:errors="*{qnaFormDto.qnaTitle}" class="fieldError form-control">Incorrect data</p>
 
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text form-control">내용</span>
                         </div>
-                        <textarea class="form-control" aria-label="With textarea" th:field="*{qnaContent}" style="height: 280px"></textarea>
+                        <textarea class="form-control" aria-label="With textarea" th:field="*{qnaFormDto.qnaContent}" style="height: 280px"></textarea>
                     </div>
-                    <p th:if="${#fields.hasErrors('qnaContent')}" th:errors="*{qnaContent}" class="fieldError form-control">Incorrect data</p>
+                    <p th:if="${#fields.hasErrors('qnaFormDto.qnaContent')}" th:errors="*{qnaFormDto.qnaContent}" class="fieldError form-control">Incorrect data</p>
 
                     <div th:if="${#strings.isEmpty(qnaFormDto.id)}" style="text-align : center">
                         <button th:formaction="@{/qna/new}" type="submit" class="btn btn-secondary">저장</button>
                     </div>
 
                     <div th:unless="${#strings.isEmpty(qnaFormDto.id)}" style="text-align : center">
-                        <button th:formaction="@{'/qna/'+ ${qnaFormDto.id}}" type="submit" class="btn btn-secondary">수정</button>
+                        <button th:formaction="@{'/qna/modify/'+ ${qnaFormDto.id}}" type="submit" class="btn btn-secondary">수정</button>
                         <button type="button" class="btn btn-outline-secondary" onclick="location.href='/qna'"> 뒤로 </button>
                     </div>
 

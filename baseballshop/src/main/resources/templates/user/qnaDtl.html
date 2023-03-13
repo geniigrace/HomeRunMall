@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html"
+      layout:decorate="~{layout/layout}">
+
+<head>
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+  <script th:inline="javascript">
+  </script>
+</th:block>
+
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+  <link rel="stylesheet" href="/css/contentLayout.css">
+  <link rel="stylesheet" href="/css/qna/qnaDtl.css">
+  <style>
+  </style>
+</th:block>
+
+<div layout:fragment="content">
+  <div class="content__all">
+    <div class="page__title__wrap">
+      <div class="page__title">
+        <p class="pageTitle">Q&A</p>
+      </div>
+    </div>
+    <div class="page__body__wrap">
+      <div class="page__body">
+        <div class="page__form">
+          <table class="table">
+            <thead>
+            <tr>
+              <td th:text="${qna.id}">NO.</td>
+              <td th:text="${qna.qnaType.title}">카테고리</td>
+              <td th:text="${qna.qnaTitle}">제목</td>
+              <td th:text="${qna.qnaMemberId}">작성자</td>
+              <td th:text="${qna.qnaDate}">등록일</td>
+              <td th:if="${qna.qnaType==T(com.baseballshop.constant.QnaStatus).FAQ}"></td>
+              <td th:unless="${qna.qnaType==T(com.baseballshop.constant.QnaStatus).FAQ}" th:text="${qna.answerType.title}"></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td colspan="6" th:utext="${#strings.replace(qna.qnaContent, newLineChar, '&lt;br&gt;')}">내용</td>
+            </tr>
+            </tbody>
+          </table>
+          <a th:href="@{/qna/modify/{id}(id=${qna.id})}">
+            <button sec:authorize="hasAnyRole('USER','ADMIN')" th:if="${check==true}" type="button" class="btn btn-secondary"> 수정 </button>
+          </a>
+          <button type="button" class="btn btn-outline-secondary" onclick="location.href='/qna'"> 뒤로 </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</html>

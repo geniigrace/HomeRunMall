@@ -32,6 +32,8 @@ public class QnaListDto {
 
     private String qnaMemberId;
 
+    private String qnaEmail;
+
     public QnaListDto(Qna qna){
         this.id=qna.getId();
         this.showStatus=qna.getShowStatus();
@@ -40,5 +42,7 @@ public class QnaListDto {
         this.answerType=qna.getAnswerType();
         this.qnaTitle=qna.getQnaTitle();
         this.qnaContent=qna.getQnaContent();
+        this.qnaMemberId=qna.getMember().getEmail().split("@")[0];
+        this.qnaEmail=qna.getMember().getEmail();
     }
 }
