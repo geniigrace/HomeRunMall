@@ -34,6 +34,14 @@
       <div class="page__body">
         <div class="page__form">
           <table class="table">
+            <colgroup>
+              <col width="5%">
+              <col width="8%">
+              <col width="55%">
+              <col width="12%">
+              <col width="12%">
+              <col width="8%">
+            </colgroup>
             <thead>
             <tr>
               <td th:text="${qna.id}">NO.</td>
@@ -47,7 +55,7 @@
             </thead>
             <tbody>
             <tr>
-              <td colspan="6" th:utext="${#strings.replace(qna.qnaContent, newLineChar, '&lt;br&gt;')}">내용</td>
+              <td class="qnaContent" colspan="6" th:utext="${#strings.replace(qna.qnaContent, newLineChar, '&lt;br&gt;')}">내용</td>
             </tr>
             </tbody>
           </table>

@@ -65,6 +65,8 @@
                         <img th:src="${item.imgUrl}" th:alt="${item.itemName}" id="itemListImg">
                       </div>
                       <div id="itemListInfoWrap">
+                        <span th:if="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}" class="badge badge-primary mgb-15">판매중</span>
+                        <span th:unless="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}" class="badge badge-primary mgb-15">품절</span>
                         <p id="itemInfoItemName">[[${item.itemName}]]</p>
                         <p id="itemInfoItemPrice">[[${#numbers.formatInteger(item.price,0,'COMMA')}]]원</p>
 
@@ -74,7 +76,6 @@
             </th:block>
           </div>
       </div>
-
       <div th:with="start=${(items.number/maxPage)*maxPage +1}, end=(${(items.totalPages ==0) ? 1:(start+(maxPage-1) < items.totalPages ? start +(maxPage-1) : items.totalPages)})">
 
         <ul class="pagination justify-content-center">

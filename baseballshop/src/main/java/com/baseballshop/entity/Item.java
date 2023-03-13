@@ -56,21 +56,6 @@ public class Item extends BaseEntity {
     )
     private List<Member> member;
 
-//    public static Item createItem(ItemFormDto itemFormDto){
-//        Item item = new Item();
-//
-//        item.setId(itemFormDto.getId());
-//        item.setSellStatus(itemFormDto.getSellStatus());
-//        item.setShowStatus(ShowStatus.SHOW);
-//        item.setTeam(itemFormDto.getTeam());
-//        item.setCategory(itemFormDto.getCategory());
-//        item.setItemName(itemFormDto.getItemName());
-//        item.setPrice(itemFormDto.getPrice());
-//        item.setStockNumber(itemFormDto.getStockNumber());
-//        item.setItemDetail(itemFormDto.getItemDetail());
-//
-//        return item;
-//    }
     //상품 수정시
     public void updateItem(ItemFormDto itemFormDto){
         this.sellStatus = itemFormDto.getSellStatus();
