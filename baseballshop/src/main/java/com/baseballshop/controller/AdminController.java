@@ -306,9 +306,7 @@ public class AdminController {
 
         Long noticeId = noticeService.modify(noticeDeleteDto);
 
-
         return new ResponseEntity<Long>(noticeId, HttpStatus.OK);
-
     }
 
     //회원관리

@@ -18,7 +18,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.PrintWriter;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -221,24 +223,6 @@ public class UserController {
         return new ResponseEntity<Long>(orderId, HttpStatus.OK);
     }
 
-    //찜하기
-//     @GetMapping(value = "/like")
-//    public String like(Model model, Principal principal){
-//
-//        if(principal!=null){
-//            Member member = memberRepository.findByEmail(principal.getName());
-//            if (member == null) {
-//                SessionUser user = (SessionUser)httpSession.getAttribute("member");
-//                model.addAttribute("loginName", user.getName());
-//
-//            } else {
-//                model.addAttribute("loginName", member.getName());
-//            }
-//        }
-//
-//        return "user/like";
-//    }
-
     //회원정보 수정
     @GetMapping(value = "/myinfo")
     public String myinfo(Model model, Principal principal){
@@ -263,7 +247,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/myinfo")
-    public String myinfoModify(MemberModifyDto memberModifyDto, BindingResult bindingResult, Model model,Principal principal) {
+    public String myinfoModify(MemberModifyDto memberModifyDto, BindingResult bindingResult, Model model,Principal principal, HttpServletResponse response) {
 
         if (bindingResult.hasErrors()) {
             return "user/myinfo";
@@ -274,6 +258,11 @@ public class UserController {
                 memberModifyDto.setPassword(passwordEncoder.encode(memberModifyDto.getPassword()));
             }
             memberService.updateMember(memberModifyDto, memberModifyDto.getEmail());
+
+            response.setContentType("text/html; charset=euc-kr");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('회원정보가 수정되었습니다.'); location.href='/user/myinfo'; </script>");
+            out.flush();
 
         }  catch (Exception e){
             model.addAttribute("errorMessage", "회원정보 수정 중 에러가 발생하였습니다.");
