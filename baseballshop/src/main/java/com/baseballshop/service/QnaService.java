@@ -9,7 +9,6 @@ import com.baseballshop.entity.Member;
 import com.baseballshop.entity.Qna;
 import com.baseballshop.repository.MemberRepository;
 import com.baseballshop.repository.OrderRepository;
-import com.baseballshop.repository.QnaReplyRepository;
 import com.baseballshop.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,7 +31,6 @@ public class QnaService {
     private final HttpSession httpSession;
     private final MemberRepository memberRepository;
     private final QnaRepository qnaRepository;
-    private final QnaReplyRepository qnaReplyRepository;
     private final OrderRepository orderRepository;
 
     public Long saveQna(QnaFormDto qnaFormDto, Principal principal) {
@@ -133,15 +131,5 @@ public class QnaService {
         return qna.getId();
     }
 
-    @Transactional
-    public void qnaReplySave(Long qnaId, QnaReply qnaReply, Member member){
-        Qna qna = qnaRepository.findById(qnaId).orElseThrow(() -> new IllegalArgumentException("해당 qnaId가 없습니다. id=" + qnaId));
-        qnaReply.save(qna, member);
-        qnaReplyRepository.save(qnaReply);
-    }
 
-    @Transactional
-    public void replyDelete(Long qnaReplyId) {
-        qnaReplyRepository.deleteById(qnaReplyId);
-    }
 }
