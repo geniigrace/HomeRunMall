@@ -81,6 +81,7 @@
                         <div id="itemListCard">
                             <a th:href="'/item/'+${item.id}">
                                 <div id="itemListImgWrap">
+                                    <div th:if="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SOLD_OUT}" class="soldOutImg"><h3 class="soh3">SOLD OUT</h3></div>
                                     <img th:src="${item.imgUrl}" th:alt="${item.itemName}" id="itemListImg">
                                 </div>
                                 <div id="itemListInfoWrap">
