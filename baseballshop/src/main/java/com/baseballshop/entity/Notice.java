@@ -39,12 +39,12 @@ public class Notice extends BaseEntity{
     private Team team;
 
 
-
     //공지 수정
     public void updateNotice(NoticeFormDto noticeFormDto){
         this.noticeTitle = noticeFormDto.getNoticeTitle();
         this.noticeContent = noticeFormDto.getNoticeContent();
         this.noticeStatus=noticeFormDto.getNoticeStatus();
+        this.team = noticeFormDto.getTeam();
     }
 
 

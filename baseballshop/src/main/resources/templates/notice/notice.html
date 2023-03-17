@@ -112,14 +112,14 @@
                     <table class="table" th:action="@{'/notice/'+${notices.number}}" role="form" method="get" th:object="${notices}">
                         <thead>
                         <tr>
-                            <td sec:authorize="hasRole('ADMIN')">
+                            <td sec:authorize="hasRole('ADMIN')" width="5%">
                                 <input type="checkbox" id="checkall" onclick="checkAll()">
                             </td>
-                            <td>No.</td>
-                            <td>카테고리</td>
-                            <td>구단</td>
-                            <td>제목</td>
-                            <td>등록일</td>
+                            <td width="10%">No.</td>
+                            <td width="12%">카테고리</td>
+                            <td width="13%">구단</td>
+                            <td width="40%">제목</td>
+                            <td width="20%">등록일</td>
                         </tr>
                         </thead>
                         <tbody>
@@ -157,9 +157,9 @@
                             </div>
                         </div>
                     </div>
-                    <div sec:authorize="hasRole('ADMIN')" id="buttonBlock">
+                    <div sec:authorize="hasRole('ADMIN')" class="buttonBlock">
                         <th:block>
-                            <button type="button" class="btn btn-outline-secondary" onclick="location.href='/admin/notice/new'"> 글쓰기</button>
+                            <button type="button" class="btn btn-secondary" onclick="location.href='/admin/notice/new'"> 글쓰기</button>
                             <button type="button" class="btn btn-danger" id="deleteBtn" onclick="modifyNotice()">삭제</button>
                         </th:block>
                     </div>

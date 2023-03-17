@@ -1,4 +1,3 @@
-#buttonBlock { text-align : left; }
 
 .page__form{
     width : 90vw;
@@ -10,9 +9,17 @@
     font-size : 0.9em;
     color : #5d5d5d;
 }
+td { height : 47px; }
 
-td>a{
-    color : #5d5d5d;
+td>a{ color : #5d5d5d; }
+.buttonBlock { text-align : right; }
+
+.btn-secondary{
+    background-color : #000042;
+    font-size : 0.8em;
+}
+.btn-danger {
+    font-size : 0.8em;
 }
 
 .preAndNextBtn {

@@ -270,17 +270,9 @@ public class AdminController {
 
     // 공지사항 수정한 내용 저장
     @PostMapping(value = "/notice/{noticeId}")
-    public String noticeUpdate(@Valid NoticeFormDto noticeFormDto,
-                               BindingResult bindingResult,
-                               @RequestParam("noticeImgFile") List<MultipartFile> noticeImgFileList,
-                               Model model){
+    public String noticeUpdate(@Valid NoticeFormDto noticeFormDto, BindingResult bindingResult, @RequestParam("noticeImgFile") List<MultipartFile> noticeImgFileList, Model model){
 
         if(bindingResult.hasErrors()){
-            return "admin/noticeForm";
-        }
-
-        if(noticeImgFileList.get(0).isEmpty() && noticeFormDto.getId() == null){
-            model.addAttribute("errorMessage", "첫번째 상품 이미지는 필수 입력 값 입니다.");
             return "admin/noticeForm";
         }
 
@@ -288,7 +280,7 @@ public class AdminController {
             noticeService.updateNotice(noticeFormDto, noticeImgFileList);
         }
         catch(Exception e){
-            model.addAttribute("errorMessage", "상품 수정 중 에러가 발생하였습니다.");
+            model.addAttribute("errorMessage", "게시글 수정 중 에러가 발생했습니다."+e.getMessage());
             return "admin/noticeForm";
         }
 

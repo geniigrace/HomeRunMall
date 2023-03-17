@@ -74,15 +74,17 @@ public class NoticeService {
     }
 
     //공지사항 수정 : 수정한 내용 저장하기
-    public Long updateNotice(NoticeFormDto noticeFormDto, List<MultipartFile> noticeImgFileList) throws Exception{
+    public Long updateNotice(NoticeFormDto noticeFormDto, List<MultipartFile> noticeImgFileList) throws Exception {
         Notice notice = noticeRepository.findById(noticeFormDto.getId()).orElseThrow(EntityNotFoundException::new);
         notice.updateNotice(noticeFormDto);
 
-        List<Long> noticeImgIds = noticeFormDto.getNoticeImgIds();
+        if(!noticeImgFileList.get(0).isEmpty()) {
+            List<Long> noticeImgIds = noticeFormDto.getNoticeImgIds();
 
-        for(int i=0; i<noticeImgFileList.size(); i++){
-            noticeImgService.updateNoticeImg(noticeImgIds.get(i), noticeImgFileList.get(i));
+            for (int i = 0; i < noticeImgFileList.size(); i++) {
+                noticeImgService.updateNoticeImg(noticeImgIds.get(i), noticeImgFileList.get(i));
 
+            }
         }
         return notice.getId();
     }

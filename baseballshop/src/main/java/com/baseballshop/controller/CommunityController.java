@@ -1,11 +1,7 @@
 package com.baseballshop.controller;
 
-import com.baseballshop.constant.Role;
 import com.baseballshop.dto.*;
 import com.baseballshop.entity.Notice;
-import com.baseballshop.entity.Qna;
-import com.baseballshop.repository.MemberRepository;
-import com.baseballshop.repository.QnaRepository;
 import com.baseballshop.service.LoginUserService;
 import com.baseballshop.service.NoticeService;
 import com.baseballshop.service.QnaService;
@@ -35,8 +31,6 @@ public class CommunityController {
     private final QnaService qnaService;
     private final LoginUserService loginUserService;
     private final NoticeService noticeService;
-    private final QnaRepository qnaRepository;
-    private final MemberRepository memberRepository;
 
     //공지사항 리스트
     @GetMapping(value = {"/notice", "/notice/list/{page}"})
@@ -51,7 +45,7 @@ public class CommunityController {
         Page<Notice> notices = noticeService.getNoticePage(noticeSearchDto,pageable);
 
         model.addAttribute("notices", notices);
-        model.addAttribute("noticeSearchDto", noticeSearchDto);
+        //model.addAttribute("noticeSearchDto", noticeSearchDto);
         model.addAttribute("maxPage", 3);
 
         return "notice/notice";
@@ -203,6 +197,5 @@ public class CommunityController {
         model.addAttribute("newLineChar", '\n');
         return "user/qnaDtl";
     }
-
 
 }

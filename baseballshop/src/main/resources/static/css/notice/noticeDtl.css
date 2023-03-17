@@ -3,13 +3,6 @@
     margin : 20px 0;
     display : inline-block;
 }
-
-/*
-.content-tr{
-    height : 30vw;
-}
-*/
-
 tr{
     text-align : center; }
 
@@ -17,3 +10,4 @@ tr{
     font-size : 0.9em;
      color : #5d5d5d;
 }
+.btn { font-size : 0.8em; }

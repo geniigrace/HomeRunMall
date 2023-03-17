@@ -39,7 +39,7 @@
                             <td th:text="${notices.id}" style="width : 10px">No.</td>
                             <td th:text="${notices.noticeStatus.title}" style="width : 100px">카테고리</td>
                             <td th:text="${notices.team.title}" style="width : 140px">구단</td>
-                            <th th:text="${notices.noticeTitle}">제목</th>
+                            <td th:text="${notices.noticeTitle}">제목</td>
                         </tr>
                         <tr class="content-tr">
                             <td class="content-td" colspan="4" th:utext="${#strings.replace(notices.noticeContent, newLineChar, '&lt;br&gt;')}">내용</td>

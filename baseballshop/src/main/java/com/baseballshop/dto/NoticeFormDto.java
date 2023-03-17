@@ -47,7 +47,6 @@ public class NoticeFormDto {
     }
 
     public static NoticeFormDto of(Notice notice){
-
         return modelMapper.map(notice, NoticeFormDto.class);
     }
 
