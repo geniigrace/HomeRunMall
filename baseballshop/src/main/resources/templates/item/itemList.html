@@ -5,95 +5,128 @@
       layout:decorate="~{layout/layout}">
 
 <head>
-  <meta name="_csrf" th:content="${_csrf.token}"/>
-  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 
 <th:block layout:fragment="script">
-  <script th:inline="javascript">
-  </script>
+    <script th:inline="javascript">
+    </script>
 </th:block>
 
 <th:block layout:fragment="css">
-  <link rel="stylesheet" href="/css/item/itemList.css">
-  <link rel="stylesheet" href="/css/contentlayout.css">
-  <link rel="stylesheet" href="/css/layout.css">
-  <style></style>
+    <link rel="stylesheet" href="/css/item/itemList.css">
+    <link rel="stylesheet" href="/css/contentlayout.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <style></style>
 </th:block>
 
 <div layout:fragment="content">
-  <div class="content__all">
-    <div class="page__title__wrap">
-      <div class="page__title">
-        <p class="pageTitle" th:text="${itemCategoryTitle}"></p>
-      </div>
-    </div>
-    <div class="page__body__wrap">
-      <div class="page__body">
-        <div class="teamList">
-          <div class="teamListMenu">
-            <ui class="no_dot">
-              <li><a th:href="@{/itemSearch/{itemCategoryKey}(itemCategoryKey=${itemCategoryKey})}">전체보기</a></li>
-              <li><a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=KBO)}">KBO</a><br></li>
-              <li><a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=SSG)}">SSG랜더스</a></li>
-              <li><a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=DS)}">두산베어스</a></li>
-              <li><a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=HH)}">한화이글스</a></li>
-              <li><a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=KIA)}">기아타이거즈</a></li>
-              <li><a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=KW)}">키움히어로즈</a></li>
-              <li><a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=NC)}">엔씨다이노스</a></li>
-              <li><a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=SS)}">삼성라이온즈</a></li>
-              <li><a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=KT)}">KT위즈</a></li>
-              <li><a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=LG)}">LG트윈스</a></li>
-              <li><a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=LTT)}">롯데자이언츠</a></li>
-            </ui>
-          </div>
-        </div>
-        <input type="hidden" name="searchQuery" th:value="${itemSearchDto.searchQuery}">
-        <div th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
-          <p class="h3 font-weight-bold" th:text="'\''+${itemSearchDto.searchQuery}+'\' 검색결과'"></p>
-        </div>
-        <div id="itemListCardWrapped">
-          <th:block th:each = "item, status : ${items.getContent()}">
-            <div id="itemListCard">
-              <a th:href="'/item/'+${item.id}">
-                <div id="itemListImgWrap">
-                  <img th:src="${item.imgUrl}" th:alt="${item.itemName}" id="itemListImg">
-                </div>
-                <div id="itemListInfoWrap">
-                  <span th:if="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}" class="badge badge-primary mgb-15">판매중</span>
-                  <span th:unless="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}" class="badge badge-primary mgb-15">품절</span>
-                  <p id="itemInfoItemName">[[${item.itemName}]]</p>
-                  <p id="itemInfoItemPrice">[[${#numbers.formatInteger(item.price, 0, 'COMMA')}]]원</p>
-                </div>
-              </a>
+    <div class="content__all">
+        <div class="page__title__wrap">
+            <div class="page__title">
+                <p class="pageTitle" th:text="${itemCategoryTitle}"></p>
             </div>
-          </th:block>
         </div>
-        <div id="pagingWrap">
-          <div id="paging">
-            <div th:with="start=${(items.number/maxPage)*maxPage +1}, end=(${(items.totalPages ==0) ? 1:(start+(maxPage-1) < items.totalPages ? start +(maxPage-1) : items.totalPages)})">
-              <ul class="pagination justify-content-center">
+        <div class="page__body__wrap">
+            <div class="page__body">
+                <div class="teamList">
+                    <div class="teamListMenu">
+                        <ui class="no_dot">
+                            <li>
+                                <a th:href="@{/itemSearch/{itemCategoryKey}(itemCategoryKey=${itemCategoryKey})}">전체보기</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=KBO)}">KBO</a><br>
+                            </li>
+                            <li>
+                                <a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=SSG)}">SSG랜더스</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=DS)}">두산베어스</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=HH)}">한화이글스</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=KIA)}">기아타이거즈</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=KW)}">키움히어로즈</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=NC)}">엔씨다이노스</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=SS)}">삼성라이온즈</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=KT)}">KT위즈</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=LG)}">LG트윈스</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/itemSearch/{itemCategoryKey}/{team}(itemCategoryKey=${itemCategoryKey},team=LTT)}">롯데자이언츠</a>
+                            </li>
+                        </ui>
+                    </div>
+                </div>
+                <input type="hidden" name="searchQuery" th:value="${itemSearchDto.searchQuery}">
+                <div th:if="${not #strings.isEmpty(itemSearchDto.searchQuery)}" class="center">
+                    <p class="h3 font-weight-bold" th:text="'\''+${itemSearchDto.searchQuery}+'\' 검색결과'"></p>
+                </div>
+                <div id="itemListCardWrapped">
+                    <th:block th:each="item, status : ${items.getContent()}">
+                        <div id="itemListCard">
+                            <a th:href="'/item/'+${item.id}">
+                                <div id="itemListImgWrap">
+                                    <img th:src="${item.imgUrl}" th:alt="${item.itemName}" id="itemListImg">
+                                </div>
+                                <div id="itemListInfoWrap">
+                                    <div class="badgeArea">
+                                        <span th:if="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}"
+                                              class="badge badge-primary" th:text="${T(com.baseballshop.constant.SellStatus).SELL.title}"></span>
+                                        <span th:unless="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}"
+                                              class="badge badge-danger" th:text="${T(com.baseballshop.constant.SellStatus).SOLD_OUT.title}"> </span>
+                                    </div>
+                                    <p id="itemInfoItemName">[[${item.itemName}]]</p>
+                                    <p id="itemInfoItemPrice">[[${#numbers.formatInteger(item.price, 0, 'COMMA')}]]원</p>
+                                </div>
+                            </a>
+                        </div>
+                    </th:block>
+                </div>
+                <div id="pagingWrap">
+                    <div id="paging">
+                        <div th:with="start=${(items.number/maxPage)*maxPage +1}, end=(${(items.totalPages ==0) ? 1:(start+(maxPage-1) < items.totalPages ? start +(maxPage-1) : items.totalPages)})">
+                            <ul class="pagination justify-content-center">
 
-                <li class="page-item" th:classappend="${items.number eq 0} ? 'disabled' ">
-                  <a th:href="@{'/itemSearch/' + ${itemCategoryKey} + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number-1}}" aria-label='Previous' class="page-link">
-                    <span class="preAndNextBtn" aria-hidden="true">◀︎</span>
-                  </a>
-                </li>
+                                <li class="page-item" th:classappend="${items.number eq 0} ? 'disabled' ">
+                                    <a th:href="@{'/itemSearch/' + ${itemCategoryKey} + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number-1}}"
+                                       aria-label='Previous' class="page-link">
+                                        <span class="preAndNextBtn" aria-hidden="true">◀︎</span>
+                                    </a>
+                                </li>
 
-                <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}" th:classappend="${items.number eq page-1}?'active':''">
-                  <a th:href="@{ '/itemSearch/' + ${itemCategoryKey} + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${page -1}}" th:inline="text" class="page-link">[[${page}]]</a>
-                </li>
+                                <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}"
+                                    th:classappend="${items.number eq page-1}?'active':''">
+                                    <a th:href="@{ '/itemSearch/' + ${itemCategoryKey} + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${page -1}}"
+                                       th:inline="text" class="page-link">[[${page}]]</a>
+                                </li>
 
-                <li class="page-item" th:classappend="${items.number+1 ge items.totalPages} ?'disabled'">
-                  <a th:href="@{ '/itemSearch/' + ${itemCategoryKey} + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number + 1}}" aria-label="Next" class="page-link">
-                    <span class="preAndNextBtn" aria-hidden="true">▶︎</span>
-                  </a>
-                </li>
-              </ul>
+                                <li class="page-item"
+                                    th:classappend="${items.number+1 ge items.totalPages} ?'disabled'">
+                                    <a th:href="@{ '/itemSearch/' + ${itemCategoryKey} + '?searchQuery=' + ${itemSearchDto.searchQuery} + '&page=' + ${items.number + 1}}"
+                                       aria-label="Next" class="page-link">
+                                        <span class="preAndNextBtn" aria-hidden="true">▶︎</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>

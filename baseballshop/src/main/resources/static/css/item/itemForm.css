@@ -3,11 +3,22 @@
     .img-div { margin-bottom : 10px }
 
     .fieldError { color : #bd2130; }
+    .input-group-text {
+        width : 90px;
+        text-align : center;
+        font-size : 0.9em;
+    }
 
     #hideShowStatus { display : none; }
 
-    .page__form{
-        width : 50vw;
-        margin : 20px 0;
-        display : inline-block;
-    }
+.page__form{
+    width : 50vw;
+    margin : 20px 0;
+    display : inline-block;
+}
+
+.custom-select, .custom-file-label, .btn { font-size : 0.9em; }
+
+.btn-secondary { background-color : #000042; }
+
+.imgBox>.form-group { margin-bottom : 0;}

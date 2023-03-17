@@ -173,7 +173,7 @@
                         </select>
                         <input th:field="*{searchQuery}" type="text" id="searchBar" class="form-control"
                                placeholder="상품명을 입력하세요.">
-                        <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
+                        <button id="searchBtn" type="submit" class="btn btn-outline-secondary">검색</button>
 
                     </div>
                     <table class="table">
@@ -208,7 +208,7 @@
                         </tbody>
                     </table>
                     <div class="btnArea">
-                        <button type="button" class="btn btn-outline-secondary"
+                        <button type="button" class="btn btn-secondary"
                                 onclick="location.href='/admin/item/new'"> 상품등록
                         </button>
                         <button type="button" class="btn btn-danger" id="deleteBtn" onclick="modifyDelItem()">삭제

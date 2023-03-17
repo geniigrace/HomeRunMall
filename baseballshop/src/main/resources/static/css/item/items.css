@@ -5,9 +5,23 @@
 }
 
 .btnArea {
-    float : left;
+    float : right;
 }
-
+.btn { font-size : 0.8em; }
+.btn-secondary { background-color : #000042; }
+.btn-outline-secondary {
+    border : 1px solid #ced4da;
+     margin-left : 10px;
+}
+.form-control {
+    border : none;
+    border-bottom : 1px solid #ced4da;
+    border-radius : 0px;
+    text-align : center;
+    padding-top : 10px;
+    font-size : 0.8em;
+    color : #ced4da;
+}
 .searchBar{
     float : right;
     margin-bottom : 10px;

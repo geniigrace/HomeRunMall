@@ -1,5 +1,6 @@
 package com.baseballshop.service;
 
+import com.baseballshop.constant.Role;
 import com.baseballshop.dto.SessionUser;
 import com.baseballshop.entity.Member;
 import com.baseballshop.repository.MemberRepository;
@@ -37,11 +38,22 @@ public class LoginUserService {
             return loginUserInfo;
     }
 
+    public Member loginUserMember(Principal principal){
+        Member member = memberRepository.findByEmail(principal.getName());
+
+        if(member == null){
+            SessionUser user = (SessionUser) httpSession.getAttribute("member");
+            member = memberRepository.findByEmail(user.getEmail());
+        }
+
+        return member;
+    }
+
     public boolean loginUserType(Principal principal){
         Member member = memberRepository.findByEmail(principal.getName());
-        if (member == null) {
+        if (member == null) { //소셜로그인
             return true;
-        } else {
+        } else { //로컬로그인
             return false;
         }
     }
