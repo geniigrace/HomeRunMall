@@ -7,19 +7,40 @@
 #hiddenShowStatus { display : none; }
 
 .page__form{
-        width : 50vw;
+        width : 90vw;
         margin : 20px 0;
         display : inline-block;
 }
 
-.form-control {
+.table {
     font-size : 0.9em;
     color : #5d5d5d;
-    }
+}
 
-.custom-select, select>option{ font-size : 0.9em; }
 
 .btn-secondary {
     background-color : #000042;
     font-size : 0.8em;
+}
+
+
+td>a{
+    color : #5d5d5d;
+}
+
+.preAndNextBtn {
+    font-size : 0.8em;
+}
+
+.page-link {
+    border : none;
+    color : #000042;
+}
+
+.page-item.active .page-link{
+    background-color : #000042;
+    border-color : #000042;
+}
+.buttonBlock{
+    float : right;
 }

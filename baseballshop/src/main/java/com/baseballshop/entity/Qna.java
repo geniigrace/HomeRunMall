@@ -3,11 +3,13 @@ package com.baseballshop.entity;
 import com.baseballshop.constant.QnaStatus;
 import com.baseballshop.constant.ShowStatus;
 import com.baseballshop.dto.QnaFormDto;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="qna")
@@ -40,6 +42,11 @@ public class Qna extends BaseEntity{
     @Lob
     @Column(name="qna_content", nullable = false)
     private String qnaContent;
+
+//    @OrderBy("id desc")
+//    @JsonIgnoreProperties({"qna"})
+//    @OneToMany(mappedBy = "qna", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+//    private List<QnaReply> qnaReplyList;
 
     public static Qna createQna(Member member, QnaFormDto qnaFormDto){
         Qna qna=new Qna();

@@ -114,21 +114,16 @@ function qnaMemberCheck(id){
                     <table class="table" th:action="@{'/qna/'+${qna.number}}" role="form" method="get" th:object="${qna}">
                         <thead>
                         <tr>
-                            <td sec:authorize="hasRole('ADMIN')">
-                                <input type="checkbox" id="checkall" onclick="checkAll()">
-                            </td>
-                            <td>No.</td>
-                            <td>카테고리</td>
-                            <td>제목</td>
-                            <td>작성자</td>
-                            <td>등록일</td>
-                            <td>답변</td>
+                            <td width="5%">No.</td>
+                            <td width="10%">카테고리</td>
+                            <td width="50%">제목</td>
+                            <td width="10%">작성자</td>
+                            <td width="12%">등록일</td>
+                            <td width="13%">답변</td>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="qna : ${qna}">
-                            <td sec:authorize="hasRole('ADMIN')">
-                                <input type="checkbox" id="qnaCheckList" name="qnaCheckBox" th:value="${qna.id}"></td>
                             <td th:text="${qna.id}"></td>
                             <td id="qnaType" th:text="${qna.qnaType.title}"></td>
                             <td><a th:onclick="|javascript:qnaMemberCheck('${qna.id}')|" th:text="${qna.qnaTitle}"></a></td>
@@ -138,7 +133,7 @@ function qnaMemberCheck(id){
                                 <div th:if="${qna.qnaType == T(com.baseballshop.constant.QnaStatus).FAQ}"></div>
                                 <div th:unless="${qna.qnaType == T(com.baseballshop.constant.QnaStatus).FAQ}">
                                     <th:block th:if="${qna.answerType == T(com.baseballshop.constant.QnaStatus).NOT}">
-                                        <p th:text="${T(com.baseballshop.constant.QnaStatus).NOT.title}"></p>
+                                        <span th:text="${T(com.baseballshop.constant.QnaStatus).NOT.title}"></span><br>
                                         <button sec:authorize="hasRole('ADMIN')" type="button" class="btn btn-secondary" th:value="${qna.id}"
                                                 onclick="answerDone(this.value)">답변 완료
                                         </button>

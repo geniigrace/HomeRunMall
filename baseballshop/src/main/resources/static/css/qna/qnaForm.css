@@ -7,9 +7,9 @@
 #hiddenShowStatus { display : none; }
 
 .page__form{
-        width : 50vw;
-        margin : 20px 0;
-        display : inline-block;
+    width : 50vw;
+    margin : 20px 0;
+    display : inline-block;
 }
 
 .form-control {

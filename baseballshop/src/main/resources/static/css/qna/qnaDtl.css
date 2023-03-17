@@ -1,0 +1,22 @@
+.page__form{
+    width : 90vw;
+    margin : 20px 0;
+    display : inline-block;
+}
+
+tr{ text-align : center; }
+
+.table {
+    font-size : 0.9em;
+     color : #5d5d5d;
+     border-bottom : 1px solid #ced4da;
+}
+
+.btn{
+    font-size : 0.8em;
+}
+.btn-secondary {
+    background-color : #000042;
+}
+
+.qnaContent { height : 30vw; }
