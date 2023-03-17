@@ -8,7 +8,7 @@
 <!--사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
     <script th:inline="javascript">
-    $(document).ready(function(){ //화면 켜지자마자 실행됨
+$(document).ready(function(){ //화면 켜지자마자 실행됨
     var errorMessage = [[${errorMessage}]];
     if(errorMessage != null){
       alert(errorMessage);
@@ -118,7 +118,7 @@
                         <div class="form-group" th:each="num: ${#numbers.sequence(1,2)}">
                             <div class="custom-file img-div">
                                 <input type="file" class="custom-file-input" name="noticeImgFile">
-                                <label class="custom-file-label form-control" th:text="Images + ${num}"></label>
+                                <label class="custom-file-label"  th:text="Images + ${num}"></label>
                             </div>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
                             <div class="custom-file img-div">
                                 <input type="file" class="custom-file-input" name="noticeImgFile">
                                 <input type="hidden" name="noticeImgIds" th:value="${noticeImgDto.id}">
-                                <label class="custom-file-label form-control" th:text="${not #strings.isEmpty(noticeImgDto.oriImgName)} ? ${noticeImgDto.oriImgName} : '상품이미지 '+ ${status.index}"></label>
+                                <label class="custom-file-label" th:text="${not #strings.isEmpty(noticeImgDto.oriImgName)} ? ${noticeImgDto.oriImgName} : '상품이미지 '+ ${status.index}"></label>
                             </div>
                         </div>
                     </div>

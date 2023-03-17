@@ -49,7 +49,7 @@ public class NoticeImgService {
 
             String oriImgName = noticeImgFile.getOriginalFilename();
             String imgName = fileService.uploadFile(noticeImgLocation, oriImgName, noticeImgFile.getBytes());
-            String imgUrl = "/images/notice/" + imgName;
+            String imgUrl = "/images/item/" + imgName;
 
             savedNoticeImg.updateNoticeImg(oriImgName, imgName, imgUrl);
         }
