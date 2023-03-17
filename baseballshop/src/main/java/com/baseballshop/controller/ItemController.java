@@ -4,8 +4,10 @@ import com.baseballshop.constant.ItemCategory;
 import com.baseballshop.dto.ItemFormDto;
 import com.baseballshop.dto.ItemListDto;
 import com.baseballshop.dto.ItemSearchDto;
+import com.baseballshop.dto.QnaListDto;
 import com.baseballshop.service.ItemService;
 import com.baseballshop.service.LoginUserService;
+import com.baseballshop.service.QnaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +26,7 @@ public class ItemController {
 
     private final ItemService itemService;
     private final LoginUserService loginUserService;
+    private final QnaService qnaService;
 
     @GetMapping(value = "/itemSearch/{itemCategory}")
     public String itemList(@PathVariable("itemCategory")String itemCategory, Optional<Integer> page, Model model, Principal principal, ItemSearchDto itemSearchDto){
@@ -81,8 +84,8 @@ public class ItemController {
         return "item/itemList";
     }
 
-    @GetMapping(value = "/item/{itemId}")
-    public String itemDtl(Model model, Principal principal, @PathVariable("itemId")Long itemId){
+    @GetMapping(value = {"/item/{itemId}","/item/{itemId}/{page}"})
+    public String itemDtl(@PathVariable("page") Optional<Integer> page, Model model, Principal principal, @PathVariable("itemId")Long itemId){
 
         if(principal!=null){
             String loginName = loginUserService.loginUserNameEmail(principal)[0];
@@ -91,6 +94,14 @@ public class ItemController {
 
         ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
         model.addAttribute("item", itemFormDto);
+
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+
+        Page<QnaListDto> qna = qnaService.getQnaPage(pageable);
+
+        model.addAttribute("qna", qna);
+        model.addAttribute("maxPage", 3);
+
         return "item/itemDtl";
     }
 }

@@ -1,28 +1,211 @@
-.mgb-15{ margin-bottom : 15px; }
-
-        .mgt-30{ margin-top : 30px; }
-
-        .mgt-50{ margin-top : 50px; }
-
-        .repImgDiv{
-            margin-right : 15px;
-            height : auto;
-            width : 50%;
-        }
-
-        .repImg{
-            width : 100%;
-            height : 400px;
-        }
-
-        .wd50{
-            height : auto;
-            width : 50%
-        }
-
-.page__body {
-    margin-right:25%;
-    margin-left:25%;
+.page__body{
+    text-align : center;
+}
+.page__form{
+    display : inline-block;
+    text-align : center;
+    width : 90vw;
+    height : 100%;
+    margin : 20px 0;
 }
 
-.d-flex { margin : 20px; }
+.itemInfoAllWrap{
+    display : inline-block;
+    width : 80%;
+}
+.itemInfoAll {
+    width : 100%;
+    display : flex;
+}
+
+.repImgDiv{
+    width : 50%;
+    padding : 15px;
+}
+
+.repImg{
+    width : 100%;
+    height : auto;
+}
+
+.textDiv{
+    width : 50%;
+    padding : 15px;
+}
+.badgeArea {
+    text-align : left;
+    margin : 10px 0;
+}
+.badge-primary{
+    background-color : #0000e2;
+}
+
+hr {
+    marin-top : 15px;
+    marin-bottom : 15px;
+}
+
+.infoTable{
+    text-align : left;
+    margin : 20px;
+    font-size : 0.9em;
+    color : #5d5d5d;
+}
+
+.tdMenu {
+    width : 100px;
+    height : 35px;
+}
+.tdValue{
+    width : 150px;
+    height : 35px;
+}
+.form-control{
+    width : 55px;
+    font-size : 0.8em;
+}
+.countNpriceAreaWrap{
+    text-align : right;
+    height : 50px;
+    margin-top : 60px;
+    margin-bottom : 15px;
+}
+.countNpriceArea{
+    display : inline-block;
+    height : 100%;
+}
+.totalPriceArea{
+    height : 100%;
+    display : flex;
+}
+.totalPriceText{
+    margin : 0;
+    margin-right : 30px;
+    font-size : 1em;
+    padding-top : 3px;
+}
+.form-control{
+    margin-left : 20px;
+    margin-right : 20px;
+}
+.totalPrice{
+    margin-left : 30px;
+    padding-top : 3px;
+}
+
+.cartAndOrderBtnArea{
+    margin-top : 10px;
+}
+
+.btn-secondary{
+    background-color : #000042;
+}
+
+.itemMenu{
+    display : inline-block;
+    width : 100%;
+    height : 40px;
+    margin-top: 20px;
+    text-align : center;
+}
+
+.itemMenuBarWrap{
+    width : 80%;
+    height : 40px;
+    margin-bottom : 100px;
+    display : inline-block;
+}
+
+.itemMenuBar{
+    display : flex;
+    text-align : center;
+}
+.itemMeunIn{
+    display : inline-block;
+    font-size : 1em;
+    color : #5d5d5d;
+    width : 33.3%;
+    height : 100%;
+    line-height: 40px;
+    text-align: center;
+    background-color : #ececec;
+    border-bottom : 5px solid #ececec;
+    margin : 5px;
+}
+.itemMeunIn:hover{
+    border-bottom : 5px solid #000042;
+}
+.itemInfoDescription{
+    margin-top : 20px;
+    margin-bottom : 100px;
+}
+.itemInfoDexcriptionContent{
+    color : #5d5d5d;
+    font-size : 0.9em;
+}
+
+.itemInfoQna{
+    margin-top : 50px;
+    margin-bottom : 100px;
+    width : 100%;
+    text-align : center;
+}
+.itemInfoQnaWrap{
+    width : 80%;
+    display : inline-block;
+    text-align : center;
+    font-size : 0.9em;
+}
+.buttonBlock{
+    text-align : right;
+}
+.btn-qna{
+    font-size : 0.8em;
+}
+
+.preAndNextBtn {
+    font-size : 0.8em;
+}
+
+.page-link {
+    border : none;
+    color : #000042;
+}
+
+.page-item.active .page-link{
+    background-color : #000042;
+    border-color : #000042;
+}
+.itemInfoShopInfo{
+    width : 100%;
+    text-align:center;
+}
+.itemInfoShopInfoWrap{
+    display : inline-block;
+    width: 80%;
+    text-align : center;
+    font-size : 0.9em;
+    color : #5d5d5d;
+}
+.itemInfoShopInfoTable{
+    width : 60%;
+    margin-top : 20px;
+    margin-bottom : 100px;
+    margin-left : 20px;
+    text-align : left;
+
+}
+.itemInfoShopInfoWrapText>p{
+    text-align : left;
+    padding-left : 20px;
+}
+.tdShopMenu{
+    width : 100px;
+    border-right : 3px solid #ececec;
+    padding-top : 15px;
+}
+
+.tdShopValue{
+    padding-left : 40px;
+    padding-top : 15px;
+}
