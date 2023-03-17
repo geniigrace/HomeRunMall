@@ -106,13 +106,13 @@ public class AdminController {
                 itemSearchDto.setSearchQuery("");
             }
 
-            Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+            Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
             Page<Item> items = itemService.getAdminItemPage(itemSearchDto, pageable);
 
             model.addAttribute("items", items);
             model.addAttribute("itemSearchDto", itemSearchDto);
-            model.addAttribute("maxPage", 3);
+            model.addAttribute("maxPage", 10);
 
             return "admin/items";
         }
@@ -193,12 +193,12 @@ public class AdminController {
         if(principal!=null){
             String loginName = loginUserService.loginUserNameEmail(principal)[0];
             model.addAttribute("loginName", loginName);
-            Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+            Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
             Page<OrderHistDto> orderHistDtoList = orderService.getAllOrderList(pageable);
 
             model.addAttribute("orders", orderHistDtoList);
-            model.addAttribute("maxPage", 3);
+            model.addAttribute("maxPage", 10);
 
             return "admin/orders";
         }

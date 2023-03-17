@@ -36,7 +36,7 @@ public class ItemController {
             model.addAttribute("loginName", loginName);
         }
 
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
         if (itemSearchDto.getSearchQuery() == null) {
             itemSearchDto.setSearchQuery("");
@@ -51,7 +51,7 @@ public class ItemController {
         model.addAttribute("itemCategoryTitle",itemCategoryTitle);
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto", itemSearchDto);
-        model.addAttribute("maxPage", 5);
+        model.addAttribute("maxPage", 10);
 
         return "item/itemList";
     }
@@ -64,7 +64,7 @@ public class ItemController {
             model.addAttribute("loginName", loginName);
         }
 
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
         if (itemSearchDto.getSearchQuery() == null) {
             itemSearchDto.setSearchQuery("");
@@ -79,7 +79,7 @@ public class ItemController {
         model.addAttribute("itemCategoryTitle",itemCategoryTitle);
         model.addAttribute("items", items);
         model.addAttribute("itemSearchDto", itemSearchDto);
-        model.addAttribute("maxPage", 3);
+        model.addAttribute("maxPage", 10);
 
         return "item/itemList";
     }
@@ -95,12 +95,12 @@ public class ItemController {
         ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
         model.addAttribute("item", itemFormDto);
 
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
         Page<QnaListDto> qna = qnaService.getQnaPage(pageable);
 
         model.addAttribute("qna", qna);
-        model.addAttribute("maxPage", 3);
+        model.addAttribute("maxPage", 10);
 
         return "item/itemDtl";
     }

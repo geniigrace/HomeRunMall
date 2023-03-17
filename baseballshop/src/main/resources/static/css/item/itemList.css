@@ -32,12 +32,18 @@
 }
 
 #itemListCardWrapped {
+    width : 100%;
     display : inline-block;
+    text-align : center;
     /*border : 1px solid green;*/
+}
+.itemListCardWrapped{
+    width : 90vw;
+    display:inline-block;
 }
 
 #itemListCard {
-    float : left;
+    /* float : left; */
     width : 220px;
     margin : 13px;
     display : inline-block;

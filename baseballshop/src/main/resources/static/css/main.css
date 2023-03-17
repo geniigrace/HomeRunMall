@@ -36,14 +36,14 @@
 
 /* card 가 정렬되는 크기 */
 #itemListCardWrapped {
-    width : 1210px;
+    width : 100%;
     display : inline-block;
     text-align : center;
     /* border : 1px solid green; */
 }
 
 #itemListCard {
-    float : left;
+    /* float : left; */
     width : 220px;
     margin : 10px;
     display : inline-block;

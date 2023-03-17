@@ -41,12 +41,12 @@ public class CommunityController {
             model.addAttribute("loginName", loginName);
         }
 
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
         Page<Notice> notices = noticeService.getNoticePage(noticeSearchDto,pageable);
 
         model.addAttribute("notices", notices);
         //model.addAttribute("noticeSearchDto", noticeSearchDto);
-        model.addAttribute("maxPage", 3);
+        model.addAttribute("maxPage", 10);
 
         return "notice/notice";
     }
@@ -75,12 +75,12 @@ public class CommunityController {
             String loginName = loginUserService.loginUserNameEmail(principal)[0];
             model.addAttribute("loginName", loginName);
         }
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
         Page<QnaListDto> qna = qnaService.getQnaPage(pageable);
 
         model.addAttribute("qna", qna);
-        model.addAttribute("maxPage", 3);
+        model.addAttribute("maxPage", 10);
 
         return "user/qna";
     }

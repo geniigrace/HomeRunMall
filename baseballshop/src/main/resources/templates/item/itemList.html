@@ -77,26 +77,28 @@
                     <p class="h3 font-weight-bold" th:text="'\''+${itemSearchDto.searchQuery}+'\' 검색결과'"></p>
                 </div>
                 <div id="itemListCardWrapped">
-                    <th:block th:each="item, status : ${items.getContent()}">
-                        <div id="itemListCard">
-                            <a th:href="'/item/'+${item.id}">
-                                <div id="itemListImgWrap">
-                                    <div th:if="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SOLD_OUT}" class="soldOutImg"><h3 class="soh3">SOLD OUT</h3></div>
-                                    <img th:src="${item.imgUrl}" th:alt="${item.itemName}" id="itemListImg">
-                                </div>
-                                <div id="itemListInfoWrap">
-                                    <div class="badgeArea">
-                                        <span th:if="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}"
-                                              class="badge badge-primary" th:text="${T(com.baseballshop.constant.SellStatus).SELL.title}"></span>
-                                        <span th:unless="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}"
-                                              class="badge badge-danger" th:text="${T(com.baseballshop.constant.SellStatus).SOLD_OUT.title}"> </span>
+                    <div class="itemListCardWrapped">
+                        <th:block th:each="item, status : ${items.getContent()}">
+                            <div id="itemListCard">
+                                <a th:href="'/item/'+${item.id}">
+                                    <div id="itemListImgWrap">
+                                        <div th:if="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SOLD_OUT}" class="soldOutImg"><h3 class="soh3">SOLD OUT</h3></div>
+                                        <img th:src="${item.imgUrl}" th:alt="${item.itemName}" id="itemListImg">
                                     </div>
-                                    <p id="itemInfoItemName">[[${item.itemName}]]</p>
-                                    <p id="itemInfoItemPrice">[[${#numbers.formatInteger(item.price, 0, 'COMMA')}]]원</p>
-                                </div>
-                            </a>
-                        </div>
-                    </th:block>
+                                    <div id="itemListInfoWrap">
+                                        <div class="badgeArea">
+                                            <span th:if="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}"
+                                                  class="badge badge-primary" th:text="${T(com.baseballshop.constant.SellStatus).SELL.title}"></span>
+                                            <span th:unless="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}"
+                                                  class="badge badge-danger" th:text="${T(com.baseballshop.constant.SellStatus).SOLD_OUT.title}"> </span>
+                                        </div>
+                                        <p id="itemInfoItemName">[[${item.itemName}]]</p>
+                                        <p id="itemInfoItemPrice">[[${#numbers.formatInteger(item.price, 0, 'COMMA')}]]원</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </th:block>
+                    </div>
                 </div>
                 <div id="pagingWrap">
                     <div id="paging">

@@ -137,7 +137,7 @@ public class UserController {
 
     public String order(Model model, Principal principal, @PathVariable("page") Optional<Integer> page){
 
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
+        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
         if(principal!=null) {//로그인 했을 때
             String loginName = loginUserService.loginUserNameEmail(principal)[0];
@@ -148,7 +148,7 @@ public class UserController {
             Page<OrderHistDto> orderHistDtoList = orderService.getOrderList(loginEmail, pageable);
 
             model.addAttribute("orders", orderHistDtoList);
-            model.addAttribute("maxPage", 3);
+            model.addAttribute("maxPage", 10);
 
             return "user/orderlist";
         }

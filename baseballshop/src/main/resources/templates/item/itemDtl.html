@@ -318,20 +318,20 @@
                             <div class="itemMenuBar">
                                 <div class="itemMeunIn itemMenuDetail" id="button1">Detail</div>
                                 <div class="itemMeunIn itemMenuQna" id="button2">Q&A</div>
-                                <div class="itemMeunIn itemMenuShopInfo" id="button3">Info</div>
+                                <div class="itemMeunIn itemMenuShopInfo" id="button3">Information</div>
                             </div>
                         </div>
                         <!--상품관련 상세정보-->
                         <div class="itemInfoDetail">
                             <!--상세정보-->
                             <section class="itemInfoDescription" id="section1">
-                                <h6 style="color : #000042;"> - about Product - </h6>
+                                <h6 style="color : #000042;"> - Detail - </h6>
                                 <hr style="width:80%;">
                                 <div class="itemInfoDexcriptionContent"><p th:text="${item.itemDetail}"></p></div>
                                 <div class="itemInfoDescriptionImg">
                                     <div th:each="itemImg : ${item.itemImgDtoList}" class="text-center">
                                         <img th:if="${not #strings.isEmpty(itemImg.imgUrl)}" th:src="${itemImg.imgUrl}"
-                                             class="rounded mgb-15" width="600">
+                                             class="rounded mgb-15" width="30%">
                                     </div>
                                 </div>
                             </section>
@@ -423,7 +423,7 @@
                         <!--판매정보-->
                         <section class="itemInfoShopInfo" id="section3">
                             <div class="itemInfoShopInfoWrap">
-                                <h6 style="color : #000042;"> - Info - </h6>
+                                <h6 style="color : #000042;"> - Information - </h6>
                                 <hr style="width:100%;">
                                 <table class="itemInfoShopInfoTable">
                                     <tr>
