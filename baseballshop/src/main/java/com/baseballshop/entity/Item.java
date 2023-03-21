@@ -31,8 +31,10 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ShowStatus showStatus;
 
+    @Enumerated(EnumType.STRING)
     private Team team;
 
+    @Enumerated(EnumType.STRING)
     private ItemCategory category;
 
     @Column(nullable = false, length = 50)

@@ -14,7 +14,8 @@ public enum ItemCategory {
     BBITEM("BBITEM","야구용품"),
     CHEERITEM("CHEERITEM","응원용품"),
     PLAYER("PLAYER","플레이어"),
-    EVENT("EVENT","기획전");
+    EVENT("EVENT","기획전"),
+    ETC("ETC","기타");
 
     private final String key;
     private final String title;

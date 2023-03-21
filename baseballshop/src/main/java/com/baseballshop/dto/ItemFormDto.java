@@ -27,11 +27,11 @@ public class ItemFormDto {
     @NotNull(message = "상품 등록중 에러가 발생하였습니다.")
     private ShowStatus showStatus;
 
-    @NotEmpty(message = "구단을 선택하세요.")
-    private String team;
+    @NotNull(message = "구단을 선택하세요.")
+    private Team team;
 
-    @NotEmpty(message = "상품 종류를 선택하세요.")
-    private String category;
+    @NotNull(message = "상품 종류를 선택하세요.")
+    private ItemCategory category;
 
     @NotEmpty(message = "상품명을 입력하세요.")
     private String itemName;

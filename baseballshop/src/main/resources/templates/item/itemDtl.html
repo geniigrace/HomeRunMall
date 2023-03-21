@@ -222,6 +222,7 @@
         location.href="/qna/"+page;
   }
 
+
     </script>
 </th:block>
 
@@ -247,16 +248,23 @@
                             <!--텍스트 정보-->
                             <div class="textDiv">
                                 <!--판매상태-->
-                                <div class="badgeArea">
-                                <span th:if="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}"
-                                      class="badge badge-primary"
-                                      th:text="${T(com.baseballshop.constant.SellStatus).SELL.title}"> </span>
-                                    <span th:unless="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}"
-                                          class="badge badge-danger"
-                                          th:text="${T(com.baseballshop.constant.SellStatus).SOLD_OUT.title}"> </span>
+                                <div class="rootArea">
+                                    <a th:href="@{/itemSearch/{id}(id=${item.category})}"><span
+                                            th:text="${item.category.title}"></span></a> > <span
+                                        th:text="${item.team.title}"></span>
                                 </div>
-                                <!--상품명-->
-                                <div class="titleArea h4 text-left" th:text="${item.itemName}"></div>
+                                <div class="badgeNitemNameArea">
+                                    <div class="badgeArea">
+                                        <span th:if="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}"
+                                          class="badge badge-primary"
+                                          th:text="${T(com.baseballshop.constant.SellStatus).SELL.title}"> </span>
+                                            <span th:unless="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}"
+                                                  class="badge badge-danger"
+                                                  th:text="${T(com.baseballshop.constant.SellStatus).SOLD_OUT.title}"> </span>
+                                    </div>
+                                    <!--상품명-->
+                                    <div class="titleArea h4 text-left" th:text="${item.itemName}"></div>
+                                </div>
                                 <hr>
                                 <!--가격 및 정보-->
                                 <table class="infoTable">
@@ -285,11 +293,11 @@
                                 <div class="countNpriceAreaWrap">
                                     <div class="countNpriceArea">
                                         <div class="totalPriceArea align-middle">
-                                            <!--                                    <span class="input-group-text">수량</span>-->
-                                            <div class="totalPriceText align-middle">결제금액</div>
+                                            <div class="totalPriceText align-middle">수량</div>
                                             <input type="number" name="count" id="count"
                                                    class="form-control align-middle" value="1"
                                                    min="1">
+                                            <div class="totalPriceText align-middle">결제금액</div>
                                             <h5 name="totalPrice" id="totalPrice" class="totalPrice align-middle"></h5>
                                         </div>
                                     </div>
@@ -341,7 +349,7 @@
                         <section class="itemInfoQna" id="section2">
                             <div class="itemInfoQnaWrap">
                                 <h6 style="color : #000042;"> - Q & A - </h6>
-                                <hr style="width:100%;">
+                                <!--                                <hr style="width:100%;">-->
                                 <table class="table" th:action="@{'/qna/'+${qna.number}}" role="form" method="get"
                                        th:object="${qna}">
                                     <thead>
@@ -414,7 +422,8 @@
                                     </button>
                                 </div>
                                 <div sec:authorize="hasRole('ADMIN')" class="buttonBlock">
-                                    <button type="button" class="btn btn-secondary btn-qna" onclick="location.href='/qna/new'">
+                                    <button type="button" class="btn btn-secondary btn-qna"
+                                            onclick="location.href='/qna/new'">
                                         FAQ 등록하기
                                     </button>
                                 </div>
@@ -448,11 +457,11 @@
                                         보내실 곳 : 서울특별시 영등포구 여의대방로
                                     </p>
                                     <p>
-                                    반품/교환 시 먼저 판매자와 연락하여 협의 후 반품접수를 해주셔야 하며,
-                                    반품접수 없이 임의로 보낼 경우 환불이 불가할 수 있으니 유의하시기 바랍니다.<br>
+                                        반품/교환 시 먼저 판매자와 연락하여 협의 후 반품접수를 해주셔야 하며,
+                                        반품접수 없이 임의로 보낼 경우 환불이 불가할 수 있으니 유의하시기 바랍니다.<br>
                                         <br>
-                                    1. 구매자 단순 변심은 상품 수령 후 7일 이내(구매자 반품배송비 부담)<br>
-                                    2. 표시/광고와 상이, 상품하자의 경우 상품 수령 후 3개월 이내
+                                        1. 구매자 단순 변심은 상품 수령 후 7일 이내(구매자 반품배송비 부담)<br>
+                                        2. 표시/광고와 상이, 상품하자의 경우 상품 수령 후 3개월 이내
                                         혹은 표시/광고와 다른 사실을 안 날로부터 30일 이내 (판매자 반품배송비 부담) 둘 중 하나 경과 시 반품/교환 불가
                                     </p>
                                 </div>
