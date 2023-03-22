@@ -16,6 +16,8 @@
           interval: 2000,
         })
 
+
+
     </script>
 </th:block>
 
@@ -65,15 +67,22 @@
                     <div id="itemListCard">
                         <a th:href="'/item/'+${item.id}">
                             <div id="itemListImgWrap">
-                                <div th:if="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SOLD_OUT}" class="soldOutImg"><h3 class="soh3">SOLD OUT</h3></div>
-                                <img th:src="${item.imgUrl}" th:alt="${item.itemName}" id="itemListImg">
+                                <div class="itemListImgCenter">
+                                    <img th:src="${item.imgUrl}" th:alt="${item.itemName}" id="itemListImg">
+                                    <div th:if="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SOLD_OUT}"
+                                         class="soldOutImg">
+                                        <h3 class="soh3">SOLD OUT</h3>
+                                    </div>
+                                    </div>
                             </div>
                             <div id="itemListInfoWrap">
                                 <div class="badgeArea">
                                     <span th:if="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}"
-                                          class="badge badge-primary" th:text="${T(com.baseballshop.constant.SellStatus).SELL.title}"></span>
+                                          class="badge badge-primary"
+                                          th:text="${T(com.baseballshop.constant.SellStatus).SELL.title}"></span>
                                     <span th:unless="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}"
-                                          class="badge badge-danger" th:text="${T(com.baseballshop.constant.SellStatus).SOLD_OUT.title}"></span>
+                                          class="badge badge-danger"
+                                          th:text="${T(com.baseballshop.constant.SellStatus).SOLD_OUT.title}"></span>
                                 </div>
                                 <p id="itemInfoItemName">[[${item.itemName}]]</p>
                                 <p id="itemInfoItemPrice">[[${#numbers.formatInteger(item.price,0,'COMMA')}]]원</p>
