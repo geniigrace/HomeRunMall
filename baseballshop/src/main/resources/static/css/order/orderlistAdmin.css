@@ -46,8 +46,8 @@ table{
     text-overflow:ellipsis;
     white-space:nowrap;
     word-wrap:normal;
-    width:200px;
     overflow:hidden;
+    width:200px;
 }
 #orderItemCount {
     margin-left : 15px;

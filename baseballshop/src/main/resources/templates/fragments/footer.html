@@ -1,15 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<th:block layout:fragment="css">
-  <style>
-  </style>
-</th:block>
-<div class="footer" th:fragment="footer" style="background-color:#eaeaea; color:#8c8c8c;">
-  <footer class="page-footer font-small cyan darken-3">
-    <div class="footer-copyright text-center py-3" id="footerBox">
-      야구의 모든 것, 홈런몰 ⓒHomeRunMall All Rights Reserved <br>
-      본사 : 서울특별시 송파구 올림픽로 25, 전화번호 : 02) 2202-0000<br>
-    </div>
-  </footer>
+<div class="footer" th:fragment="footer">
+    <footer class="page-footer">
+        <div class="footer-left">
+            고객센터<br>
+            <h5 class="footer-left-h5">02)2202-0000</h5>
+            평   일 : 09 : 00 ~ 18 : 00<br>
+            점심시간 : 12 : 00 ~ 13 : 00<br>
+            (주말 및 공휴일 휴무)
+
+        </div>
+        <div class="footer-center">
+            <div class="footer-center-text">
+                야구 120% 즐기기<br>
+                <h6>KBO 야구용품 전문스토어, 홈런몰</h6>
+                ⓒHomeRunMall All Rights Reserved.<br>
+                본사 : 서울특별시 송파구 올림픽로 25<br>
+            </div>
+
+        </div>
+        <div class="footer-right">
+            <div class="footer-right-text">
+                <br>
+                이용약관  |  개인정보처리방침
+            </div>
+        </div>
+    </footer>
 </div>
 </html>

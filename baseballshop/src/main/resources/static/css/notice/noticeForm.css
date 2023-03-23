@@ -20,7 +20,7 @@
     }
 
 .custom-select, select>option{ font-size : 0.9em; }
-
+.btn-outline-secondary{ font-size : 0.8em; }
 .btn-secondary {
     background-color : #000042;
     font-size : 0.8em;

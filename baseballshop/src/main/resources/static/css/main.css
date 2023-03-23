@@ -113,7 +113,13 @@
     padding : 0 10px;
 }
 
-#itemInfoItemName { margin : 0; }
+#itemInfoItemName {
+    margin : 0;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    word-wrap:normal;
+    overflow:hidden;
+}
 
 
 .preAndNextBtn {

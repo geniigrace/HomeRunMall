@@ -4,18 +4,40 @@ html{
     margin: 0;
 }
 .content{
+/*
     margin-bottom: 100px;
     margin-top: 50px;
     margin-left : 100px;
     margin-right : 100px;
+    min-height : 100%;
+    */
 }
 .footer {
     position: absolute;
     left: 0;
-    bottom: 0;
+    bottom: -80%;
     width: 100%;
     padding: 15px 0;
     text-align: center;
+    background-color : #ececec;
+    color : #5d5d5d;
+    font-size :0.8em;
+}
+.page-footer {
+    display:flex;
+    height : 100px;
+}
+.footer-left, .footer-center, .footer-right {
+    width : 33.3%;
+}
+.footer-left-h5{
+    margin-bottom:0;
+}
+.footer-center-text{
+    padding-top : 5px;
+}
+.footer-right-text{
+    padding-top : 25px;
 }
 
 ul.nav-bar li.dropdown:hover > ul.dropdown-menu { display : block; margin: 0;}
@@ -68,6 +90,7 @@ a:hover{
 
 .nav-logo {
     width : 33%;
+    height : 100%;
     float : left;
     padding-top : 10px;
 }
