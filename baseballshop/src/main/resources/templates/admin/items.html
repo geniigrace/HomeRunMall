@@ -137,7 +137,7 @@
                         </select>
 
                         <select th:field="*{searchTeam}" class="form-control" style="width:auto;">
-                            <option value="ETC">구단</option>
+                            <option value="">구단</option>
                             <option value="KOREA">KOREA</option>
                             <option value="KIA">기아 타이거즈</option>
                             <option value="DS">두산 베어스</option>
@@ -219,18 +219,16 @@
 
                         <ul class="pagination justify-content-center">
                             <li class="page-item" th:classappend="${items.first}?'disabled'"> <!--첫번째 아이템이면 pre 안띄움 -->
-                                <a th:onclick="'javascript:page('+${items.number - 1} + ')'" aria-label='Previous'
-                                   class="page-link">
+                                <a th:onclick="'javascript:page('+${items.number-1}+')'" aria-label='Previous' class="page-link">
                                     <span class="preAndNextBtn" aria-hidden="true">◀︎</span>
                                 </a>
                             </li>
                             <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}"
                                 th:classappend="${items.number eq page-1}?'active':''">
-                                <a th:onclick="'javascript:page('+${page -1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+                                <a th:onclick="'javascript:page('+${page-1}+')'" th:inline="text" class="page-link">[[${page}]]</a>
                             </li>
                             <li class="page-item" th:classappend="${items.last}?'disabled'">
-                                <a th:onclick="'javascript:page(' + ${items.number + 1} + ')'" aria-label="Next"
-                                   class="page-link">
+                                <a th:onclick="'javascript:page('+${items.number+1}+')'" aria-label="Next" class="page-link">
                                     <span class="preAndNextBtn" aria-hidden="true">▶︎</span>
                                 </a>
                             </li>
