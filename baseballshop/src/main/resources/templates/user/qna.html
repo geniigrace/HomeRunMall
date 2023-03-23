@@ -133,13 +133,14 @@ function qnaMemberCheck(id){
                                 <div th:if="${qna.qnaType == T(com.baseballshop.constant.QnaStatus).FAQ}"></div>
                                 <div th:unless="${qna.qnaType == T(com.baseballshop.constant.QnaStatus).FAQ}">
                                     <th:block th:if="${qna.answerType == T(com.baseballshop.constant.QnaStatus).NOT}">
-                                        <span th:text="${T(com.baseballshop.constant.QnaStatus).NOT.title}"></span><br>
-                                        <button sec:authorize="hasRole('ADMIN')" type="button" class="btn btn-secondary" th:value="${qna.id}"
-                                                onclick="answerDone(this.value)">답변 완료
-                                        </button>
+                                        <span th:text="${T(com.baseballshop.constant.QnaStatus).NOT.title}"></span>
+                                        <div sec:authorize="hasRole('ADMIN')" >
+                                            <button type="button" class="btn btn-secondary" th:value="${qna.id}" onclick="answerDone(this.value)">답변 완료
+                                            </button>
+                                        </div>
                                     </th:block>
                                     <th:block th:if="${qna.answerType == T(com.baseballshop.constant.QnaStatus).DONE}">
-                                        <p th:text="${T(com.baseballshop.constant.QnaStatus).DONE.title}"></p>
+                                        <span th:text="${T(com.baseballshop.constant.QnaStatus).DONE.title}"></span>
                                     </th:block>
                                 </div>
                         </tr>
