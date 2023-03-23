@@ -66,7 +66,7 @@ public class ItemController {
 
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
 
-        if (itemSearchDto.getSearchQuery() == null) {
+        if (itemSearchDto.getSearchQuery() == null || itemSearchDto.getSearchQuery().equals("undefined")) {
             itemSearchDto.setSearchQuery("");
         }
 

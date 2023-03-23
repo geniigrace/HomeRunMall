@@ -11,6 +11,23 @@
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
+        function page(page){
+        var searchSellStatus = $("#searchSellStatus").val();
+        var searchTeam = $("#searchTeam").val();
+        var searchCategory = $("#searchCategory").val();
+        var searchDateType = $("#searchDateType").val();
+        var searchQuery = $("#searchQuery").val();
+        if(searchQuery=='undefined'){
+            searchQuery="";
+        }
+
+        location.href="/admin/items/" + page +
+        "?searchDateType=" + searchDateType +
+        "&searchSellStatus=" + searchSellStatus +
+        "&searchTeam=" + searchTeam +
+        "&searchCategory=" + searchCategory +
+        "&searchQuery=" + searchQuery;
+    }
     </script>
 </th:block>
 
