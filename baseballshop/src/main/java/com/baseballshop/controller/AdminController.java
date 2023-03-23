@@ -28,8 +28,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.PrintWriter;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -71,7 +73,7 @@ public class AdminController {
     @PostMapping(value = "/item/new")
     public String itemNew(@Valid ItemFormDto itemFormDto,
                           BindingResult bindingResult,
-                          Model model,
+                          Model model, HttpServletResponse response,
                           @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList){
 
         if(bindingResult.hasErrors()){
@@ -84,6 +86,10 @@ public class AdminController {
         }
         try{
             itemService.saveItem(itemFormDto, itemImgFileList);
+            response.setContentType("text/html; charset=euc-kr");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('상품등록이 완료되었습니다.'); location.href='/members/login'; </script>");
+            out.flush();
         }
         catch (Exception e){
             model.addAttribute("errorMessage", "상품 등록중 에러가 발생하였습니다.");
@@ -146,7 +152,7 @@ public class AdminController {
 
     @PostMapping(value = "/item/{itemId}")
     public String itemUpdate(@Valid ItemFormDto itemFormDto,
-                             BindingResult bindingResult,
+                             BindingResult bindingResult,HttpServletResponse response,
                              @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList,
                              Model model){
 
@@ -161,6 +167,10 @@ public class AdminController {
 
         try{
             itemService.updateItem(itemFormDto, itemImgFileList);
+            response.setContentType("text/html; charset=euc-kr");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('상품정보가 수정되었습니다.'); location.href='/members/login'; </script>");
+            out.flush();
         }
         catch(Exception e){
             model.addAttribute("errorMessage", "상품 수정 중 에러가 발생하였습니다.");
@@ -226,7 +236,7 @@ public class AdminController {
     @PostMapping(value = "/notice/new")
     public String noticeNew(@Valid NoticeFormDto noticeFormDto,
                             BindingResult bindingResult,
-                            Model model,
+                            Model model,HttpServletResponse response,
                             @RequestParam("noticeImgFile") List<MultipartFile> noticeImgFileList){
         if(bindingResult.hasErrors()){
             return "admin/noticeForm";
@@ -234,6 +244,10 @@ public class AdminController {
 
         try{
             noticeService.saveNotice(noticeFormDto, noticeImgFileList);
+            response.setContentType("text/html; charset=euc-kr");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('게시글이 등록되었습니다.'); location.href='/members/login'; </script>");
+            out.flush();
         }
         catch (Exception e){
             model.addAttribute("errorMessage", "게시글 등록중 에러가 발생했습니다.");
@@ -270,7 +284,7 @@ public class AdminController {
 
     // 공지사항 수정한 내용 저장
     @PostMapping(value = "/notice/{noticeId}")
-    public String noticeUpdate(@Valid NoticeFormDto noticeFormDto, BindingResult bindingResult, @RequestParam("noticeImgFile") List<MultipartFile> noticeImgFileList, Model model){
+    public String noticeUpdate(@Valid NoticeFormDto noticeFormDto, HttpServletResponse response, BindingResult bindingResult, @RequestParam("noticeImgFile") List<MultipartFile> noticeImgFileList, Model model){
 
         if(bindingResult.hasErrors()){
             return "admin/noticeForm";
@@ -278,6 +292,10 @@ public class AdminController {
 
         try{
             noticeService.updateNotice(noticeFormDto, noticeImgFileList);
+            response.setContentType("text/html; charset=euc-kr");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('게시글이 수정되었습니다.'); location.href='/members/login'; </script>");
+            out.flush();
         }
         catch(Exception e){
             model.addAttribute("errorMessage", "게시글 수정 중 에러가 발생했습니다."+e.getMessage());
