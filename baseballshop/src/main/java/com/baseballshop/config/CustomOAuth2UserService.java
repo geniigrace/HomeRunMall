@@ -53,9 +53,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         Member member = saveOrUpdate(attributes);
         httpSession.setAttribute("member", new SessionUser(member));
 
-        System.out.println("@@@@@@@@@@@@@@@@ attributes.getAttribute() : "+attributes.getAttributes());
-        System.out.println("@@@@@@@@@@@@@@@@ attributes.getName() : "+attributes.getName());
-        System.out.println("@@@@@@@@@@@@@@@@ attributes.getEmail() : "+attributes.getEmail());
         loginName = attributes.getName();
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))
@@ -75,7 +72,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
               member.setPicture(attributes.getPicture());
               member.setName(attributes.getName());
               member.setRole(Role.USER);
-              member.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm")));
+//              member.setCreateTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm")));
          }
          else {
             member = checkMember.update(attributes.getName(), attributes.getPicture());
