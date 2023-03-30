@@ -15,7 +15,7 @@ import javax.validation.constraints.NotEmpty;
 public class MemberFormDto {
 
     //@NotEmpty(message = "구단 선택은 필수 입니다.")
-    private Team userTeam;
+    private Team team;
 
 //    @NotBlank(message = "아이디를 입력하세요.")
 //    @Length(min=2, max=10, message = "아이디는 2자 이상, 10자 이하로 입력하세요.")

@@ -88,7 +88,7 @@ public class AdminController {
             itemService.saveItem(itemFormDto, itemImgFileList);
             response.setContentType("text/html; charset=euc-kr");
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('상품등록이 완료되었습니다.'); location.href='/members/login'; </script>");
+            out.println("<script>alert('상품등록이 완료되었습니다.'); location.href='/admin/items'; </script>");
             out.flush();
         }
         catch (Exception e){
@@ -112,13 +112,13 @@ public class AdminController {
                 itemSearchDto.setSearchQuery("");
             }
 
-            Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 10);
+            Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 4);
 
-            Page<Item> items = itemService.getAdminItemPage(itemSearchDto, pageable);
+            Page<ItemsDto> items = itemService.getAdminItemPage(itemSearchDto, pageable);
 
             model.addAttribute("items", items);
             model.addAttribute("itemSearchDto", itemSearchDto);
-            model.addAttribute("maxPage", 10);
+            model.addAttribute("maxPage", 4);
 
             return "admin/items";
         }
@@ -169,7 +169,7 @@ public class AdminController {
             itemService.updateItem(itemFormDto, itemImgFileList);
             response.setContentType("text/html; charset=euc-kr");
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('상품정보가 수정되었습니다.'); location.href='/members/login'; </script>");
+            out.println("<script>alert('상품정보가 수정되었습니다.'); location.href='/admin/items'; </script>");
             out.flush();
         }
         catch(Exception e){
@@ -246,7 +246,7 @@ public class AdminController {
             noticeService.saveNotice(noticeFormDto, noticeImgFileList);
             response.setContentType("text/html; charset=euc-kr");
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('게시글이 등록되었습니다.'); location.href='/members/login'; </script>");
+            out.println("<script>alert('게시글이 등록되었습니다.'); location.href='/notice';</script>");
             out.flush();
         }
         catch (Exception e){
@@ -254,7 +254,7 @@ public class AdminController {
             return "admin/noticeForm";
         }
 
-        return "redirect:/notice";
+        return "notice/notice";
     }
 
 
@@ -294,7 +294,7 @@ public class AdminController {
             noticeService.updateNotice(noticeFormDto, noticeImgFileList);
             response.setContentType("text/html; charset=euc-kr");
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('게시글이 수정되었습니다.'); location.href='/members/login'; </script>");
+            out.println("<script>alert('게시글이 수정되었습니다.'); location.href='/notice';</script>");
             out.flush();
         }
         catch(Exception e){
@@ -302,12 +302,11 @@ public class AdminController {
             return "admin/noticeForm";
         }
 
-        return "redirect:/notice";
+        return "notice/notice";
     }
 
     //공지사항 삭제
-    //삭제기능 구현은 했지만 img와 외래키로 연결되어있어 작성하는 글 삭제 하지않고 구분자만 지정하여 구분자를 Delete로 두고 hide 시켜 구현하였음
-    @PutMapping(value = "/notice/hidden")
+    @DeleteMapping(value = "/notice/hidden")
     public @ResponseBody ResponseEntity modifyNotice(@RequestBody NoticeDeleteDto noticeDeleteDto){
 
         List<NoticeDeleteDto> noticeDeleteDtoList = noticeDeleteDto.getNoticeDeleteDtoList();
@@ -318,10 +317,27 @@ public class AdminController {
             return new ResponseEntity<String>("삭제할 게시글을 선택하세요.", HttpStatus.FORBIDDEN);
         }
 
-        Long noticeId = noticeService.modify(noticeDeleteDto);
+        Long noticeId = noticeService.delete(noticeDeleteDto);
 
         return new ResponseEntity<Long>(noticeId, HttpStatus.OK);
     }
+
+    //삭제기능 구현은 했지만 img와 외래키로 연결되어있어 작성하는 글 삭제 하지않고 구분자만 지정하여 구분자를 Delete로 두고 hide 시켜 구현하였음
+//    @PutMapping(value = "/notice/hidden")
+//    public @ResponseBody ResponseEntity modifyNotice(@RequestBody NoticeDeleteDto noticeDeleteDto){
+//
+//        List<NoticeDeleteDto> noticeDeleteDtoList = noticeDeleteDto.getNoticeDeleteDtoList();
+//
+//        if(noticeDeleteDtoList == null || noticeDeleteDtoList.size()==0){
+//            if(noticeDeleteDtoList == null){
+//            }
+//            return new ResponseEntity<String>("삭제할 게시글을 선택하세요.", HttpStatus.FORBIDDEN);
+//        }
+//
+//        Long noticeId = noticeService.modify(noticeDeleteDto);
+//
+//        return new ResponseEntity<Long>(noticeId, HttpStatus.OK);
+//    }
 
     //회원관리
     @GetMapping(value = "/members" )

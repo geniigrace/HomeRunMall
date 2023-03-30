@@ -14,7 +14,7 @@ import javax.validation.constraints.NotEmpty;
 public class MemberModifyDto {
 
 
-    private Team userTeam;
+    private Team team;
 
     private String email;
 

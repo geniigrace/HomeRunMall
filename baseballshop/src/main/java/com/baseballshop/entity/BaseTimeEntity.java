@@ -22,19 +22,19 @@ public abstract class BaseTimeEntity {
 
     @CreatedDate //생성시 자동저장
     @Column(updatable = false) //생성이후 수정할 수 없게 설정
-    private LocalDateTime regTime;
+    private LocalDateTime createTime;
 
-    @CreatedDate
-    @Column(updatable = false)
-    private String createTime;
+//    @CreatedDate
+//    @Column(updatable = false)
+//    private String createTime;
 
     @LastModifiedDate
-    private String updateTime;
+    private LocalDateTime updateTime;
 
-    @PrePersist
-    public void onPrePersist(){
-        this.createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm"));
-        this.updateTime = this.createTime;
-    }
+//    @PrePersist
+//    public void onPrePersist(){
+//        this.createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm"));
+//        this.updateTime = this.createTime;
+//    }
 
 }

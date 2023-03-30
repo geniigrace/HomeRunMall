@@ -152,7 +152,7 @@ public class CommunityController {
             PrintWriter out = response.getWriter();
             out.println("<script>alert('게시글이 수정되었습니다.'); location.href='/qna';</script>");
             out.flush();
-            return "redirect:/qna";
+            return "user/qna";
         }
         catch(Exception e){
             model.addAttribute("errorMessage", "게시글 수정 중 에러가 발생하였습니다.");

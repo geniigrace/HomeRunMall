@@ -17,7 +17,7 @@ public class NoticeSearchDto {
 
     private ItemCategory category;
 
-    private NoticeStatus searchNoticeStatus;
+    private NoticeStatus searchNoticeType;
 
     private String searchDateType;
 

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -22,7 +23,7 @@ public class QnaListDto {
     //답변상태 카테고리
     private QnaStatus answerType;
 
-    private String qnaDate;
+    private LocalDateTime qnaDate;
 
     @NotBlank(message = "제목을 입력하세요.")
     private String qnaTitle;

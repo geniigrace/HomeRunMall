@@ -54,7 +54,7 @@ public class UserController {
 
     //장바구니 페이지 생성 및 연결
     @GetMapping(value = "/cart")
-    public String orderHist(Principal principal, Model model){
+    public String cartPage(Principal principal, Model model){
 
         List<CartDto> cartDtoList;
 
@@ -261,7 +261,7 @@ public class UserController {
 
             response.setContentType("text/html; charset=euc-kr");
             PrintWriter out = response.getWriter();
-            out.println("<script>alert('회원정보가 수정되었습니다.'); location.href='/user/myinfo'; </script>");
+            out.println("<script>alert('회원정보가 수정되었습니다.'); location.href='/user/myinfo';</script>");
             out.flush();
 
         }  catch (Exception e){
@@ -269,7 +269,7 @@ public class UserController {
             return "user/myinfo";
         }
 
-        return "redirect:/user/myinfo";
+        return "user/myinfo";
 
     }
 }

@@ -22,7 +22,7 @@ import java.time.format.DateTimeFormatter;
 @Setter
 @ToString
 @NoArgsConstructor
-public class Member{
+public class Member extends BaseTimeEntity{
 
     @Id
     @Column(name = "member_id")
@@ -30,7 +30,7 @@ public class Member{
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private Team userTeam;
+    private Team team;
 
 //    @Column(unique = true)
 //    private String userId;
@@ -53,14 +53,14 @@ public class Member{
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @CreatedDate
-    @Column(updatable = false)
-    private String createTime;
+//    @CreatedDate
+//    @Column(updatable = false)
+//    private String createTime;
 
     public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder){
         Member member = new Member();
 
-        member.setUserTeam(memberFormDto.getUserTeam());
+        member.setTeam(memberFormDto.getTeam());
 //        member.setUserId(memberFormDto.getUserId());
         String pw = passwordEncoder.encode(memberFormDto.getPassword());
         member.setPassword(pw);
@@ -74,10 +74,10 @@ public class Member{
         return member;
     }
 
-    @PrePersist
-    public void onPrePersist(){
-        this.createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm"));
-    }
+//    @PrePersist
+//    public void onPrePersist(){
+//        this.createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm"));
+//    }
 
     public Member (String name, String email, String picture){
         this.name = name;
@@ -96,7 +96,7 @@ public class Member{
         if(memberModifyDto.getPassword() != null){
             this.password = memberModifyDto.getPassword();
         }
-        this.userTeam=memberModifyDto.getUserTeam();
+        this.team=memberModifyDto.getTeam();
         this.name=memberModifyDto.getName();
         this.phone= memberModifyDto.getPhone();
         this.address1= memberModifyDto.getAddress1();

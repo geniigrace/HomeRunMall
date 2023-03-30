@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,13 +28,12 @@ public class NoticeFormDto {
     @NotBlank(message = "내용을 입력하세요.")
     private String noticeContent;
 
+    private LocalDateTime createTime;
     //공지사항 카테고리 (공지사항_NOTICE, 이벤트_EVENT)
-    private NoticeStatus noticeStatus;
+    private NoticeStatus noticeType;
 
     @NotNull(message = "구단을 선택하세요.")
     private Team team;
-
-    private String noticeDate;
 
     private List<NoticeImgDto> noticeImgDtoList = new ArrayList<>();
 
