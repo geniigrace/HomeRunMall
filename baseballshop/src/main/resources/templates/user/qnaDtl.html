@@ -48,14 +48,19 @@
               <td th:text="${qna.qnaType.title}">카테고리</td>
               <td th:text="${qna.qnaTitle}">제목</td>
               <td th:text="${qna.qnaMemberId}">작성자</td>
-              <td th:text="${qna.qnaDate}">등록일</td>
+              <td th:text="${#temporals.format(qna.qnaDate, 'yyyy/MM/dd HH:mm')}">등록일</td>
               <td th:if="${qna.qnaType==T(com.baseballshop.constant.QnaStatus).FAQ}"></td>
               <td th:unless="${qna.qnaType==T(com.baseballshop.constant.QnaStatus).FAQ}" th:text="${qna.answerType.title}"></td>
             </tr>
             </thead>
             <tbody>
             <tr>
-              <td class="qnaContent" colspan="6" th:utext="${#strings.replace(qna.qnaContent, newLineChar, '&lt;br&gt;')}">내용</td>
+              <td></td>
+              <td></td>
+              <td class="qnaContent" style="padding-left : 150px; padding-top : 30px;" th:utext="${#strings.replace(qna.qnaContent, newLineChar, '&lt;br&gt;')}">내용</td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
             </tbody>
           </table>
