@@ -4,7 +4,6 @@ import com.baseballshop.constant.ShowStatus;
 import com.baseballshop.dto.*;
 import com.baseballshop.entity.Item;
 import com.baseballshop.entity.ItemImg;
-import com.baseballshop.entity.Notice;
 import com.baseballshop.repository.ItemImgRepository;
 import com.baseballshop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -93,7 +92,7 @@ public class ItemService {
 
     //상품관리
     @Transactional(readOnly = true)
-    public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+    public Page<ItemsDto> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
         return itemRepository.getAdminItemPage(itemSearchDto, pageable);
     }
 

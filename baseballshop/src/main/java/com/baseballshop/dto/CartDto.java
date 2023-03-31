@@ -17,12 +17,15 @@ public class CartDto {
 
     private String imgUrl;
 
-    public CartDto(Long cartItemId, String itemName, int price, int count, String imgUrl){
+    private Long itemId;
+
+    public CartDto(Long cartItemId, String itemName, int price, int count, String imgUrl, Long itemId){
         this.cartItemId = cartItemId;
         this.itemName = itemName;
         this.price = price;
         this.count = count;
         this.imgUrl = imgUrl;
+        this.itemId=itemId;
     }
 
 }
