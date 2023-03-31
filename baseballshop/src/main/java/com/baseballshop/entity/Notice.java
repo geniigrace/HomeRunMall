@@ -9,6 +9,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="notice")
@@ -33,17 +35,20 @@ public class Notice extends BaseEntity{
     private String noticeContent;
 
     @Enumerated(EnumType.STRING)
-    private NoticeStatus noticeStatus;
+    private NoticeStatus noticeType;
 
     @Enumerated(EnumType.STRING)
     private Team team;
+
+    @OneToMany(mappedBy = "notice", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<NoticeImg> noticeImgs ;
 
 
     //공지 수정
     public void updateNotice(NoticeFormDto noticeFormDto){
         this.noticeTitle = noticeFormDto.getNoticeTitle();
         this.noticeContent = noticeFormDto.getNoticeContent();
-        this.noticeStatus=noticeFormDto.getNoticeStatus();
+        this.noticeType=noticeFormDto.getNoticeType();
         this.team = noticeFormDto.getTeam();
     }
 
