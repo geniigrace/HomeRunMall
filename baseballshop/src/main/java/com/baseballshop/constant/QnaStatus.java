@@ -6,9 +6,10 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum QnaStatus {
-    ITEM("ITEM","상품문의"),
-    DELIVERY("DELIVERY", "배송문의"),
-    ETC("ETC","기타문의"),
+    ITEM("ITEM","상품 문의"),
+    DELIVERY("DELIVERY", "배송 문의"),
+    CANCEL("CANCEL", "교환및취소 문의"),
+    ETC("ETC","기타 문의"),
 
     FAQ("FAQ","FAQ"),
     NOT("NOT","확인중"),
