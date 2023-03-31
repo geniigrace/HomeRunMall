@@ -12,7 +12,9 @@
     border-top : 1px solid #dee2e6;
     border-bottom : 1px solid #dee2e6;
 }
-
+a{
+    color : #5d5d5d;
+}
 .btn-secondary {
     background-color : #000042;
     font-size : 0.8em;
@@ -23,21 +25,24 @@
 }
 
 .repImg {
-    width : 100px;
+    width : auto;
     height : 100px;
 }
 
 
 .itemEachName-area {
-    float : left;
-    width : 70%;
+    float : center;
+    width : 270px;
     overflow : hidden;
     text-overflow:ellipsis;
-    margin-right : 50px;
 }
 .itemEachCount-area{
     display : flex;
 }
+.itemEachCount-all-area{
+    float : center;
+}
+
 .inputCount-area{
     width : 50px;
 }

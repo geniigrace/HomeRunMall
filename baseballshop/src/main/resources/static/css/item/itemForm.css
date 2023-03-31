@@ -22,3 +22,17 @@
 .btn-secondary { background-color : #000042; }
 
 .imgBox>.form-group { margin-bottom : 0;}
+
+.all-form-group{
+    display : flex;
+}
+
+.formSellStatus, .formTeam {
+    margin-right : 10px;
+}
+.formSellStatus,.formTeam, .formCategory{
+    width : 33%;
+}
+option{
+    text-align : center;
+}

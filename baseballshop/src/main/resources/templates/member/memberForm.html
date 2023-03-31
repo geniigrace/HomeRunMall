@@ -29,6 +29,7 @@
       $("#phone-alert-danger").hide();
       $("#id-alert-success").hide();
       $("#id-alert-danger").hide();
+      $("#submit").attr("disabled", "disabled");
     });
 
 $(function(){
@@ -40,11 +41,11 @@ $(function(){
             var pwd2=$("#pwCheck").val();
 
             if(pwd1 != "" || pwd2 != ""){
-                if(pwd1 == pwd2){
+                if(pwd1 == pwd2){ //입력한 비번이 같음
                     $("#alert-success").show();
                     $("#alert-danger").hide();
                     $("#submit").removeAttr("disabled");
-                }else{
+                }else{ //입력한 비번이 다름
                     $("#alert-success").hide();
                     $("#alert-danger").show();
                     $("#submit").attr("disabled", "disabled");
@@ -98,19 +99,16 @@ $(function(){
 
                 success : function(result, status){
                         var checked = result;
-                       if(checked == true ) { // 아이디가 있을 경우
-
+                       if(checked == true ) { //아이디 중복
+                        $("#submit").attr("disabled", "disabled");
                         $("#id-alert-success").hide();
                         $("#id-alert-danger").show();
-                        $("#submit").removeAttr("disabled");
                        }
 
-                       else{ //아이디가 없는 경우
-
+                       else{ //아이디 사용가능
+                        $("#submit").removeAttr("disabled");
                         $("#id-alert-success").show();
                         $("#id-alert-danger").hide();
-                        $("#submit").attr("disabled", "disabled");
-
                        }
 
                 },
@@ -149,7 +147,7 @@ window.onload = function(){
           <div class="input-content">
             <!--구단 선택-->
               <div class="form-group">
-                <select th:field="*{userTeam}" class="custom-select text-center">
+                <select th:field="*{team}" class="custom-select text-center">
                     <option value="">구단을 선택하세요</option>
                     <option value="KOREA">KOREA</option>
                     <option value="KIA">기아 타이거즈</option>

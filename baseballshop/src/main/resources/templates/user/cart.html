@@ -153,6 +153,8 @@
                 }
             });
         }
+
+
     </script>
 </th:block>
 <!-- 사용자 CSS 추가 -->
@@ -175,16 +177,20 @@
                 <form class="page__form">
                     <table class="table">
                         <colgroup>
+                            <col width="5%">
+                            <col width="25%">
+                            <col width="12%">
+                            <col width="33%">
                             <col width="10%">
-                            <col width="11.5%">
-                            <col width="11.5%">
-                            <col width="32%">
                             <col width="15%">
                         </colgroup>
                         <thead>
                         <tr>
-                            <td><input type="checkbox" id="checkall" onclick="checkAll()"> 전체선택</td>
-                            <td colspan="3">상품정보</td>
+                            <td><input type="checkbox" id="checkall" onclick="checkAll()"></td>
+                            <td>썸네일</td>
+                            <td>가격</td>
+                            <td>상품명</td>
+                            <td>수량</td>
                             <td>총 금액</td>
                         </tr>
                         </thead>
@@ -197,7 +203,7 @@
                             <!--이미지-->
                             <td class="tdStyle align-middle">
                                 <div class="repImgWrap">
-                                    <img class="repImg" th:src="${cartItem.imgUrl}" th:alt="${cartItem.itemName}">
+                                    <a th:href="'/item/'+${cartItem.itemId}" ><img class="repImg" th:src="${cartItem.imgUrl}" th:alt="${cartItem.itemName}"></a>
                                 </div>
                             </td>
                             <!--상품가격-->
@@ -209,16 +215,21 @@
                             <!--상품정보-->
                             <td class="text-center align-middle">
                                 <!--상품명-->
-                                <div th:text="${cartItem.itemName}"
-                                     class="itemEachName-area"></div>
+                                <a th:href="'/item/'+${cartItem.itemId}" > <span th:text="${cartItem.itemName}"
+                                                                                 class="itemEachName-area"></span></a>
+                            </td>
+                            <td class="text-center align-middle">
                                 <!--상품수량-->
-                                <div class="itemEachCount-area">
-                                    <input type="number" name="count" th:id="'count_' + ${cartItem.cartItemId}"
-                                           th:value="${cartItem.count}" min="1" onchange="changeCount(this)" class="inputCount-area">
-                                    <button type="button" class="close" aria-label="Close">
+                                <div class="itemEachCount-all-area">
+                                    <div class="itemEachCount-area">
+                                        <input type="number" name="count" th:id="'count_' + ${cartItem.cartItemId}"
+                                               th:value="${cartItem.count}" min="1" onchange="changeCount(this)"
+                                               class="inputCount-area">
+                                        <button type="button" class="close" aria-label="Close">
                                         <span aria-hidden="true" th:data-id="${cartItem.cartItemId}"
                                               onclick="deleteCartItem(this)">&times;</span>
-                                    </button>
+                                        </button>
+                                    </div>
                                 </div>
                             </td>
                             <!--총 금액-->

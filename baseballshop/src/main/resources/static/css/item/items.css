@@ -50,3 +50,8 @@ td>a{
     background-color : #000042;
     border-color : #000042;
 }
+
+.itemsTr > td {
+    vertical-align : middle;
+    height : 120px;
+}

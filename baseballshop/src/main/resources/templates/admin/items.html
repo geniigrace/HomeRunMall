@@ -152,7 +152,7 @@
                         </select>
 
                         <select th:field="*{searchCategory}" class="form-control" style="width:auto;">
-                            <option value="">상품</option>
+                            <option value="">카테고리</option>
                             <option value="UNIFORM">유니폼</option>
                             <option value="BALLCAP">모자</option>
                             <option value="CLOTHES">의류</option>
@@ -177,7 +177,17 @@
 
                     </div>
                     <table class="table">
-
+                        <colgroup>
+                            <col width="3%">
+                            <col width="5%">
+                            <col width="8%">
+                            <col width="12%">
+                            <col width="10%">
+                            <col width="9%">
+                            <col width="40%">
+                            <col width="8%">
+                            <col width="5%">
+                        </colgroup>
                         <thead>
                         <tr>
                             <td><input type="checkbox" id="checkall" onclick="checkAll()"></td>
@@ -185,7 +195,7 @@
                             <td>판매상태</td>
                             <td>구단</td>
                             <td>카테고리</td>
-                            <!--                <td>썸네일</td>-->
+                            <td>썸네일</td>
                             <td>상품명</td>
                             <td>가격</td>
                             <td>재고</td>
@@ -194,13 +204,13 @@
 
                         <tbody>
                         <!--each : 반복문 돌면서 결과물 화면에 표현-->
-                        <tr th:each="item, status : ${items.getContent()}">
+                        <tr th:each="item, status : ${items.getContent()}" class="itemsTr">
                             <td><input type="checkbox" name="itemCheckBox" th:value="${item.id}"></td>
                             <td th:text="${item.id}"></td>
                             <td th:text="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL} ? '판매중' : '품절' "></td>
                             <td th:text="${item.team.title}"></td>
                             <td th:text="${item.category.title}"></td>
-                            <!--                <td> 썸네일 </td>-->
+                            <td><a th:href="'/item/'+${item.id}"><img th:src="${item.imgUrl}" style="width : auto; height : 100px;"></a></td>
                             <td><a th:href="'/admin/item/'+${item.id}" th:text="${item.itemName}"></a></td>
                             <td th:text="${#numbers.formatInteger(item.price, 0, 'COMMA')}"></td>
                             <td th:text="${#numbers.formatInteger(item.stockNumber, 0, 'COMMA')}"></td>

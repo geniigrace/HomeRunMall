@@ -10,6 +10,7 @@
     font-size : 0.8em;
 }
 .cancelMsg { color : red; }
+.cancelTime { font-size : 0.8em; }
 
 table{
     font-size : 0.9em;

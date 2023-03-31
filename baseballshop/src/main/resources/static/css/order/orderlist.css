@@ -61,3 +61,7 @@ table{
     background-color : #000042;
     border-color : #000042;
 }
+
+.cancelTime{
+    font-size : 0.8em;
+}

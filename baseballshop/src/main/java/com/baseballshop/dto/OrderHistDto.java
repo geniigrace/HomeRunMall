@@ -15,7 +15,7 @@ import java.util.List;
 public class OrderHistDto {
 
     private Long orderId;
-    private String orderMemberId;
+    private String orderMemberName;
 
     private LocalDateTime orderDate;
     private LocalDateTime cancelDate;
@@ -31,9 +31,7 @@ public class OrderHistDto {
         this.orderDate = order.getCreateTime();
         this.orderStatus = order.getOrderStatus();
         this.orderTotalPrice = order.getTotalPrice();
-        //this.orderMemberId = order.getOrderMemberId();
-        String[] orderMemId=order.getMember().getEmail().split("@");
-        this.orderMemberId=orderMemId[0];
+        this.orderMemberName = order.getMember().getName();
         this.cancelDate=order.getUpdateTime();
     }
 

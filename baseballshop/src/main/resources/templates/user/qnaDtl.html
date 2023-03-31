@@ -36,11 +36,11 @@
           <table class="table">
             <colgroup>
               <col width="5%">
-              <col width="8%">
-              <col width="55%">
+              <col width="12%">
+              <col width="42%">
               <col width="12%">
               <col width="12%">
-              <col width="8%">
+              <col width="12%">
             </colgroup>
             <thead>
             <tr>
@@ -48,7 +48,7 @@
               <td th:text="${qna.qnaType.title}">카테고리</td>
               <td th:text="${qna.qnaTitle}">제목</td>
               <td th:text="${qna.qnaMemberId}">작성자</td>
-              <td th:text="${#temporals.format(qna.qnaDate, 'yyyy/MM/dd HH:mm')}">등록일</td>
+              <td th:text="${#temporals.format(qna.qnaDate, 'yyyy/MM/dd')}">등록일</td>
               <td th:if="${qna.qnaType==T(com.baseballshop.constant.QnaStatus).FAQ}"></td>
               <td th:unless="${qna.qnaType==T(com.baseballshop.constant.QnaStatus).FAQ}" th:text="${qna.answerType.title}"></td>
             </tr>
@@ -57,10 +57,7 @@
             <tr>
               <td></td>
               <td></td>
-              <td class="qnaContent" style="padding-left : 150px; padding-top : 30px;" th:utext="${#strings.replace(qna.qnaContent, newLineChar, '&lt;br&gt;')}">내용</td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td colspan="5" class="qnaContent" style="padding-top : 30px;" th:utext="${#strings.replace(qna.qnaContent, newLineChar, '&lt;br&gt;')}">내용</td>
             </tr>
             </tbody>
           </table>

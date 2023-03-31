@@ -1,5 +1,5 @@
 .page__form{
-    width : 90vw;
+    width : 60vw;
     margin : 20px 0;
     display : inline-block;
 }
@@ -11,3 +11,6 @@ tr{
      color : #5d5d5d;
 }
 .btn { font-size : 0.8em; }
+.content-td{
+    text-align : left;
+}

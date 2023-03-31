@@ -160,7 +160,7 @@ window.onload = function(){
                             <p th:if="${#fields.hasErrors('passwordCheck')}" th:errors="*{passwordCheck}" class="fieldError text-center">Incorrect date</p>
                         </div>
                         <div class="form-group">
-                            <select th:value="${memberModifyDto.userTeam}" th:field="*{userTeam}" class="custom-select text-center">
+                            <select th:value="${memberModifyDto.team}" th:field="*{team}" class="custom-select text-center">
                                 <option value="KOREA">KOREA</option>
                                 <option value="KIA">기아 타이거즈</option>
                                 <option value="DS">두산 베어스</option>
@@ -190,7 +190,7 @@ window.onload = function(){
 
                         <div class="form-group">
                             <!--            <label th:for="address">주소</label>-->
-                            <input id="address_kakao" type="text" th:value="${memberModifyDto.address1}" th:field="*{address1}" class="form-control text-center" placeholder="주소" readonly >
+                            <input id="address_kakao" type="text" th:value="${memberModifyDto.address1}" th:field="*{address1}" class="form-control text-center infoAddress" placeholder="주소" readonly >
                             <p th:if="${#fields.hasErrors('address1')}" th:errors="*{address1}" class="fieldError text-center">Incorrect date</p>
                         </div>
                         <div class="form-group">

@@ -47,6 +47,7 @@
                         <select th:field="*{qnaFormDto.qnaType}" class="custom-select form-control">
                             <option sec:authorize="hasRole('USER')" value="ITEM" th:text=${T(com.baseballshop.constant.QnaStatus).ITEM.title}></option>
                             <option sec:authorize="hasRole('USER')" value="DELIVERY" th:text=${T(com.baseballshop.constant.QnaStatus).DELIVERY.title}></option>
+                            <option sec:authorize="hasRole('USER')" value="CANCEL" th:text=${T(com.baseballshop.constant.QnaStatus).CANCEL.title}></option>
                             <option sec:authorize="hasRole('USER')" value="ETC" th:text=${T(com.baseballshop.constant.QnaStatus).ETC.title}></option>
                             <option sec:authorize="hasRole('ADMIN')" value="FAQ" th:text=${T(com.baseballshop.constant.QnaStatus).FAQ.title}></option>
                         </select>
@@ -79,7 +80,7 @@
 
                     <div th:unless="${#strings.isEmpty(qnaFormDto.id)}" style="text-align : center">
                         <button th:formaction="@{'/qna/modify/'+ ${qnaFormDto.id}}" type="submit" class="btn btn-secondary">수정</button>
-                        <button type="button" class="btn btn-outline-secondary" onclick="location.href='/qna'"> 뒤로 </button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="location.href='/qna'" style="font-size : 0.8em;"> 뒤로 </button>
                     </div>
 
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">

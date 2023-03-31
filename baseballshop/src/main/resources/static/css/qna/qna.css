@@ -16,6 +16,9 @@
     font-size : 0.9em;
     color : #5d5d5d;
 }
+td{
+    vertical-align : middle;
+}
 
 
 .btn-secondary {

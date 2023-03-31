@@ -1,5 +1,5 @@
 .page__form{
-    width : 90vw;
+    width : 50vw;
     margin : 20px 0;
     display : inline-block;
 }
@@ -19,4 +19,7 @@ tr{ text-align : center; }
     background-color : #000042;
 }
 
-.qnaContent { height : 30vw; }
+.qnaContent {
+    height : 30vw;
+    text-align : left;
+}
