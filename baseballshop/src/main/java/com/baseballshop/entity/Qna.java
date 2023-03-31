@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Qna extends BaseEntity{
+public class Qna extends BaseTimeEntity{
 
     @Id
     @Column(name="qna_id")

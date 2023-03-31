@@ -87,7 +87,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="order, status : ${orders.getContent()}">
-                            <td class="text-center align-middle" th:text="${order.orderDate}"></td>
+                            <td class="text-center align-middle" th:text="${#temporals.format(order.orderDate, 'yyyy/MM/dd HH:mm:ss')}"></td>
                             <td>
                                 <div class="tdStyle text-center align-middle"
                                      th:each="orderItem : ${order.orderItemDtoList}">
@@ -121,7 +121,8 @@
                                 </th:block>
                                 <th:block
                                         th:unless="${order.orderStatus == T(com.baseballshop.constant.OrderStatus).ORDER}">
-                                    <p class="cancelMsg">(취소 완료)</p>
+                                    <span class="cancelMsg">(취소 완료)</span><br>
+                                    <span class="cancelTime" th:text="${#temporals.format(order.cancelDate, 'yyyy/MM/dd HH:mm:ss')}"></span>
                                 </th:block>
                             </td>
                         </tr>

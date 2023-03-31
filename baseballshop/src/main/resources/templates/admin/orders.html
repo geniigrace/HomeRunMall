@@ -54,7 +54,7 @@ location.href="/admin/orders/"+page;
                         <tbody>
                         <tr th:each="order, staus : ${orders.getContent()}">
                             <td class="text-center align-middle" th:text="${order.orderId}"></td>
-                            <td class="text-center align-middle" th:text="${order.orderDate}"></td>
+                            <td class="text-center align-middle" th:text="${#temporals.format(order.orderDate, 'yyyy/MM/dd HH:mm:ss')}"></td>
                             <td class="text-center align-middle">
                                 <div class=" orderItemInfoAllWrap text-center align-middle"
                                      th:each="orderItem : ${order.orderItemDtoList}">
@@ -74,7 +74,7 @@ location.href="/admin/orders/"+page;
                             </td>
                             <td class="text-center align-middle"
                                 th:text="${#numbers.formatInteger(order.orderTotalPrice,0,'COMMA')} + '원'"></td>
-                            <td class="text-center align-middle" th:text="${order.orderMemberId}">주문자아이디</td>
+                            <td class="text-center align-middle" th:text="${order.orderMemberName}">주문자 이름</td>
                             <td class="text-center align-middle">
                                 <th:block
                                         th:if="${order.orderStatus == T(com.baseballshop.constant.OrderStatus).ORDER}">
@@ -82,7 +82,8 @@ location.href="/admin/orders/"+page;
                                 </th:block>
                                 <th:block
                                         th:unless="${order.orderStatus == T(com.baseballshop.constant.OrderStatus).ORDER}">
-                                    <p class="cancelMsg">(취소 완료)</p>
+                                    <span class="cancelMsg">(취소 완료)</span><br>
+                                    <span class="cancelTime" th:text="${#temporals.format(order.cancelDate, 'yyyy/MM/dd HH:mm:ss')}"></span>
                                 </th:block>
                             </td>
                         </tr>

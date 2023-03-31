@@ -36,18 +36,22 @@
                 <div class="page__form">
                     <table class="table">
                         <tr class="title-tr">
-                            <td th:text="${notices.id}" style="width : 10px">No.</td>
-                            <td th:text="${notices.noticeStatus.title}" style="width : 100px">카테고리</td>
-                            <td th:text="${notices.team.title}" style="width : 140px">구단</td>
+                            <td th:text="${notices.id}" width="5%">No.</td>
+                            <td th:text="${notices.noticeType.title}" width="10%" >카테고리</td>
+                            <td th:text="${notices.team.title}" width="12%">구단</td>
                             <td th:text="${notices.noticeTitle}">제목</td>
+                            <td th:text="${#temporals.format(notices.createTime, 'yyyy/MM/dd')}" width="12%">등록일</td>
                         </tr>
                         <tr class="content-tr">
-                            <td class="content-td" colspan="4" th:utext="${#strings.replace(notices.noticeContent, newLineChar, '&lt;br&gt;')}">내용</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td colspan="2" class="content-td" style="padding-top:30px;" th:utext="${#strings.replace(notices.noticeContent, newLineChar, '&lt;br&gt;')}">내용</td>
                         </tr>
                     </table>
                     <div>
                         <div th:each="noticeImg : ${notices.noticeImgDtoList}" style="text-align:center; padding-bottom: 20px;">
-                            <img th:if="${not #strings.isEmpty(noticeImg.imgUrl)}" th:src="${noticeImg.imgUrl}" class="rounded mgb-15" width="60%">
+                            <img th:if="${not #strings.isEmpty(noticeImg.imgUrl)}" th:src="${noticeImg.imgUrl}" class="rounded mgb-15" width="100%">
                         </div>
                     </div>
 

@@ -128,7 +128,7 @@ function qnaMemberCheck(id){
                             <td id="qnaType" th:text="${qna.qnaType.title}"></td>
                             <td><a th:onclick="|javascript:qnaMemberCheck('${qna.id}')|" th:text="${qna.qnaTitle}"></a></td>
                             <td th:text="${qna.qnaMemberId}"></td>
-                            <td th:text="${#temporals.format(qna.qnaDate, 'yyyy/MM/dd HH:mm')}"></td>
+                            <td th:text="${#temporals.format(qna.qnaDate, 'yyyy/MM/dd')}"></td>
                             <td>
                                 <div th:if="${qna.qnaType == T(com.baseballshop.constant.QnaStatus).FAQ}"></div>
                                 <div th:unless="${qna.qnaType == T(com.baseballshop.constant.QnaStatus).FAQ}">

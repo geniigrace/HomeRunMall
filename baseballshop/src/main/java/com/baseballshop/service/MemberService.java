@@ -79,7 +79,7 @@ public class MemberService implements UserDetailsService {
         memberModifyDto.setPhone(member.getPhone());
         memberModifyDto.setAddress1(member.getAddress1());
         memberModifyDto.setAddress2(member.getAddress2());
-        memberModifyDto.setUserTeam(member.getUserTeam());
+        memberModifyDto.setTeam(member.getTeam());
 
         return memberModifyDto;
 

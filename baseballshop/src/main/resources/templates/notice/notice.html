@@ -64,7 +64,7 @@
         $.ajax({
 
             url : url,
-            type : "PUT",
+            type : "DELETE",
             contentType : "application/json",
             data : param,
             beforeSend : function(xhr){
@@ -127,10 +127,10 @@
                             <td sec:authorize="hasRole('ADMIN')">
                                 <input type="checkbox" id="noticeCheckList" name="noticeCheckBox" th:value="${notice.id}"></td>
                             <td th:text="${notice.id}"></td>
-                            <td th:text="${notice.noticeStatus == T(com.baseballshop.constant.NoticeStatus).NOTICE} ? '공지사항' : '이벤트' "></td>
+                            <td th:text="${notice.noticeType == T(com.baseballshop.constant.NoticeStatus).NOTICE} ? '공지사항' : '이벤트' "></td>
                             <td th:text="${notice.team.title}"></td>
                             <td><a th:href="@{/notice/{id}(id=${notice.id})}" th:text="${notice.noticeTitle}"></a></td>
-                            <td th:text="${notice.createTime}"></td>
+                            <td th:text="${#temporals.format(notice.createTime, 'yyyy/MM/dd HH:mm')}"></td>
                         </tr>
                         </tbody>
                     </table>

@@ -11,7 +11,6 @@ import com.baseballshop.entity.QItemImg;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.baseballshop.entity.Item;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -80,7 +79,7 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
             dateTime = dateTime.minusMonths(6);
         }
 
-        return QItem.item.regTime.after(dateTime);
+        return QItem.item.createTime.after(dateTime);
 
     }
 
@@ -105,9 +104,12 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
     }
 
     @Override
-    public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
-        QueryResults<Item> results = queryFactory.select(QItem.item)
-                .from(QItem.item)
+    public Page<ItemsDto> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        QItem item = QItem.item;
+        QItemImg itemImg = QItemImg.itemImg;
+
+        QueryResults<ItemsDto> results = queryFactory.select(new QItemsDto(item.id, item.sellStatus, item.team, item.category, itemImg.imgUrl,item.itemName,item.price, item.stockNumber))
+                .from(itemImg).join(itemImg.item, item).where(itemImg.repImgYn.eq("Y"))
                 .where(regDtsAfter(itemSearchDto.getSearchDateType()),
                         searchSellStatusEq(itemSearchDto.getSearchSellStatus()),
                         searchTeam(itemSearchDto.getSearchTeam()),
@@ -118,7 +120,7 @@ public class ItemRepositoryCustomImpl  implements ItemRepositoryCustom {
                 .offset(pageable.getOffset()).
                 limit(pageable.getPageSize()).fetchResults();
 
-        List<Item> content = results.getResults();
+        List<ItemsDto> content = results.getResults();
         long total = results.getTotal();
         return new PageImpl<>(content, pageable, total);
     }

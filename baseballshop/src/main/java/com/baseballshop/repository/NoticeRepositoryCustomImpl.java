@@ -26,8 +26,8 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
     }
 
 
-    private BooleanExpression searchNoticeStatusEq(NoticeStatus searchNoticeStatus){
-        return searchNoticeStatus == null ? null : QNotice.notice.noticeStatus.eq(searchNoticeStatus);
+    private BooleanExpression searchNoticeTypeEq(NoticeStatus searchNoticeType){
+        return searchNoticeType == null ? null : QNotice.notice.noticeType.eq(searchNoticeType);
     }
 
     private BooleanExpression searchShowStatusEq(ShowStatus showStatus){
@@ -55,7 +55,7 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
             dateTime = dateTime.minusMonths(6);
         }
 
-        return QNotice.notice.regTime.after(dateTime);
+        return QNotice.notice.createTime.after(dateTime);
 
 
     }
@@ -73,7 +73,7 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
 
         QueryResults<Notice> results = queryFactory.selectFrom(QNotice.notice)
                 .where(regDtsAfter(noticeSearchDto.getSearchDateType()),
-                        searchNoticeStatusEq(noticeSearchDto.getSearchNoticeStatus()),
+                        searchNoticeTypeEq(noticeSearchDto.getSearchNoticeType()),
                         searchByLike(noticeSearchDto.getSearchBy(), noticeSearchDto.getSearchQuery()),
                         searchShowStatusEq(ShowStatus.SHOW))
                 .orderBy(QNotice.notice.id.desc())

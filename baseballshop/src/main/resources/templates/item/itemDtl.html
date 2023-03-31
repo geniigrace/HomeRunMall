@@ -239,6 +239,11 @@
                 <div class="page__form">
                     <!--상품정보-->
                     <div class="itemInfoAllWrap">
+                        <div class="rootArea">
+                            <a th:href="@{/itemSearch/{id}(id=${item.category})}"><span
+                                    th:text="${item.category.title}"></span></a> > <span
+                                th:text="${item.team.title}"></span>
+                        </div>
                         <div class="itemInfoAll">
                             <!--이미지 정보-->
                             <div class="repImgDiv">
@@ -248,11 +253,7 @@
                             <!--텍스트 정보-->
                             <div class="textDiv">
                                 <!--판매상태-->
-                                <div class="rootArea">
-                                    <a th:href="@{/itemSearch/{id}(id=${item.category})}"><span
-                                            th:text="${item.category.title}"></span></a> > <span
-                                        th:text="${item.team.title}"></span>
-                                </div>
+
                                 <div class="badgeNitemNameArea">
                                     <div class="badgeArea">
                                         <span th:if="${item.sellStatus == T(com.baseballshop.constant.SellStatus).SELL}"
@@ -369,7 +370,7 @@
                                         <td><a th:onclick="|javascript:qnaMemberCheck('${qna.id}')|"
                                                th:text="${qna.qnaTitle}"></a></td>
                                         <td th:text="${qna.qnaMemberId}"></td>
-                                        <td th:text="${qna.qnaDate}"></td>
+                                        <td th:text="${#temporals.format(qna.qnaDate, 'yyyy/MM/dd HH:mm')}"></td>
                                         <td>
                                             <div th:if="${qna.qnaType == T(com.baseballshop.constant.QnaStatus).FAQ}"></div>
                                             <div th:unless="${qna.qnaType == T(com.baseballshop.constant.QnaStatus).FAQ}">

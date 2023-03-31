@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name="orders")
 @Getter
 @Setter
-public class Order {
+public class Order extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class Order {
 
     //private String orderMemberId;
 
-    private String orderDate;
+    //private String orderDate;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
@@ -38,9 +38,9 @@ public class Order {
 
     private int orderTotalPrice;
 
-    private LocalDateTime regTime;
-
-    private LocalDateTime updateTime;
+//    private LocalDateTime regTime;
+//
+//    private LocalDateTime updateTime;
 
     //주문하기를 위한 추가
     public void addOrderItem(OrderItem orderItem) {
@@ -60,7 +60,7 @@ public class Order {
         }
         order.setOrderStatus(OrderStatus.ORDER);
 
-        order.setOrderDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")));
+//        order.setOrderDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")));
 
         int totalOrderPrice=0;
         for(OrderItem orderItem : orderItemList){

@@ -1,6 +1,7 @@
 package com.baseballshop.dto;
 
 import com.baseballshop.constant.SellStatus;
+import com.baseballshop.constant.Team;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
