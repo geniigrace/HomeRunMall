@@ -90,7 +90,7 @@ public class NoticeService {
     }
 
     //공지사항 삭제
-    public Long modify(NoticeDeleteDto noticeDeleteDto){
+    public Long delete(NoticeDeleteDto noticeDeleteDto){
 
         List<NoticeDeleteDto> noticeDeleteDtoList = noticeDeleteDto.getNoticeDeleteDtoList();
 
@@ -100,15 +100,34 @@ public class NoticeService {
 
             Long noticeId = noticeDelete.getNoticeId();
 
-            Notice notice = noticeRepository.findById(noticeId).orElseThrow(EntityExistsException::new);
-
-            notice.setShowStatus(ShowStatus.HIDE);
+            noticeRepository.deleteById(noticeId);
 
         }
 
         return nid;
 
     }
+
+
+//    public Long modify(NoticeDeleteDto noticeDeleteDto){
+//
+//        List<NoticeDeleteDto> noticeDeleteDtoList = noticeDeleteDto.getNoticeDeleteDtoList();
+//
+//        Long nid=noticeDeleteDtoList.get(0).getNoticeId();
+//
+//        for(NoticeDeleteDto noticeDelete : noticeDeleteDtoList) {
+//
+//            Long noticeId = noticeDelete.getNoticeId();
+//
+//            Notice notice = noticeRepository.findById(noticeId).orElseThrow(EntityExistsException::new);
+//
+//            notice.setShowStatus(ShowStatus.HIDE);
+//
+//        }
+//
+//        return nid;
+//
+//    }
 
 
 }
