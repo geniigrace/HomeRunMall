@@ -3,7 +3,7 @@
 - 설명 : KBO 야구팀 굿즈 판매 사이트
 - 제작 기간 : 2023/01/24 ~ 2023/03/31
 ---
-###Development Environment
+## Development Environment
 
 Spring Boot 2.6.4
 JDK :  JDK17
@@ -11,9 +11,9 @@ DB   :  MySQL
 Build Tool : Maven
 IDE : IntelliJ, MySQL Work Bench
 
-###Tech Stack
+## Tech Stack
 
-###Frontend
+### Frontend
 
 HTML, CSS, JavaScript
 Ajax, jQuery
@@ -21,7 +21,7 @@ Bootstrap
 Thymeleaf
 Google/Naver/Kakao Login API, Kakao Address API
 
-###Backend
+### Backend
 
 Java
 MySQL
