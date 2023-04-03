@@ -5,44 +5,41 @@
 ---
 ## Development Environment
 
-Spring Boot 2.6.4
+- Spring Boot 2.6.4
 
-JDK :  JDK17
+- JDK :  JDK17
 
-DB   :  MySQL
+- DB   :  MySQL
 
-Build Tool : Maven
+- Build Tool : Maven
 
-IDE : IntelliJ, MySQL Work Bench
+- IDE : IntelliJ, MySQL Work Bench
 
 ## Tech Stack
 
-
 ### Frontend
 
-HTML, CSS, JavaScript
+- HTML, CSS, JavaScript
 
-Ajax, jQuery
+- Ajax, jQuery
 
-Bootstrap
+- Bootstrap, Thymeleaf
 
-Thymeleaf
-
-Google/Naver/Kakao Login API, Kakao Address API
+- Google/Naver/Kakao Login API, Kakao Address API
 
 
 ### Backend
 
-Java
+- Java
 
-MySQL
+- MySQL
 
-Spring Boot
+- Spring Boot
 
-Spring MVC, Spring Security, Spring Data JPA
+- Spring MVC, Spring Security, Spring Data JPA
 
-JPA, QueryDSL
+- JPA, QueryDSL
 
-REST API
+- REST API
 
 ---
