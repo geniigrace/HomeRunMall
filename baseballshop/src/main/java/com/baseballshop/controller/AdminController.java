@@ -1,15 +1,6 @@
 package com.baseballshop.controller;
 
-import com.baseballshop.config.CustomOAuth2UserService;
 import com.baseballshop.dto.*;
-import com.baseballshop.entity.Item;
-import com.baseballshop.entity.Member;
-import com.baseballshop.entity.Notice;
-import com.baseballshop.entity.Order;
-import com.baseballshop.repository.ItemRepository;
-import com.baseballshop.repository.MemberRepository;
-import com.baseballshop.repository.NoticeRepository;
-import com.baseballshop.repository.OrderRepository;
 import com.baseballshop.service.ItemService;
 import com.baseballshop.service.LoginUserService;
 import com.baseballshop.service.NoticeService;
@@ -25,20 +16,27 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.PrintWriter;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping("/admin")
-@Controller
-@RequiredArgsConstructor
+/*
+* 클라이언트가 웹서비스에 Request를 보내면
+* Spring MVC Container의 Dispatcher Servlet이 매핑되는 Handler를 찾음
+* Controller가 요청을 처리한 후
+* View를 Dispatcher Servlet에게 전달하면 사용자에게 Response 되는것
+*
+* 이 때, Contoller가 Veiw를 반환하기 위해서는 ViewResolver가 사용되며
+* VeiwResolver의 설정에 맞게 View를 찾아 렌더링 함
+* */
+
+@RequestMapping("/admin")//요청에 대해 처리할 컨트롤러나 메서드를 맵핑하기 위한 어노테이션
+@Controller//해당 클래스가 컨트롤러임을 나타내기 위한 어노테이션
+@RequiredArgsConstructor//final 필드들을 모아서 생성자를 자동으로 생성해줌, 생성자는 클래스가 의존하는 객체를 생성자 매개변수를 통해 주입받아 사용할 수 있도록 함
 public class AdminController {
 
     private final ItemService itemService;
@@ -47,9 +45,10 @@ public class AdminController {
     private final LoginUserService loginUserService;
 
     //관리페이지
-    @GetMapping(value = "/adminpage")
+    //@Get/Post/Delete/PatchMapping : 스프링4.3부터 등장, RequestMapping과는 다르게 중복 URL을 사용할 수 있음
+    @GetMapping(value = "/adminpage") //URL adminpage로 요청이 올 경우
     public String adminpage( Model model, Principal principal){
-        if(principal!=null){//로그인 했을 때
+        if(principal!=null){//로그인 했을 때=principal에 값이 있을 때
             String loginName = loginUserService.loginUserNameEmail(principal)[0];
             model.addAttribute("loginName", loginName);
             return "admin/adminpage";
@@ -321,23 +320,6 @@ public class AdminController {
 
         return new ResponseEntity<Long>(noticeId, HttpStatus.OK);
     }
-
-    //삭제기능 구현은 했지만 img와 외래키로 연결되어있어 작성하는 글 삭제 하지않고 구분자만 지정하여 구분자를 Delete로 두고 hide 시켜 구현하였음
-//    @PutMapping(value = "/notice/hidden")
-//    public @ResponseBody ResponseEntity modifyNotice(@RequestBody NoticeDeleteDto noticeDeleteDto){
-//
-//        List<NoticeDeleteDto> noticeDeleteDtoList = noticeDeleteDto.getNoticeDeleteDtoList();
-//
-//        if(noticeDeleteDtoList == null || noticeDeleteDtoList.size()==0){
-//            if(noticeDeleteDtoList == null){
-//            }
-//            return new ResponseEntity<String>("삭제할 게시글을 선택하세요.", HttpStatus.FORBIDDEN);
-//        }
-//
-//        Long noticeId = noticeService.modify(noticeDeleteDto);
-//
-//        return new ResponseEntity<Long>(noticeId, HttpStatus.OK);
-//    }
 
     //회원관리
     @GetMapping(value = "/members" )
