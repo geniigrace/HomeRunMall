@@ -22,9 +22,9 @@ public class LoginUserService {
     public String[] loginUserNameEmail(Principal principal){
 
             String[] loginUserInfo = new String[2];
-            Member member = memberRepository.findByEmail(principal.getName());
+            Member member = memberRepository.findByEmail(principal.getName()); //로그인 정보의 getName(=이메일)을 이용해 가입된 회원 찾기
 
-            if(member==null){
+            if(member==null){ //소셜 로그인인 경우
                 SessionUser user = (SessionUser) httpSession.getAttribute("member");
 
                 loginUserInfo[0]=user.getName();
