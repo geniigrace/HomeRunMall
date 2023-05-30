@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity //Spring Security 설정 활성화
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -46,13 +46,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userService(customOAuth2UserService);
 
 
-        http.authorizeRequests()
+        http.authorizeRequests() //URL별 권한 관리
 
                 .mvcMatchers("/","/members/**","/item/**","/images/**","/**","/notice/**","/itemSearch/**").permitAll()
-                .mvcMatchers("/admin/**").hasRole("ADMIN")
-                .mvcMatchers("/user/**").hasRole("USER")
+                .mvcMatchers("/admin/**").hasRole("ADMIN") //admin은 ADMIN만 접근가능
+                .mvcMatchers("/user/**").hasRole("USER") //user는 USER만 접근 가능
                 .mvcMatchers("/css/**", "/js/**", "/img/**").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated(); //anyRequest : 설정된 값들 이외 나머지 URL //authenticated : 인증된 사용자
 
         http.exceptionHandling()
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
